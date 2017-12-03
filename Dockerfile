@@ -69,7 +69,7 @@ ENV CHASTE_TEST_OUTPUT /usr/chaste/output
 COPY build_chaste.sh /usr/local/bin/build_chaste.sh
 COPY build_project.sh /usr/local/bin/build_project.sh
 
-USER chaste
+#USER chaste
 
 # Use baseimage-docker's init system, and switch to the chaste user running
 # bash as a login shell by default (see entrypoint.sh).
