@@ -41,6 +41,11 @@ RUN apt-get update && \
 #Recommends: valgrind, libfltk1.1, hdf5-tools, cmake-curses-gui
 #Suggests: libgoogle-perftools-dev, doxygen, graphviz, eclipse-cdt, gnuplot, paraview
 
+# TODO: Check this is necessary
+RUN pip install --upgrade pip
+RUN sudo pip install texttest
+ENV TEXTTEST_HOME /usr/chaste/texttest
+
 # See https://github.com/phusion/baseimage-docker/issues/186
 RUN touch /etc/service/syslog-forwarder/down
 
@@ -50,24 +55,21 @@ RUN touch /etc/service/syslog-forwarder/down
 # Based on https://denibertovic.com/posts/handling-permissions-with-docker-volumes/
 COPY entrypoint.sh /usr/local/bin/entrypoint.sh
 
-# Hook to link to host chaste source folder, and set it as the working dir
-# New method for automatically mounting volumes
-# N.B. Changing the volume from within the Dockerfile: If any build steps change the data within the volume after it has been declared, those changes will be discarded.
 RUN mkdir /usr/chaste
 #RUN git clone -b master https://chaste.cs.ox.ac.uk/git/chaste.git /usr/chaste/src
 #RUN git clone https://github.com/Chaste/Chaste.git src
 VOLUME /usr/chaste
 WORKDIR /usr/chaste
 
-RUN pip install --upgrade pip
-RUN sudo pip install texttest
-ENV TEXTTEST_HOME /usr/chaste/texttest
 
 #RUN mkdir -p /usr/chaste/output
 ENV CHASTE_TEST_OUTPUT /usr/chaste/output
 
 COPY build_chaste.sh /usr/local/bin/build_chaste.sh
 COPY build_project.sh /usr/local/bin/build_project.sh
+# Hook to link to host chaste source folder, and set it as the working dir
+# New method for automatically mounting volumes
+# N.B. Changing the volume from within the Dockerfile: If any build steps change the data within the volume after it has been declared, those changes will be discarded.
 
 #USER chaste
 
