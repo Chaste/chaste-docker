@@ -6,12 +6,16 @@ Chaster
 Quickstart
 ----------
 
-Run: `build_images.sh [VERSION] [REPO_TAG] [NCORES]` e.g.:
-    - For the latest release: `build_images.sh`
-    - Master branch: `build_images.sh master master 4`
-    - Older release: `build_images.sh 3.4`
+To build and launch a contianer with a specific chaste version run: 
 
-* For convenience, run: `build_images.sh`
+```build_images.sh [VERSION] [REPO_TAG] [NCORES]```
+
+e.g.:
+
+* For the latest release: `build_images.sh`
+* Master branch: `build_images.sh master master 4`
+* Older release: `build_images.sh 3.4`
+
 
 Installing and running Chaste
 -----------------------------
