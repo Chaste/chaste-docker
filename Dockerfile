@@ -4,14 +4,19 @@ FROM phusion/baseimage:latest
 MAINTAINER Chaste Developers <chaste-admin@maillist.ox.ac.uk>
 
 USER root
-
 ENV DEBIAN_FRONTEND noninteractive
 
+# Install the Chaste repo list and key
 # https://chaste.cs.ox.ac.uk/trac/wiki/InstallGuides/UbuntuPackage
 RUN echo "deb http://www.cs.ox.ac.uk/chaste/ubuntu xenial/" >> /etc/apt/sources.list
-
-# Install the Chaste repo list, and dependencies metapackage
 RUN apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 422C4D99
+
+# Install the chaste source metapackage for its dependencies
+# chaste-source
+# Version: 3.4.93224.rea10412117df767b9f0bc0f88fa1cc5aaef9d160
+#Depends: cmake | scons, g++, libopenmpi-dev, petsc-dev (>= 3.0), libhdf5-openmpi-dev, xsdcxx, libboost-serialization-dev, libboost-filesystem-dev, libboost-program-options-dev, libparmetis-dev, libmetis-dev, libxerces-c-dev, libsundials-serial-dev, libvtk6-dev | libvtk5-dev, python-lxml, python-amara, python-rdflib, libproj-dev
+#Recommends: valgrind, libfltk1.1, hdf5-tools, cmake-curses-gui
+#Suggests: libgoogle-perftools-dev, doxygen, graphviz, eclipse-cdt, gnuplot, paraview
 
 # Install mencoder and mplayer for creating animation movies
 RUN apt-get update && \
@@ -34,12 +39,6 @@ RUN apt-get update && \
     mplayer && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
-
-# chaste-source
-# Version: 3.4.93224.rea10412117df767b9f0bc0f88fa1cc5aaef9d160
-#Depends: cmake | scons, g++, libopenmpi-dev, petsc-dev (>= 3.0), libhdf5-openmpi-dev, xsdcxx, libboost-serialization-dev, libboost-filesystem-dev, libboost-program-options-dev, libparmetis-dev, libmetis-dev, libxerces-c-dev, libsundials-serial-dev, libvtk6-dev | libvtk5-dev, python-lxml, python-amara, python-rdflib, libproj-dev
-#Recommends: valgrind, libfltk1.1, hdf5-tools, cmake-curses-gui
-#Suggests: libgoogle-perftools-dev, doxygen, graphviz, eclipse-cdt, gnuplot, paraview
 
 # TODO: Check this is necessary
 RUN pip install --upgrade pip
