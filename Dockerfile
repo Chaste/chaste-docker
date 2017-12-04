@@ -55,6 +55,10 @@ RUN touch /etc/service/syslog-forwarder/down
 # Based on https://denibertovic.com/posts/handling-permissions-with-docker-volumes/
 COPY entrypoint.sh /usr/local/bin/entrypoint.sh
 
+# Create working directory for Chaste files
+#RUN useradd -ms /bin/bash chaste
+#RUN usermod -aG sudo chaste
+
 RUN mkdir /usr/chaste
 #RUN git clone -b master https://chaste.cs.ox.ac.uk/git/chaste.git /usr/chaste/src
 #RUN git clone https://github.com/Chaste/Chaste.git src
@@ -71,6 +75,7 @@ COPY build_project.sh /usr/local/bin/build_project.sh
 # New method for automatically mounting volumes
 # N.B. Changing the volume from within the Dockerfile: If any build steps change the data within the volume after it has been declared, those changes will be discarded.
 
+#RUN chown chaste:chaste -R /usr/chaste
 #USER chaste
 
 # Use baseimage-docker's init system, and switch to the chaste user running
