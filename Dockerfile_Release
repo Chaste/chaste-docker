@@ -3,7 +3,7 @@
 FROM chaste:dependencies
 MAINTAINER Ben Evans <ben.d.evans@gmail.com>
 
-ARG CHASTE_VERSION=3.4.93221
+ARG CHASTE_VERSION=release_3.4.93221
 ENV VER=$CHASTE_VERSION
 ARG NCORES=4
 # Persist environment variable for project builds
