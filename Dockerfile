@@ -68,7 +68,7 @@ RUN mkdir -p /usr/chaste/build
 COPY build_chaste.sh /usr/chaste/build/build_chaste.sh
 COPY build_project.sh /usr/chaste/build/build_project.sh
 
-#RUN mkdir -p /usr/chaste/output
+RUN mkdir -p /usr/chaste/output
 ENV CHASTE_TEST_OUTPUT /usr/chaste/output
 
 # Hook to link to host chaste source folder, and set it as the working dir
