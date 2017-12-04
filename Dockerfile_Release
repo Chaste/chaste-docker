@@ -22,7 +22,7 @@ RUN cmake -DCMAKE_BUILD_TYPE:STRING=Release \
           /usr/chaste/src && \
     make -j$NCORES
 
-#RUN git clone --bare https://github.com/Chaste/template_project.git /usr/chaste/src/projects/template_project
+#RUN git clone https://github.com/Chaste/template_project.git /usr/chaste/src/projects/template_project
 COPY new_project.sh /usr/chaste/
 
 #RUN useradd -ms /bin/bash chaste
