@@ -64,13 +64,14 @@ RUN mkdir /usr/chaste
 #RUN git clone https://github.com/Chaste/Chaste.git src
 VOLUME /usr/chaste
 WORKDIR /usr/chaste
+RUN mkdir -p /usr/chaste/build
 
+COPY build_chaste.sh /usr/chaste/build/build_chaste.sh
+COPY build_project.sh /usr/chaste/build/build_project.sh
 
 #RUN mkdir -p /usr/chaste/output
 ENV CHASTE_TEST_OUTPUT /usr/chaste/output
 
-COPY build_chaste.sh /usr/local/bin/build_chaste.sh
-COPY build_project.sh /usr/local/bin/build_project.sh
 # Hook to link to host chaste source folder, and set it as the working dir
 # New method for automatically mounting volumes
 # N.B. Changing the volume from within the Dockerfile: If any build steps change the data within the volume after it has been declared, those changes will be discarded.
