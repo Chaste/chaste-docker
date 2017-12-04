@@ -31,6 +31,9 @@ TODO
 
 Test GitHub build: docker build https://github.com/docker/rootfs.git#container:docker
 Setup Travis-CI
+Consider naming system e.g.:
+* `dependencies/chaste` or `chaste/dependencies:latest`
+* `release/chaste:3.4` or `chaste/release:3.4`
 
 Creating your own Chaste build
 ------------------------------
