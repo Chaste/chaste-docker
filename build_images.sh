@@ -1,13 +1,13 @@
 #!/bin/bash
 
 VER=${1:-3.4.93221}
-BRANCH=release_$VER
-NCORES=${2:-4}
+REPO_TAG=${2:-release_$VER}
+NCORES=${3:-4}
 docker build -t chaste:dependencies .
 
 #for each Dockerfile...
 # Automatically attach volume?
-docker build -t chaste:$VER --build-arg TAG=$BRANCH \
+docker build -t chaste:$VER --build-arg TAG=$REPO_TAG \
                             --build-arg NCORES=$NCORES \
                             -f Dockerfile_Release .
 
