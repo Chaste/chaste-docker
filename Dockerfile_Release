@@ -11,17 +11,18 @@ ENV NCORES=$NCORES
 
 #USER chaste
 RUN echo "Building Chaste ${VER}"
-#RUN git clone -b $VER https://github.com/Chaste/Chaste.git src
+WORKDIR /usr/chaste
+RUN git clone -b $VER https://github.com/Chaste/Chaste.git src
 
 RUN mkdir -p build
-#WORKDIR /usr/chaste/build
-#RUN cmake -DCMAKE_BUILD_TYPE:STRING=Release \
-#          -DChaste_ERROR_ON_WARNING:BOOL=OFF \
-#          -DChaste_UPDATE_PROVENANCE:BOOL=OFF \
-#          /usr/chaste/src && \
-#    make -j$NCORES
+WORKDIR /usr/chaste/build
+RUN cmake -DCMAKE_BUILD_TYPE:STRING=Release \
+          -DChaste_ERROR_ON_WARNING:BOOL=OFF \
+          -DChaste_UPDATE_PROVENANCE:BOOL=OFF \
+          /usr/chaste/src && \
+    make -j$NCORES
 
-RUN git clone --bare https://github.com/Chaste/template_project.git /usr/chaste/src/projects/template_project
+#RUN git clone --bare https://github.com/Chaste/template_project.git /usr/chaste/src/projects/template_project
 COPY new_project.sh /usr/chaste/
 
 #RUN useradd -ms /bin/bash chaste
