@@ -60,8 +60,9 @@ COPY entrypoint.sh /usr/local/bin/entrypoint.sh
 #RUN usermod -aG sudo chaste
 
 RUN mkdir /usr/chaste
-#RUN git clone -b master https://chaste.cs.ox.ac.uk/git/chaste.git /usr/chaste/src
-#RUN git clone https://github.com/Chaste/Chaste.git src
+
+#USER chaste
+
 WORKDIR /usr/chaste
 RUN mkdir -p /usr/chaste/build
 
