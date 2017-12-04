@@ -10,5 +10,5 @@ SRC_DIR=${3:-/usr/chaste/src}
 if [ $# -ge 2 ]; then
     git clone -b $VERSION https://chaste.cs.ox.ac.uk/git/chaste.git $SRC_DIR
 fi
-cmake /usr/chaste/src
+cmake $SRC_DIR
 make -j $NCORES
