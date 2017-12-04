@@ -6,13 +6,10 @@ Chaster
 Quickstart
 ----------
 
-```
-export VER=3.4.93221
-export BRANCH=release_$VER
-docker volume create chaste
-docker build -t chaste:$VER --build-arg TAG=$BRANCH -f Dockerfile_Release .
-docker run -it --mount source=chaste,target=/usr/chaste -v $(pwd):/usr/chaste/src/projects chaste:$VER
-```
+Run: `build_images.sh [VERSION] [REPO_TAG] [NCORES]` e.g.:
+    - For the latest release: `build_images.sh`
+    - Master branch: `build_images.sh master master 4`
+    - Older release: `build_images.sh 3.4`
 
 * For convenience, run: `build_images.sh`
 
