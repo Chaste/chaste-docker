@@ -14,7 +14,7 @@ docker build -t chaste:$VER --build-arg TAG=$BRANCH -f Dockerfile_Release .
 docker run -it --mount source=chaste,target=/usr/chaste -v $(pwd):/usr/chaste/src/projects chaste:$VER
 ```
 
-* For convenience, run: `build_releases.sh`
+* For convenience, run: `build_images.sh`
 
 Installing and running Chaste
 -----------------------------
