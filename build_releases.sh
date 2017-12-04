@@ -7,7 +7,7 @@ docker build -t chaste:dependencies .
 
 #for each Dockerfile...
 # Automatically attach volume?
-docker build -t chaste:$VER --build-arg CHASTE_VERSION=$BRANCH \
+docker build -t chaste:$VER --build-arg TAG=$BRANCH \
                             --build-arg NCORES=$NCORES \
                             -f Dockerfile_Release .
 

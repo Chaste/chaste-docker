@@ -10,7 +10,7 @@ Quickstart
 export VER=3.4.93221
 export BRANCH=release_$VER
 docker volume create chaste
-docker build -t chaste:$VER --build-arg CHASTE_VERSION=$BRANCH -f Dockerfile_Release .
+docker build -t chaste:$VER --build-arg TAG=$BRANCH -f Dockerfile_Release .
 docker run -it --mount source=chaste,target=/usr/chaste -v $(pwd):/usr/chaste/src/projects chaste:$VER
 ```
 
