@@ -20,7 +20,7 @@ e.g.:
 Installing and running Chaste
 -----------------------------
 
-Install Docker and increase the number of CPUs and amount of RAM.
+Install Docker and increase the number of CPUs as you would like, and amount of RAM to at least 4GB.
 
 ## Build the docker container with the chaste dependencies
 
