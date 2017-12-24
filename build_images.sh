@@ -1,16 +1,16 @@
 #!/bin/bash
 
-VER=${1:-3.4.93221}
-REPO_TAG=${2:-release_$VER}
-NCORES=${3:-4}
+REPO_TAG=${1:-2017.1}
+NCORES=${2:-2}
 docker build -t chaste:dependencies .
 
 #for each Dockerfile...
 # Automatically attach volume?
-docker build -t chaste:$VER --build-arg TAG=$REPO_TAG \
-                            --build-arg NCORES=$NCORES \
-                            -f Dockerfile_Release .
+#docker build -t chaste:$VER --build-arg TAG=$REPO_TAG \
+#                            --build-arg NCORES=$NCORES \
+#                            -f Dockerfile_Release .
 
 # TODO: Push to docker hub
 
-docker run -it -v $(pwd):/usr/chaste/src/projects chaste:$VER
+#docker run -it -v $(pwd):/home/chaste chaste:$VER "./build_chaste.sh $REPO_TAG $NCORES"
+docker run -it -v $(pwd):/home/chaste chaste:dependencies "./build_chaste.sh $REPO_TAG $NCORES"
