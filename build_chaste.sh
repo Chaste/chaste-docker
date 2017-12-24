@@ -10,7 +10,7 @@ GIT_REMOTE=${5:-https://github.com/Chaste/Chaste.git}
 #               https://chaste.cs.ox.ac.uk/git/chaste.git
 
 
-if [ $# -ge 2 ]; then
+if [ $# -ge 2 ] && [ $VERSION != '-' ]; then
     git clone -b $VERSION $GIT_REMOTE $SOURCE_DIR
 fi
 cmake -DCMAKE_BUILD_TYPE:STRING=Release \
