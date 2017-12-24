@@ -1,10 +1,11 @@
 #!/bin/sh
 set -e
 
+CHASTE_DIR=/home/chaste
+SOURCE_DIR=${3:-$CHASTE_DIR/src}
 
 NCORES=${1:-2}
 VERSION=${2:-'master'}
-SRC_DIR=${3:-/usr/chaste/src}
 
 if [ $# -ge 2 ]; then
     git clone -b $VERSION https://chaste.cs.ox.ac.uk/git/chaste.git $SRC_DIR
