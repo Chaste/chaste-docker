@@ -1,16 +1,29 @@
 # docker run -it -v $(pwd):/usr/chaste chaste:dependencies
 
-FROM phusion/baseimage:latest
+#FROM phusion/baseimage:latest
+# https://github.com/tianon/docker-brew-ubuntu-core/blob/1637ff264a1654f77807ce53522eff7f6a57b773/xenial/Dockerfile
+FROM ubuntu:xenial
+# > yakkety > zesty > artful
 MAINTAINER Chaste Developers <chaste-admin@maillist.ox.ac.uk>
 
 USER root
 ENV DEBIAN_FRONTEND noninteractive
+
+# libcurl3-gnutls
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+    apt-utils \
+    apt-transport-https \
+    ca-certificates && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # Install the Chaste repo list and key
 # https://chaste.cs.ox.ac.uk/trac/wiki/InstallGuides/UbuntuPackage
 RUN echo "deb http://www.cs.ox.ac.uk/chaste/ubuntu xenial/" >> /etc/apt/sources.list
 RUN apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 422C4D99
 
+# https://chaste.cs.ox.ac.uk/trac/wiki/InstallGuides/DependencyVersions
 # Install the chaste source metapackage for its dependencies
 # chaste-source
 # Version: 3.4.93224.rea10412117df767b9f0bc0f88fa1cc5aaef9d160
@@ -46,16 +59,16 @@ RUN sudo pip install texttest
 ENV TEXTTEST_HOME /usr/chaste/texttest
 
 # See https://github.com/phusion/baseimage-docker/issues/186
-RUN touch /etc/service/syslog-forwarder/down
+#RUN touch /etc/service/syslog-forwarder/down
 
 # The entrypoint script below will ensure our new chaste user (for doing builds)
 # has the same userid as the host user owning the source code volume, to avoid
 # permission issues.
 # Based on https://denibertovic.com/posts/handling-permissions-with-docker-volumes/
-COPY entrypoint.sh /usr/local/bin/entrypoint.sh
+#COPY entrypoint.sh /usr/local/bin/entrypoint.sh
 
 # Create working directory for Chaste files
-#RUN useradd -ms /bin/bash chaste
+RUN useradd -ms /bin/bash chaste
 #RUN usermod -aG sudo chaste
 
 RUN mkdir /usr/chaste
@@ -83,5 +96,6 @@ ENV CHASTE_TEST_OUTPUT /usr/chaste/output
 # bash as a login shell by default (see entrypoint.sh).
 # If no specific command is given the default CMD will drop us into an
 # interactive shell.
-ENTRYPOINT ["/sbin/my_init", "--quiet", "--", "/usr/local/bin/entrypoint.sh"]
-CMD ["/bin/bash -i"]
+#ENTRYPOINT ["/sbin/my_init", "--quiet", "--", "/usr/local/bin/entrypoint.sh"]
+#CMD ["/bin/bash -i"]
+CMD ["bash"]
