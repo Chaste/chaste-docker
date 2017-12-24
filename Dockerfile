@@ -53,10 +53,10 @@ RUN apt-get update && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-# TODO: Check this is necessary
+# Install TextTest for regression testing. TODO: Check this is necessary
 RUN pip install --upgrade pip
 RUN sudo pip install texttest
-ENV TEXTTEST_HOME /usr/chaste/texttest
+#ENV TEXTTEST_HOME /usr/chaste/texttest
 
 # See https://github.com/phusion/baseimage-docker/issues/186
 #RUN touch /etc/service/syslog-forwarder/down
@@ -81,8 +81,8 @@ RUN mkdir -p /usr/chaste/build
 COPY build_chaste.sh /usr/chaste/build/build_chaste.sh
 COPY build_project.sh /usr/chaste/build/build_project.sh
 
-RUN mkdir -p /usr/chaste/output
-ENV CHASTE_TEST_OUTPUT /usr/chaste/output
+#RUN mkdir -p /usr/chaste/output
+#ENV CHASTE_TEST_OUTPUT /usr/chaste/output
 
 # Hook to link to host chaste source folder, and set it as the working dir
 # New method for automatically mounting volumes
