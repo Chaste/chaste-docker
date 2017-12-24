@@ -70,16 +70,20 @@ RUN sudo pip install texttest
 # Create working directory for Chaste files
 RUN useradd -ms /bin/bash chaste
 #RUN usermod -aG sudo chaste
+# TODO: Modify or replace entrypoint.sh
+#RUN passwd chaste
 
-RUN mkdir /usr/chaste
+#RUN mkdir ~/chaste
 
-#USER chaste
+USER chaste
 
-WORKDIR /usr/chaste
-RUN mkdir -p /usr/chaste/build
+#WORKDIR /usr/chaste
+#RUN mkdir -p /usr/chaste/build
 
-COPY build_chaste.sh /usr/chaste/build/build_chaste.sh
-COPY build_project.sh /usr/chaste/build/build_project.sh
+#/usr/chaste/scripts
+#/home/chaste/build/build_chaste.sh
+COPY build_chaste.sh /usr/chaste/scripts/build_chaste.sh
+COPY build_project.sh /usr/chaste/scripts/build_project.sh
 
 #RUN mkdir -p /usr/chaste/output
 #ENV CHASTE_TEST_OUTPUT /usr/chaste/output
@@ -91,6 +95,23 @@ COPY build_project.sh /usr/chaste/build/build_project.sh
 
 #RUN chown chaste:chaste -R /usr/chaste
 #USER chaste
+
+COPY new_project.sh /usr/chaste/scripts/
+
+ENV PATH="/usr/chaste/scripts:${PATH}"
+# NOTE: Just in case...
+#RUN useradd -ms /bin/bash chaste
+#RUN chown chaste:chaste -R /home/chaste
+#RUN chown 1000:1000 -R /usr/chaste
+# Hook to link to host chaste source folder, and set it as the working dir
+# New method for automatically mounting volumes
+# N.B. Changing the volume from within the Dockerfile: If any build steps change the data within the volume after it has been declared, those changes will be discarded.
+#VOLUME /usr/chaste
+#RUN mkdir -p /home/chaste/build
+#WORKDIR /home/chaste/build
+WORKDIR /home/chaste
+
+#RUN touch /home/chaste/.sudo_as_admin_successful
 
 # Use baseimage-docker's init system, and switch to the chaste user running
 # bash as a login shell by default (see entrypoint.sh).
