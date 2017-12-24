@@ -6,7 +6,43 @@ Chaster
 Quickstart
 ----------
 
-To build and launch a contianer with a specific chaste version run: 
+Install [Docker](https://www.docker.com) and configure it to have at least 4GB of RAM and as many cores as you have.
+
+### MacOS and Linux
+`bash <(curl -Ls https://github.com/bdevans/chaste-docker/raw/master/build_images.sh)`
+
+### Windows
+```
+docker build -t chaste:dependencies https://github.com/bdevans/chaste-docker.git
+docker run -it -v %cd%:/home/chaste chaste:dependencies
+```
+Alternatively if you are using PowerShell then the `run` command should be:
+`docker run -it -v ${PWD}:/home/chaste chaste:dependencies`.
+
+Within the container:
+`build_chaste.sh`
+
+
+```
+export VER=3.4.93221
+export BRANCH=release_$VER
+#docker volume create chaste
+docker build -t chaste:$VER --build-arg TAG=$BRANCH -f Dockerfile_Release .
+docker run -it --mount source=chaste,target=/usr/chaste -v $(pwd):/usr/chaste/src/projects chaste:$VER
+```
+
+### Building from GitHub
+https://docs.docker.com/engine/reference/commandline/build/
+docker build uri#ref:dir
+
+Git URLs accept context configuration in their fragment section, separated by a colon :. The first part represents the reference that Git will check out, this can be either a branch, a tag, or a commit SHA. The second part represents a subdirectory inside the repository that will be used as a build context.
+
+For example, run this command to use a directory called docker in the branch container:
+
+docker build https://github.com/docker/rootfs.git#container:docker
+
+
+To build and launch a container with a specific chaste version run:
 
 ```build_images.sh [VERSION] [REPO_TAG] [NCORES]```
 
@@ -33,7 +69,9 @@ Install Docker and increase the number of CPUs and amount of RAM.
 TODO
 ----
 
+Add note about persistence: https://stackoverflow.com/a/19616598/223767
 Test GitHub build: docker build https://github.com/docker/rootfs.git#container:docker
+Automate builds: https://docs.docker.com/docker-hub/github/#linking-docker-hub-to-a-github-account
 Setup Travis-CI
 Consider naming system e.g.:
 * `dependencies/chaste` or `chaste/dependencies:latest`
@@ -92,5 +130,3 @@ make -j4 TestProject && ctest -V -R TestProject
 ```
 
 * This can be achieved by changing to the `build` directory and running the script: `build_project.sh`
-
-
