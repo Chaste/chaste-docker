@@ -40,16 +40,24 @@ RUN apt-get update && \
     wget \
     python-dev \
     python-pip \
-    libboost-all-dev \
-    openjdk-8-jdk \
+    #libboost-all-dev \
+    #libhdf5-openmpi-dev \
+    #libparmetis-dev \
     libvtk5.10 \
     libvtk5.10-qt4 \
     python-vtk \
     libvtk-java \
-    libparmetis-dev \
-    libhdf5-openmpi-dev \
+    openjdk-8-jdk \
     mencoder \
-    mplayer && \
+    mplayer \
+    valgrind \
+    libfltk1.1 \
+    hdf5-tools \
+    cmake-curses-gui \
+    libgoogle-perftools-dev \
+    doxygen \
+    graphviz \
+    gnuplot && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
