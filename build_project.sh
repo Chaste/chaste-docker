@@ -8,8 +8,9 @@ if [ $# -lt 1 ]; then
     echo "Please pass the name of the project"
     exit 1
 fi
-NCORES=${2:-2}
-CMAKE_FLAG=${3:-"n"}
+
+CMAKE_FLAG=${2:-"n"}
+NCORES=${3:-$(nproc)}
 SRC_DIR=${4:-/home/chaste/src}
 
 if [ "$CMAKE_FLAG" == "c" ]; then

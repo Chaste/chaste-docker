@@ -2,7 +2,7 @@
 set -e
 
 VERSION=${1:-master}
-NCORES=${2:-2}
+NCORES=${2:-$(nproc)}
 CHASTE_DIR=/home/chaste
 SOURCE_DIR=${3:-$CHASTE_DIR/src}
 BUILD_DIR=${4:-$CHASTE_DIR/lib}
