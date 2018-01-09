@@ -11,10 +11,10 @@ Quickstart
 2. `docker build -t chaste:dependencies https://github.com/bdevans/chaste-docker.git`
 
 3. Navigate to the folder where you would like to clone and build Chaste e.g. C:\Users\$USERNAME\chaste (Windows) or ~/chaste (Linux/MacOS).
-    a) Windows
-    i) If using the command prompt: `docker run -it -v %cd%:/home/chaste chaste:dependencies`
-    ii) Alternatively if you are using PowerShell§ then type: `docker run -it -v ${PWD}:/home/chaste chaste:dependencies`.
-    b) Linux / MacOS: `docker run -it -v $(pwd):/home/chaste chaste:dependencies`
+   a) Windows
+      i) If using the command prompt: `docker run -it -v %cd%:/home/chaste chaste:dependencies`
+      ii) Alternatively if you are using PowerShell§ then type: `docker run -it -v ${PWD}:/home/chaste chaste:dependencies`.
+   b) Linux / MacOS: `docker run -it -v $(pwd):/home/chaste chaste:dependencies`
 
 4. You should now have a running container. To build Chaste, within the container type:
 ```
