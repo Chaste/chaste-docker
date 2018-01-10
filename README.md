@@ -13,7 +13,7 @@ Quickstart
 docker build -t chaste:dependencies https://github.com/bdevans/chaste-docker.git
 ```
 
-3. Navigate to the folder where you would like to clone and build Chaste e.g. `C:\Users\$USERNAME\chaste` (Windows) or `~/chaste` (Linux/MacOS). The next command depends upon which OS you are using.
+3. Navigate to the folder where you would like to clone and build Chaste e.g. `C:\Users\$USERNAME\chaste` (Windows) or `~/chaste` (Linux/macOS). The next command depends upon which OS you are using.
 
 | Operating System          | Command                                                     |
 | ------------------------- | ----------------------------------------------------------- |
