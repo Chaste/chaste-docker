@@ -6,70 +6,29 @@ Chaster
 Quickstart
 ----------
 
-To build and launch a container with a specific chaste version run:
-
-```build_images.sh [VERSION] [REPO_TAG] [NCORES]```
-
-e.g.:
-
-* For the latest release: `build_images.sh`
-* Master branch: `build_images.sh master master 4`
-* Older release: `build_images.sh 3.4`
-
-
-Installing and running Chaste
------------------------------
-
-Install Docker and increase the number of CPUs as you would like, and amount of RAM to around or above 4GB.
-
-*N.B. If you don't increase the amount of available RAM from the default 2GB then compilation will fail with strange errors!*
-
-## Build the docker container with the chaste dependencies
-
-`docker build -t chaste:dependencies .`
-
-## Run the container
-
-`docker run -it -v $(pwd):/usr/chaste chaste:dependencies`
-
-TODO
-----
-
-Test GitHub build: docker build https://github.com/docker/rootfs.git#container:docker
-Setup Travis-CI
-Consider naming system e.g.:
-* `dependencies/chaste` or `chaste/dependencies:latest`
-* `release/chaste:3.4` or `chaste/release:3.4`
-
-Creating your own Chaste build
-------------------------------
-
-## Clone and build the Chaste code
-
-Before running make, set the following options in ccmake:
-* Change CMAKE_BUILD_TYPE from Debug to Release
-* Chaste_ERROR_ON_WARNING OFF
-* Chaste_UPDATE_PROVENANCE OFF
-Use `-D <var>:<type>=<value>`
-The number after `-j` is the number of cores to use.
-
+1. Build the Chaste image with the following command:
 ```
-git clone -b develop https://chaste.cs.ox.ac.uk/git/chaste.git src
-cd build
-cmake -DCMAKE_BUILD_TYPE:STRING=Release -DChaste_ERROR_ON_WARNING:BOOL=OFF -DChaste_UPDATE_PROVENANCE:BOOL=OFF /usr/chaste/src
-make -j4
+docker build -t chaste/volume https://github.com/bdevans/chaste-docker.git#volume
+```
+This will build from the `master` branch by default. Optionally an alternative brnach or tag may be specified by adding the `--build-arg TAG=<branch or tag>` e.g.:
+```
+docker build -t chaste/volume --build-arg TAG=2017.1 https://github.com/bdevans/chaste-docker.git#volume
 ```
 
-* This can be achieved by changing to the `build` directory and running the script: `build_chaste.sh`
-
-
-## [Optional] Build and run the Continuous Test pack
-
-https://chaste.cs.ox.ac.uk/trac/wiki/ChasteGuides/CmakeFirstRun
+2. Launch the container:
 ```
-make -j4 Continuous
-ctest -j4 -L Continuous
+docker run -it chaste
 ```
+If desired, your projects directory (on the host) may be mounted in the container:
+```
+docker run -it -v $(pwd):/home/chaste/src/projects chaste
+```
+
+3. [Optional] Run the continuous test pack to check Chaste compiled correctly (https://chaste.cs.ox.ac.uk/trac/wiki/ChasteGuides/CmakeFirstRun):
+```
+ctest -j$(nproc) -L Continuous
+```
+
 
 ## Compiling and running simulations
 
@@ -94,3 +53,13 @@ make -j4 TestProject && ctest -V -R TestProject
 ```
 
 * This can be achieved by changing to the `build` directory and running the script: `build_project.sh`
+
+
+TODO
+----
+
+Test GitHub build: docker build https://github.com/docker/rootfs.git#container:docker
+Setup Travis-CI
+Consider naming system e.g.:
+* `dependencies/chaste` or `chaste/dependencies:latest`
+* `release/chaste:3.4` or `chaste/release:3.4`
