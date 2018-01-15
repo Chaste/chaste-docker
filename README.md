@@ -67,6 +67,8 @@ make -j4 TestProject && ctest -V -R TestProject
 TODO
 ----
 Stop this creating a new volume on each run of a container!
+Add help (-h) option to all scripts.
+Modify scripts to parse arguments flexibly.
 
 Test GitHub build: docker build https://github.com/docker/rootfs.git#container:docker
 Setup Travis-CI
