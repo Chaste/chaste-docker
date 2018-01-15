@@ -1,3 +1,31 @@
+# TODO
+1. Best practices
+https://docs.docker.com/engine/userguide/eng-image/dockerfile_best-practices/
+
+2. Bash options
+https://sookocheff.com/post/bash/parsing-bash-script-arguments-with-shopts/
+
+3. Performance issues
+https://forums.docker.com/t/file-access-in-mounted-volumes-extremely-slow-cpu-bound/8076/206
+
+   - Is file I/O faster in a Docker Volume or bind-mounted?
+   https://docs.docker.com/engine/userguide/storagedriver/imagesandcontainers/#data-volumes-and-the-storage-driver
+
+   - Could the situation be improved with the `delegated` file-caching option?
+   https://docs.docker.com/docker-for-mac/osxfs-caching/#cached
+
+   https://developers.redhat.com/blog/2016/10/25/docker-project-can-you-have-overlay2-speed-and-density-with-devicemapper-yep/
+   https://github.com/jessfraz/dockerfiles
+
+   - Currently, `bind` uses vanilla Xenial: https://github.com/tianon/docker-brew-ubuntu-core/blob/1637ff264a1654f77807ce53522eff7f6a57b773/xenial/Dockerfile
+   - `volume` (`master`) uses phusion: https://github.com/phusion/baseimage-docker#docker_single_process
+   - There is also `dockerfile/ubuntu` based on 14.04: https://github.com/dockerfile/ubuntu/blob/master/Dockerfile
+
+## cmake
+
+https://cmake.org/cmake/help/v2.8.8/cmake.html
+
+
 
 
 ### MacOS and Linux
