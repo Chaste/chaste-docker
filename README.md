@@ -6,7 +6,7 @@ Chaster
 Quickstart
 ----------
 
-To build and launch a contianer with a specific chaste version run: 
+To build and launch a container with a specific chaste version run:
 
 ```build_images.sh [VERSION] [REPO_TAG] [NCORES]```
 
@@ -94,5 +94,3 @@ make -j4 TestProject && ctest -V -R TestProject
 ```
 
 * This can be achieved by changing to the `build` directory and running the script: `build_project.sh`
-
-
