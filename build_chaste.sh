@@ -10,7 +10,7 @@ GIT_REMOTE=${5:-https://github.com/Chaste/Chaste.git}
 #               https://chaste.cs.ox.ac.uk/git/chaste.git
 
 
-if [ $# -ge 2 ] && [ $VERSION != '-' ]; then
+if [ $VERSION != '-' ]; then
     echo "Cloning Chaste from $GIT_REMOTE#$VERSION into $SOURCE_DIR..."
     mkdir -p $SOURCE_DIR
     git clone -b $VERSION $GIT_REMOTE $SOURCE_DIR
