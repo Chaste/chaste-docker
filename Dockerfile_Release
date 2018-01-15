@@ -3,7 +3,7 @@
 FROM chaste:dependencies
 MAINTAINER Ben Evans <ben.d.evans@gmail.com>
 
-ARG TAG=release_3.4.93221
+ARG TAG=2017.1
 ENV BRANCH=$TAG
 ARG NCORES=4
 # Persist environment variable for project builds
@@ -11,7 +11,7 @@ ENV NCORES=$NCORES
 
 #USER chaste
 RUN echo "Building Chaste ${BRANCH}"
-WORKDIR /usr/chaste
+WORKDIR $HOME
 RUN git clone -b $BRANCH https://github.com/Chaste/Chaste.git src
 
 RUN mkdir -p build

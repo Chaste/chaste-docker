@@ -10,3 +10,14 @@ env.*
 *.csv
 tmp
 
+# Exclude chaste directories which will be bind mounted
+src
+build
+tmp
+testoutput
+projects
+
+# Scripts for building images and running containers
+build.sh
+build_images.sh
+run.sh
