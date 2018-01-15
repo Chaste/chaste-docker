@@ -111,7 +111,7 @@ RUN build_chaste.sh $BRANCH
 # Hook to link to host chaste source folder, and set it as the working dir
 # New method for automatically mounting volumes
 # N.B. Changing the volume from within the Dockerfile: If any build steps change the data within the volume after it has been declared, those changes will be discarded.
-VOLUME /usr/chaste
+VOLUME /home/chaste
 
 # Use baseimage-docker's init system, and switch to the chaste user running
 # bash as a login shell by default (see entrypoint.sh).
