@@ -10,7 +10,7 @@ Quickstart
 
 2. Build the Docker image for Chaste with the following command:
 ```
-docker build -t chaste:dependencies https://github.com/bdevans/chaste-docker.git
+docker build -t chaste:dependencies https://github.com/bdevans/chaste-docker.git#bind
 ```
 
 3. Navigate to the folder where you would like to clone and build Chaste e.g. `C:\Users\$USERNAME\chaste` (Windows) or `~/chaste` (Linux/macOS). The next command depends upon which OS you are using.
