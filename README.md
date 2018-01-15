@@ -24,14 +24,13 @@ docker build -t chaste --build-arg TAG=2017.1 https://github.com/bdevans/chaste-
 
 3. Launch the container:
 ```
-docker run -it --rm -v chaste_data:/home/chaste chaste
+docker run -it -v chaste_data:/home/chaste chaste
 ```
 The first time will take a little longer than usual as the volume has to be populated with data.
 If desired, your current directory on the host (or any host directory specified with an absolute path) may be mounted in the container as the `projects` directory:
 ```
-docker run -it --rm -v chaste_data:/home/chaste -v $(pwd):/home/chaste/src/projects chaste
+docker run -it -v chaste_data:/home/chaste -v $(pwd):/home/chaste/src/projects chaste
 ```
-The `--rm` flag automatically cleans up anonymous volumes.
 
 4. [Optional] Run the continuous test pack to check Chaste compiled correctly (https://chaste.cs.ox.ac.uk/trac/wiki/ChasteGuides/CmakeFirstRun):
 ```
