@@ -97,7 +97,7 @@ ENV CHASTE_TEST_OUTPUT /home/chaste/output
 RUN ln -s /home/chaste/src/projects projects
 RUN ln -s /home/chaste/src/testoutput testoutput
 
-ARG TAG=2017.1
+ARG TAG=master
 ENV BRANCH=$TAG
 
 RUN build_chaste.sh $BRANCH
