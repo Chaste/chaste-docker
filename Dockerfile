@@ -92,10 +92,9 @@ WORKDIR /home/chaste
 
 RUN mkdir -p /home/chaste/lib
 RUN mkdir -p /home/chaste/output
-ENV CHASTE_TEST_OUTPUT /home/chaste/output
-
+ENV CHASTE_TEST_OUTPUT /home/chaste/testoutput
+#RUN ln -s /home/chaste/src/testoutput testoutput
 RUN ln -s /home/chaste/src/projects projects
-RUN ln -s /home/chaste/src/testoutput testoutput
 
 ARG TAG=master
 ENV BRANCH=$TAG
