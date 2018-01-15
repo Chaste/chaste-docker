@@ -6,13 +6,7 @@ Chaster
 Quickstart
 ----------
 
-1. Create a volume for data persistence:
-```
-docker volume create chaste_data
-```
-This will be stored in `/var/lib/docker/volumes/` on Linux. On macOS this can be inspected with: `screen ~/Library/Containers/com.docker.docker/Data/com.docker.driver.amd64-linux/tty`
-
-2. Build the Chaste image with the following command:
+1. Build the Chaste image with the following command:
 ```
 docker build -t chaste https://github.com/bdevans/chaste-docker.git#volume
 ```
@@ -65,12 +59,20 @@ make -j4 TestProject && ctest -V -R TestProject
 
 TODO
 ----
-Stop this creating a new volume on each run of a container!
-Add help (-h) option to all scripts.
-Modify scripts to parse arguments flexibly.
+* Stop this creating a new volume on each run of a container!
+* Add help (-h) option to all scripts.
+* Modify scripts to parse arguments flexibly.
+* Test GitHub build: docker build https://github.com/docker/rootfs.git#container:docker
+* Setup Travis-CI
+* Consider naming system e.g.:
+  - `dependencies/chaste` or `chaste/dependencies:latest`
+  - `release/chaste:3.4` or `chaste/release:3.4`
 
-Test GitHub build: docker build https://github.com/docker/rootfs.git#container:docker
-Setup Travis-CI
-Consider naming system e.g.:
-* `dependencies/chaste` or `chaste/dependencies:latest`
-* `release/chaste:3.4` or `chaste/release:3.4`
+Notes
+-----
+
+Create a volume for data persistence:
+```
+docker volume create chaste_data
+```
+This will be stored in `/var/lib/docker/volumes/` on Linux. On macOS this can be inspected with: `screen ~/Library/Containers/com.docker.docker/Data/com.docker.driver.amd64-linux/tty`
