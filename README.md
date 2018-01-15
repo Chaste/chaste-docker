@@ -8,6 +8,8 @@ Quickstart
 
 1. Install [Docker](https://www.docker.com) and configure it to have at least 4GB of RAM and as many cores as you have. For [Windows](https://docs.docker.com/docker-for-windows/install/#download-docker-for-windows) you may be prompted to install Hyper-V, in which case do so. Also select which local drives to be available to containers (e.g. the `C:` drive in Windows).
 
+*N.B. If you don't increase the amount of available RAM from the default 2GB then compilation will fail with strange errors!*
+
 2. Build the Docker image for Chaste with the following command:
 ```
 docker build -t chaste:dependencies https://github.com/bdevans/chaste-docker.git#bind
