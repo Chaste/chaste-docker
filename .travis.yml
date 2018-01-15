@@ -1,7 +1,13 @@
+sudo: required
 language: bash
 services:
   - docker
+before_install:
+  #- docker build -t chaste:dependencies https://github.com/bdevans/chaste-docker.git
+  - docker build -t chaste:dependencies .
+  - docker run -it -v $(pwd):/home/chaste chaste:dependencies
 script:
+  - docker ps -a
   #- ./build_images.sh
   - ./build_chaste.sh
   - ./test.sh
