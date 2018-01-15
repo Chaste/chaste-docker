@@ -6,7 +6,13 @@ Chaster
 Quickstart
 ----------
 
-1. Build the Chaste image with the following command:
+1. Create a volume for data persistence:
+```
+docker volume create chaste_data
+```
+This will be stored in `/var/lib/docker/volumes/` on Linux. On macOS this can be inspected with: `screen ~/Library/Containers/com.docker.docker/Data/com.docker.driver.amd64-linux/tty`
+
+2. Build the Chaste image with the following command:
 ```
 docker build -t chaste https://github.com/bdevans/chaste-docker.git#volume
 ```
@@ -16,16 +22,17 @@ Optionally an alternative branch or tag may be specified by adding the argument 
 docker build -t chaste --build-arg TAG=2017.1 https://github.com/bdevans/chaste-docker.git#volume
 ```
 
-2. Launch the container:
+3. Launch the container:
 ```
-docker run -it chaste
+docker run -it -v chaste_data:/home/chaste chaste
 ```
+The first time will take a little longer than usual as the volume has to be populated with data.
 If desired, your current directory (on the host) may be mounted in the container as the `projects` directory:
 ```
-docker run -it -v $(pwd):/home/chaste/src/projects chaste
+docker run -it -v chaste_data:/home/chaste -v $(pwd):/home/chaste/src/projects chaste
 ```
 
-3. [Optional] Run the continuous test pack to check Chaste compiled correctly (https://chaste.cs.ox.ac.uk/trac/wiki/ChasteGuides/CmakeFirstRun):
+4. [Optional] Run the continuous test pack to check Chaste compiled correctly (https://chaste.cs.ox.ac.uk/trac/wiki/ChasteGuides/CmakeFirstRun):
 ```
 ctest -j$(nproc) -L Continuous
 ```
@@ -58,6 +65,7 @@ make -j4 TestProject && ctest -V -R TestProject
 
 TODO
 ----
+Stop this creating a new volume on each run of a container!
 
 Test GitHub build: docker build https://github.com/docker/rootfs.git#container:docker
 Setup Travis-CI
