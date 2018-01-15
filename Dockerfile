@@ -94,6 +94,9 @@ RUN mkdir -p /home/chaste/lib
 RUN mkdir -p /home/chaste/output
 ENV CHASTE_TEST_OUTPUT /home/chaste/output
 
+RUN ln -s /home/chaste/src/projects projects
+RUN ln -s /home/chaste/src/testoutput testoutput
+
 ARG TAG=2017.1
 ENV BRANCH=$TAG
 
