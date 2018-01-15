@@ -1,17 +1,15 @@
 # docker run -it -v $(pwd):/usr/chaste/src/projects chaste:$VER
 
 FROM chaste:dependencies
-MAINTAINER Ben Evans <ben.d.evans@gmail.com>
+LABEL maintainer "Chaste Developers <chaste-admin@maillist.ox.ac.uk>"
 
-ARG TAG=release_3.4.93221
-ENV BRANCH=$TAG
-ARG NCORES=4
+ARG TAG=2017.1
 # Persist environment variable for project builds
-ENV NCORES=$NCORES
+ENV BRANCH=$TAG
 
 #USER chaste
 RUN echo "Building Chaste ${BRANCH}"
-WORKDIR /usr/chaste
+WORKDIR /home/chaste
 RUN git clone -b $BRANCH https://github.com/Chaste/Chaste.git src
 
 RUN mkdir -p build
@@ -20,15 +18,15 @@ RUN cmake -DCMAKE_BUILD_TYPE:STRING=Release \
           -DChaste_ERROR_ON_WARNING:BOOL=OFF \
           -DChaste_UPDATE_PROVENANCE:BOOL=OFF \
           /usr/chaste/src && \
-    make -j$NCORES
+    make -j$(nproc)
 
-#RUN git clone https://github.com/Chaste/template_project.git /usr/chaste/src/projects/template_project
-COPY new_project.sh /usr/chaste/
+#RUN git clone https://github.com/Chaste/template_project.git /home/chaste/src/projects/template_project
+COPY new_project.sh /usr/chaste/scripts/
 
 #RUN useradd -ms /bin/bash chaste
 #RUN chown chaste:chaste -R /usr/chaste
-RUN chown 1000:1000 -R /usr/chaste
+RUN chown 1000:1000 -R /home/chaste
 # Hook to link to host chaste source folder, and set it as the working dir
 # New method for automatically mounting volumes
 # N.B. Changing the volume from within the Dockerfile: If any build steps change the data within the volume after it has been declared, those changes will be discarded.
-VOLUME /usr/chaste
+VOLUME /home/chaste
