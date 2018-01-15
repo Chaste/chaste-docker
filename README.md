@@ -33,7 +33,7 @@ build_chaste.sh
 ctest -j$(nproc) -L Continuous
 ```
 
-N.B. Docker containers are ephemeral by design and no changes will be saved after exiting except to files in the home directory which is where the host's present working directory is mounted.
+*N.B. Docker containers are ephemeral by design and no changes will be saved after exiting except to files in the home directory which is where the host's present working directory is mounted.*
 
 Notes
 -----
