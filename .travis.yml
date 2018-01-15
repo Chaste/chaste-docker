@@ -1,0 +1,7 @@
+language: bash
+services:
+  - docker
+script:
+  #- ./build_images.sh
+  - ./build_chaste.sh
+  - ./test.sh
