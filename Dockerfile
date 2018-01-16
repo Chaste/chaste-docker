@@ -36,6 +36,7 @@ RUN apt-get update && \
     chaste-source \
     sudo \
     git \
+    nano \
     wget \
     python-dev \
     python-pip \
