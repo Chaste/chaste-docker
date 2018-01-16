@@ -68,6 +68,7 @@ TODO
 * Add commands to run.sh to launch a second terminal with `docker stats`: https://stackoverflow.com/questions/7910211/is-there-a-way-to-open-a-series-of-new-terminal-window-and-run-commands-in-a-si
 * Test GitHub build: docker build https://github.com/docker/rootfs.git#container:docker
 * Setup Travis-CI
+* GitHub/Chaste release > build and tag image e.g. chaste:2017.1 > push image to Docker Cloud
 * Consider naming system e.g.:
   - `dependencies/chaste` or `chaste/dependencies:latest`
   - `release/chaste:3.4` or `chaste/release:3.4`
