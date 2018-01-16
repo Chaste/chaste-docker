@@ -12,4 +12,4 @@ docker build -t chaste:dependencies .
 # TODO: Push to docker hub
 
 #docker run -it -v $(pwd):/home/chaste chaste:$VER "./build_chaste.sh $REPO_TAG $NCORES"
-docker run -it -v $(pwd):/home/chaste chaste:dependencies "./build_chaste.sh $REPO_TAG"
+docker run -it -v "$(pwd)":/home/chaste chaste:dependencies "./build_chaste.sh $REPO_TAG"
