@@ -21,9 +21,11 @@ docker build -t chaste --build-arg TAG=2017.1 https://github.com/bdevans/chaste-
 docker run -it -v chaste_data:/home/chaste chaste
 ```
 The first time will take a little longer than usual as the volume has to be populated with data.
-If desired, your current directory on the host (or any host directory specified with an absolute path) may be mounted in the container as the `projects` directory:
+
+On Linux hosts, the contents of the volume `chaste_data` may be accessed at `/var/lib/docker/volumes/chaste_data/_data`. On Windows and macOS, it is not so straight-forward and easiest to mount additional directories for data you wish to access easily.
+Any host directory (specified with an absolute path) may be mounted in the container as e.g. the `projects` directory and another for the `testoutput`:
 ```
-docker run -it -v chaste_data:/home/chaste -v $(pwd):/home/chaste/src/projects chaste
+docker run -it -v chaste_data:/home/chaste -v $(pwd)/projects:/home/chaste/src/projects -v $(pwd)/testoutput:/home/chaste/testoutput chaste
 ```
 
 4. [Optional] Run the continuous test pack to check Chaste compiled correctly (https://chaste.cs.ox.ac.uk/trac/wiki/ChasteGuides/CmakeFirstRun):
