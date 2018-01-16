@@ -61,19 +61,19 @@ make -j4 TestProject && ctest -V -R TestProject
 
 TODO
 ----
-* Stop this creating a new volume on each run of a container!
+
 * Add user to sudo and set password
 * Add help (-h) option to all scripts.
 * Modify scripts to parse arguments flexibly.
 * Add commands to run.sh to launch a second terminal with `docker stats`: https://stackoverflow.com/questions/7910211/is-there-a-way-to-open-a-series-of-new-terminal-window-and-run-commands-in-a-si
-* Test GitHub build: docker build https://github.com/docker/rootfs.git#container:docker
-* Setup Travis-CI
+* Setup Travis-CI and add badge to repo
 * GitHub/Chaste release > build and tag image e.g. chaste:2017.1 > push image to Docker Cloud
 * Consider naming system e.g.:
   - `dependencies/chaste` or `chaste/dependencies:latest`
   - `release/chaste:3.4` or `chaste/release:3.4`
 * Link GitHub to DockerHub and push images automatically: https://docs.docker.com/docker-hub/github/
 * Dockerfile best practices: https://docs.docker.com/engine/userguide/eng-image/dockerfile_best-practices/
+* Use multi-stage builds? https://docs.docker.com/engine/userguide/eng-image/multistage-build/
 
 Notes
 -----
