@@ -1,8 +1,7 @@
-# docker run -it -v $(pwd):/usr/chaste chaste:dependencies
+# docker run -it -v chaste_data:/usr/chaste chaste
 
 # https://github.com/tianon/docker-brew-ubuntu-core/blob/1637ff264a1654f77807ce53522eff7f6a57b773/xenial/Dockerfile
 FROM ubuntu:xenial
-# > yakkety > zesty > artful
 LABEL maintainer "Chaste Developers <chaste-admin@maillist.ox.ac.uk>"
 
 USER root
@@ -66,19 +65,9 @@ RUN pip install --upgrade pip
 RUN sudo pip install texttest
 #ENV TEXTTEST_HOME /usr/chaste/texttest
 
-# See https://github.com/phusion/baseimage-docker/issues/186
-#RUN touch /etc/service/syslog-forwarder/down
-
-# The entrypoint script below will ensure our new chaste user (for doing builds)
-# has the same userid as the host user owning the source code volume, to avoid
-# permission issues.
-# Based on https://denibertovic.com/posts/handling-permissions-with-docker-volumes/
-#COPY entrypoint.sh /usr/local/bin/entrypoint.sh
-
 # Create working directory for Chaste files
 RUN useradd -ms /bin/bash chaste
 #RUN usermod -aG sudo chaste
-# TODO: Modify or replace entrypoint.sh
 #RUN passwd chaste
 
 USER chaste
@@ -99,14 +88,7 @@ RUN ln -s /home/chaste/src/projects projects
 
 ARG TAG=master
 ENV BRANCH=$TAG
-
 RUN build_chaste.sh $BRANCH
-
-#RUN chown chaste:chaste -R /home/chaste
-#RUN chown 1000:1000 -R /usr/chaste
-#USER chaste
-
-#RUN touch /home/chaste/.sudo_as_admin_successful
 
 # Hook to link to host chaste source folder, and set it as the working dir
 # New method for automatically mounting volumes
