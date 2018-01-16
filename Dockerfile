@@ -39,18 +39,18 @@ RUN apt-get update && \
     git \
     nano \
     wget \
-    #python-dev \
+    python-dev \
     python-pip \
     #libboost-all-dev \
-    #libvtk5.10 \
-    #libvtk5.10-qt4 \
-    #python-vtk \
-    #libvtk-java \
-    #openjdk-8-jdk \
-    mencoder \
-    mplayer \
     #libhdf5-openmpi-dev \
     #libparmetis-dev \
+    libvtk5.10 \
+    libvtk5.10-qt4 \
+    python-vtk \
+    libvtk-java \
+    openjdk-8-jdk \
+    mencoder \
+    mplayer \
     valgrind \
     libfltk1.1 \
     hdf5-tools \
