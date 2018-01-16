@@ -37,6 +37,7 @@ RUN apt-get update && \
     chaste-source \
     sudo \
     git \
+    nano \
     wget \
     python-dev \
     python-pip \
@@ -90,8 +91,9 @@ USER chaste
 
 #/usr/chaste/scripts
 #/home/chaste/build/build_chaste.sh
-COPY build_chaste.sh /usr/chaste/scripts/build_chaste.sh
-COPY build_project.sh /usr/chaste/scripts/build_project.sh
+COPY build_chaste.sh /usr/chaste/scripts/
+COPY build_project.sh /usr/chaste/scripts/
+COPY test.sh /usr/chaste/scripts/
 
 #RUN mkdir -p /usr/chaste/output
 #ENV CHASTE_TEST_OUTPUT /usr/chaste/output
