@@ -23,4 +23,4 @@ if [ "$CMAKE_FLAG" = "c" ]; then
           -H$SRC_DIR
 fi
 make -j$NCORES -C $BUILD_DIR $1 # -f $BUILD_DIR/Makefile
-ctest -V -R $1
+ctest -V -R $1 # -j$NCORES
