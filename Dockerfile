@@ -39,16 +39,16 @@ RUN apt-get update && \
     wget \
     python-dev \
     python-pip \
+    #libvtk5.10 \
+    #libvtk5.10-qt4 \
+    #python-vtk \
+    #libvtk-java \
+    #openjdk-8-jdk \
+    mencoder \
+    mplayer \
     #libboost-all-dev \
     #libhdf5-openmpi-dev \
     #libparmetis-dev \
-    libvtk5.10 \
-    libvtk5.10-qt4 \
-    python-vtk \
-    libvtk-java \
-    openjdk-8-jdk \
-    mencoder \
-    mplayer \
     valgrind \
     libfltk1.1 \
     hdf5-tools \
