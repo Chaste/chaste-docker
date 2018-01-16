@@ -75,6 +75,7 @@ USER chaste
 COPY build_chaste.sh /usr/chaste/scripts/
 COPY build_project.sh /usr/chaste/scripts/
 COPY new_project.sh /usr/chaste/scripts/
+COPY test.sh /usr/chaste/scripts/
 
 ENV PATH="/usr/chaste/scripts:${PATH}"
 
