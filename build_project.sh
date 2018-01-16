@@ -13,7 +13,7 @@ CMAKE_FLAG=${2:-"n"}
 NCORES=${3:-$(nproc)}
 SRC_DIR=${4:-/home/chaste/src}
 
-if [ "$CMAKE_FLAG" == "c" ]; then
+if [ "$CMAKE_FLAG" = "c" ]; then
     cmake $SRC_DIR  # Only run if new files have been created
 fi
 make -j$NCORES $1

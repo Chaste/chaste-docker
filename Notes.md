@@ -21,6 +21,11 @@ https://forums.docker.com/t/file-access-in-mounted-volumes-extremely-slow-cpu-bo
    - `volume` (`master`) uses phusion: https://github.com/phusion/baseimage-docker#docker_single_process
    - There is also `dockerfile/ubuntu` based on 14.04: https://github.com/dockerfile/ubuntu/blob/master/Dockerfile
 
+
+The VOLUME [PATH] instruction inside a Dockerfile is equivalent to
+
+$ docker run -v $(docker volume create):[PATH] [IMAGE_NAME]
+
 ## cmake
 
 https://cmake.org/cmake/help/v2.8.8/cmake.html

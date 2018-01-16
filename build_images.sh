@@ -1,7 +1,6 @@
 #!/bin/bash
 
 REPO_TAG=${1:-2017.1}
-NCORES=${2:-2}
 docker build -t chaste:dependencies .
 
 #for each Dockerfile...
@@ -13,4 +12,4 @@ docker build -t chaste:dependencies .
 # TODO: Push to docker hub
 
 #docker run -it -v $(pwd):/home/chaste chaste:$VER "./build_chaste.sh $REPO_TAG $NCORES"
-docker run -it -v $(pwd):/home/chaste chaste:dependencies "./build_chaste.sh $REPO_TAG $NCORES"
+docker run -it -v "$(pwd)":/home/chaste chaste:dependencies "./build_chaste.sh $REPO_TAG"
