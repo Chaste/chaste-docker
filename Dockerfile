@@ -82,9 +82,7 @@ ENV PATH="/home/chaste/scripts:${PATH}"
 WORKDIR /home/chaste
 
 RUN mkdir -p /home/chaste/lib
-#RUN mkdir -p /home/chaste/output
 ENV CHASTE_TEST_OUTPUT /home/chaste/testoutput
-#RUN ln -s /home/chaste/src/testoutput testoutput
 RUN ln -s /home/chaste/src/projects projects
 
 ARG TAG=master
