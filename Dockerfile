@@ -61,7 +61,7 @@ RUN rm /usr/src/chaste-source.tar.bz2
 # Install TextTest for regression testing. TODO: Check this is necessary
 # This requires pygtk
 RUN pip install --upgrade pip
-RUN sudo pip install texttest
+#RUN sudo pip install texttest
 #ENV TEXTTEST_HOME /usr/local/bin/texttest
 
 # Create working directory for Chaste files
