@@ -65,9 +65,10 @@ RUN sudo pip install texttest
 #ENV TEXTTEST_HOME /usr/local/bin/texttest
 
 # Create working directory for Chaste files
-RUN useradd -ms /bin/bash chaste
+#RUN useradd -ms /bin/bash chaste
 #RUN usermod -aG sudo chaste
 #RUN passwd chaste
+RUN useradd chaste && echo "chaste:chaste" | chpasswd && adduser chaste sudo
 
 USER chaste
 
