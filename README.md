@@ -6,7 +6,12 @@ Chaster
 Quickstart
 ----------
 
-1. Build the Chaste image from the latest commit with the following command:
+
+1. Install [Docker](https://www.docker.com) and configure it to have at least 4GB of RAM and as many cores as you have. For [Windows](https://docs.docker.com/docker-for-windows/install/#download-docker-for-windows) you may be prompted to install Hyper-V, in which case do so. Also select which local drives to be available to containers (e.g. the `C:` drive in Windows).
+
+*N.B. If you don't increase the amount of available RAM from the default 2GB then compilation will fail with strange errors!*
+
+2. Build the Chaste image from the latest commit with the following command:
 ```
 docker build -t chaste https://github.com/bdevans/chaste-docker.git#volume
 ```
@@ -16,11 +21,11 @@ Alternatively a specific branch or tag may be specified by adding the argument `
 docker build -t chaste:2017.1 --build-arg TAG=2017.1 https://github.com/bdevans/chaste-docker.git#volume
 ```
 
-2. Launch the container:
+3. Launch the container:
 ```
 docker run -it -v chaste_data:/home/chaste chaste
 ```
-Or run `docker run -it -v chaste_data:/home/chaste chaste:2017` if you tagged your image name as above. 
+Or run `docker run -it -v chaste_data:/home/chaste chaste:2017` if you tagged your image name as above.
 The first time will take a little longer than usual as the volume has to be populated with data.
 
 On Linux hosts, the contents of the volume `chaste_data` may be accessed at `/var/lib/docker/volumes/chaste_data/_data`. On Windows and macOS, it is not so straight-forward and easiest to mount additional directories for data you wish to access easily.
@@ -29,11 +34,19 @@ Any host directory (specified with an absolute path) may be mounted in the conta
 docker run -it -v chaste_data:/home/chaste -v $(pwd)/projects:/home/chaste/src/projects -v $(pwd)/testoutput:/home/chaste/testoutput chaste
 ```
 
-3. [Optional] Run the continuous test pack to check Chaste compiled correctly (https://chaste.cs.ox.ac.uk/trac/wiki/ChasteGuides/CmakeFirstRun):
+4. [Optional] Run the continuous test pack to check Chaste compiled correctly (https://chaste.cs.ox.ac.uk/trac/wiki/ChasteGuides/CmakeFirstRun):
 ```
 ctest -j$(nproc) -L Continuous
 ```
 The script `test.sh` is provided in the users's path for convenience.
+
+*N.B. Docker containers are ephemeral by design and no changes will be saved after exiting except to files in the home directory which is where the host's present working directory is mounted.*
+
+Notes
+-----
+
+§ If you are using PowerShell, you can enable tab completion by installing the PowerShell module `posh-docker`: https://docs.docker.com/docker-for-windows/#set-up-tab-completion-in-powershell
+
 
 
 ## Compiling and running simulations
