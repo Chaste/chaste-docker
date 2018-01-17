@@ -6,6 +6,14 @@ Chaster
 Quickstart
 ----------
 
+### Users
+If you're a user and want to get up and running with the latest release fully compiled and ready to go, install Docker (see instructions below) and run:
+```
+docker run -it -v chaste_data:/home/chaste bdevans/chaste-docker:2017.1
+```
+
+### Developers
+If you're a developer and want to build your own image with a particular code branch, read on!
 
 1. Install [Docker](https://www.docker.com) and configure it to have at least 4GB of RAM and as many cores as you have. For [Windows](https://docs.docker.com/docker-for-windows/install/#download-docker-for-windows) you may be prompted to install Hyper-V, in which case do so. Also select which local drives to be available to containers (e.g. the `C:` drive in Windows).
 
@@ -13,12 +21,12 @@ Quickstart
 
 2. Build the Chaste image from the latest commit with the following command:
 ```
-docker build -t chaste https://github.com/bdevans/chaste-docker.git#volume
+docker build -t chaste https://github.com/bdevans/chaste-docker.git
 ```
 This will build from Chaste's GitHub `master` branch by default.
 Alternatively a specific branch or tag may be specified by adding the argument `--build-arg TAG=<branch or tag>` (with the same tag appended onto the docker image name) e.g.:
 ```
-docker build -t chaste:2017.1 --build-arg TAG=2017.1 https://github.com/bdevans/chaste-docker.git#volume
+docker build -t chaste:2017.1 --build-arg TAG=2017.1 https://github.com/bdevans/chaste-docker.git
 ```
 
 3. Launch the container:
