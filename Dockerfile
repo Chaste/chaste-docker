@@ -64,13 +64,10 @@ RUN pip install --upgrade pip
 #RUN sudo pip install texttest
 #ENV TEXTTEST_HOME /usr/local/bin/texttest
 
-# Create working directory for Chaste files
-#RUN useradd -ms /bin/bash chaste
-#RUN usermod -aG sudo chaste
-#RUN passwd chaste
+# Create user and working directory for Chaste files
 RUN useradd -ms /bin/bash chaste && echo "chaste:chaste" | chpasswd && adduser chaste sudo
-
 USER chaste
+WORKDIR /home/chaste
 
 COPY build_chaste.sh /home/chaste/scripts/
 COPY build_project.sh /home/chaste/scripts/
@@ -79,12 +76,11 @@ COPY test.sh /home/chaste/scripts/
 
 ENV PATH="/home/chaste/scripts:${PATH}"
 
-WORKDIR /home/chaste
-
 RUN mkdir -p /home/chaste/lib
 ENV CHASTE_TEST_OUTPUT /home/chaste/testoutput
 RUN ln -s /home/chaste/src/projects projects
 
+# Build Chaste
 ARG TAG=master
 ENV BRANCH=$TAG
 RUN build_chaste.sh $BRANCH
