@@ -11,9 +11,9 @@ Quickstart
 docker build -t chaste https://github.com/bdevans/chaste-docker.git#volume
 ```
 This will build from Chaste's GitHub `master` branch by default.
-Optionally an alternative branch or tag may be specified by adding the argument `--build-arg TAG=<branch or tag>` e.g.:
+Optionally an alternative branch or tag may be specified by adding the argument `--build-arg TAG=<branch or tag>` (with the same tag appended onto the docker image name) e.g.:
 ```
-docker build -t chaste --build-arg TAG=2017.1 https://github.com/bdevans/chaste-docker.git#volume
+docker build -t chaste:2017.1 --build-arg TAG=2017.1 https://github.com/bdevans/chaste-docker.git#volume
 ```
 
 3. Launch the container:
@@ -32,6 +32,7 @@ docker run -it -v chaste_data:/home/chaste -v $(pwd)/projects:/home/chaste/src/p
 ```
 ctest -j$(nproc) -L Continuous
 ```
+The script `test.sh` is provided in the users's path for convenience.
 
 
 ## Compiling and running simulations
