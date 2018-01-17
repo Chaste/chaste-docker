@@ -4,8 +4,10 @@ Dockerfile
 .DS_Store
 .gitignore
 README.md
+Notes.md
 env.*
 .travis.yml
+run.sh
 
 # To prevent storing dev/temporary container data
 *.csv
