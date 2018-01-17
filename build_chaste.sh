@@ -3,11 +3,11 @@ set -e
 
 VERSION=${1:-master}
 GIT_REMOTE=${2:-https://github.com/Chaste/Chaste.git}
+#               https://chaste.cs.ox.ac.uk/git/chaste.git
 NCORES=${3:-$(nproc)}
 CHASTE_DIR=/home/chaste
 SOURCE_DIR=${4:-$CHASTE_DIR/src}
 BUILD_DIR=${5:-$CHASTE_DIR/lib}
-#               https://chaste.cs.ox.ac.uk/git/chaste.git
 
 if [ $VERSION != '-' ]; then
     echo "Cloning Chaste from $GIT_REMOTE#$VERSION into $SOURCE_DIR..."
