@@ -10,10 +10,13 @@ SOURCE_DIR=${4:-$CHASTE_DIR/src}
 BUILD_DIR=${5:-$CHASTE_DIR/lib}
 
 if [ $VERSION != '-' ]; then
-    echo "Cloning Chaste from $GIT_REMOTE#$VERSION into $SOURCE_DIR..."
-    mkdir -p $SOURCE_DIR
-    git clone -b $VERSION $GIT_REMOTE $SOURCE_DIR
+    echo "Skipping build!"
+    exit 0
 fi
+
+echo "Cloning Chaste from $GIT_REMOTE#$VERSION into $SOURCE_DIR..."
+mkdir -p $SOURCE_DIR
+git clone -b $VERSION $GIT_REMOTE $SOURCE_DIR
 
 echo "Building Chaste $VERSION in $BUILD_DIR with $NCORES cores..."
 cmake -DCMAKE_BUILD_TYPE:STRING=Release \
