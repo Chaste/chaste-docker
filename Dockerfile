@@ -68,7 +68,7 @@ RUN pip install --upgrade pip
 #RUN useradd -ms /bin/bash chaste
 #RUN usermod -aG sudo chaste
 #RUN passwd chaste
-RUN useradd chaste && echo "chaste:chaste" | chpasswd && adduser chaste sudo
+RUN useradd -ms /bin/bash chaste && echo "chaste:chaste" | chpasswd && adduser chaste sudo
 
 USER chaste
 
