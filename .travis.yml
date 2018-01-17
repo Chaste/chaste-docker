@@ -4,8 +4,8 @@ services:
   - docker
 before_install:
   #- docker build -t chaste:dependencies https://github.com/bdevans/chaste-docker.git
-  - docker build -t chaste:2017.1 --build-arg TAG=2017.1 https://github.com/bdevans/chaste-docker.git#volume
-  - docker run -it -v chaste_data:/home/chaste -v $(pwd):/home/chaste/src/projects chaste:2017.1  #- docker run -it -v chaste_data::/home/chaste -v $(pwd):/home/chaste/projects chaste
+  - docker build -t chaste --build-arg TAG=- https://github.com/bdevans/chaste-docker.git
+  - docker run -it -d -v chaste_data:/home/chaste -v $(pwd):/home/chaste/src/projects chaste  #- docker run -it -v chaste_data::/home/chaste -v $(pwd):/home/chaste/projects chaste
 script:
   - docker ps -a
   - docker images
