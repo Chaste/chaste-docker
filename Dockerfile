@@ -61,7 +61,7 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # Remove Chaste tar from chaste-source (only used for dependencies)
-RUN rm /usr/src/chaste_
+RUN rm /usr/src/chaste-source.tar.bz2
 
 # Install TextTest for regression testing. TODO: Check this is necessary
 RUN pip install --upgrade pip
