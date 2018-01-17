@@ -1,5 +1,4 @@
-#!/bin/sh
-
+#!/bin/bash
 set -e
 
 echo "Building and testing project: $1 in build folder: $(pwd)"
@@ -15,12 +14,15 @@ SRC_DIR=${4:-/home/chaste/src}
 BUILD_DIR=${5:-/home/chaste/lib}
 
 if [ "$CMAKE_FLAG" = "c" ]; then
-    #cmake $SRC_DIR  # Only run if new files have been created
+    # Only run if new files have been created
     cmake -DCMAKE_BUILD_TYPE:STRING=Release \
           -DChaste_ERROR_ON_WARNING:BOOL=OFF \
           -DChaste_UPDATE_PROVENANCE:BOOL=OFF \
           -B$BUILD_DIR \
           -H$SRC_DIR
+else
+    echo "Skipping cmake. If the project fails to build, try rerunning with:"
+    echo "`basename "$0"` $1 c"
 fi
 make -j$NCORES -C $BUILD_DIR $1 # -f $BUILD_DIR/Makefile
 ( cd $BUILD_DIR && ctest -V -R $1 ) # -j$NCORES
