@@ -5,7 +5,7 @@ FROM ubuntu:xenial
 LABEL maintainer "Chaste Developers <chaste-admin@maillist.ox.ac.uk>"
 
 USER root
-ARG DEBIAN_FRONTEND noninteractive
+ARG DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
