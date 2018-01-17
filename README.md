@@ -6,20 +6,21 @@ Chaster
 Quickstart
 ----------
 
-1. Build the Chaste image with the following command:
+1. Build the Chaste image from the latest commit with the following command:
 ```
 docker build -t chaste https://github.com/bdevans/chaste-docker.git#volume
 ```
 This will build from Chaste's GitHub `master` branch by default.
-Optionally an alternative branch or tag may be specified by adding the argument `--build-arg TAG=<branch or tag>` (with the same tag appended onto the docker image name) e.g.:
+Alternatively a specific branch or tag may be specified by adding the argument `--build-arg TAG=<branch or tag>` (with the same tag appended onto the docker image name) e.g.:
 ```
 docker build -t chaste:2017.1 --build-arg TAG=2017.1 https://github.com/bdevans/chaste-docker.git#volume
 ```
 
-3. Launch the container:
+2. Launch the container:
 ```
 docker run -it -v chaste_data:/home/chaste chaste
 ```
+Or run `docker run -it -v chaste_data:/home/chaste chaste:2017` if you tagged your image name as above. 
 The first time will take a little longer than usual as the volume has to be populated with data.
 
 On Linux hosts, the contents of the volume `chaste_data` may be accessed at `/var/lib/docker/volumes/chaste_data/_data`. On Windows and macOS, it is not so straight-forward and easiest to mount additional directories for data you wish to access easily.
@@ -28,7 +29,7 @@ Any host directory (specified with an absolute path) may be mounted in the conta
 docker run -it -v chaste_data:/home/chaste -v $(pwd)/projects:/home/chaste/src/projects -v $(pwd)/testoutput:/home/chaste/testoutput chaste
 ```
 
-4. [Optional] Run the continuous test pack to check Chaste compiled correctly (https://chaste.cs.ox.ac.uk/trac/wiki/ChasteGuides/CmakeFirstRun):
+3. [Optional] Run the continuous test pack to check Chaste compiled correctly (https://chaste.cs.ox.ac.uk/trac/wiki/ChasteGuides/CmakeFirstRun):
 ```
 ctest -j$(nproc) -L Continuous
 ```
