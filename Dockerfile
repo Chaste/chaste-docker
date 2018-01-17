@@ -75,12 +75,12 @@ RUN useradd -ms /bin/bash chaste
 
 USER chaste
 
-COPY build_chaste.sh /usr/chaste/scripts/
-COPY build_project.sh /usr/chaste/scripts/
-COPY new_project.sh /usr/chaste/scripts/
-COPY test.sh /usr/chaste/scripts/
+COPY build_chaste.sh /home/chaste/scripts/
+COPY build_project.sh /home/chaste/scripts/
+COPY new_project.sh /home/chaste/scripts/
+COPY test.sh /home/chaste/scripts/
 
-ENV PATH="/usr/chaste/scripts:${PATH}"
+ENV PATH="/home/chaste/scripts:${PATH}"
 
 WORKDIR /home/chaste
 
