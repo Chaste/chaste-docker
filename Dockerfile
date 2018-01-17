@@ -39,11 +39,11 @@ RUN apt-get update && \
     wget \
     python-dev \
     python-pip \
-    #libvtk5.10 \
-    #libvtk5.10-qt4 \
     python-vtk \
-    #libvtk-java \
-    #openjdk-8-jdk \
+    libvtk5.10 \
+    libvtk5.10-qt4 \
+    libvtk-java \
+    openjdk-8-jdk \
     mencoder \
     mplayer \
     #libboost-all-dev \
