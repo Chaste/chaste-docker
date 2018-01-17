@@ -5,7 +5,7 @@ FROM ubuntu:xenial
 LABEL maintainer "Chaste Developers <chaste-admin@maillist.ox.ac.uk>"
 
 USER root
-ENV DEBIAN_FRONTEND noninteractive
+ARG DEBIAN_FRONTEND noninteractive
 
 # libcurl3-gnutls
 RUN apt-get update && \
@@ -29,7 +29,6 @@ RUN apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 422C4D99
 #Recommends: valgrind, libfltk1.1, hdf5-tools, cmake-curses-gui
 #Suggests: libgoogle-perftools-dev, doxygen, graphviz, eclipse-cdt, gnuplot, paraview
 
-# Install mencoder and mplayer for creating animation movies
 RUN apt-get update && \
     apt-get install -y \
     chaste-source \
