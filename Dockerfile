@@ -1,13 +1,19 @@
-# docker run -it -v $(pwd):/usr/chaste chaste:dependencies
+# docker run -it -v chaste_data:/usr/chaste chaste
 
-#FROM phusion/baseimage:latest
 # https://github.com/tianon/docker-brew-ubuntu-core/blob/1637ff264a1654f77807ce53522eff7f6a57b773/xenial/Dockerfile
 FROM ubuntu:xenial
-# > yakkety > zesty > artful
 LABEL maintainer "Chaste Developers <chaste-admin@maillist.ox.ac.uk>"
 
 USER root
-ENV DEBIAN_FRONTEND noninteractive
+ARG DEBIAN_FRONTEND=noninteractive
+
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+    apt-utils \
+    apt-transport-https \
+    ca-certificates && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # libcurl3-gnutls
 RUN apt-get update && \
@@ -31,7 +37,6 @@ RUN apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 422C4D99
 #Recommends: valgrind, libfltk1.1, hdf5-tools, cmake-curses-gui
 #Suggests: libgoogle-perftools-dev, doxygen, graphviz, eclipse-cdt, gnuplot, paraview
 
-# Install mencoder and mplayer for creating animation movies
 RUN apt-get update && \
     apt-get install -y \
     chaste-source \
@@ -41,12 +46,9 @@ RUN apt-get update && \
     wget \
     python-dev \
     python-pip \
-    #libboost-all-dev \
-    #libhdf5-openmpi-dev \
-    #libparmetis-dev \
+    python-vtk \
     libvtk5.10 \
     libvtk5.10-qt4 \
-    python-vtk \
     libvtk-java \
     openjdk-8-jdk \
     mencoder \
@@ -66,70 +68,35 @@ RUN apt-get update && \
 RUN rm /usr/src/chaste-source.tar.bz2
 
 # Install TextTest for regression testing. TODO: Check this is necessary
+# This requires pygtk
 RUN pip install --upgrade pip
-RUN sudo pip install texttest
-#ENV TEXTTEST_HOME /usr/chaste/texttest
+#RUN sudo pip install texttest
+#ENV TEXTTEST_HOME /usr/local/bin/texttest
 
-# See https://github.com/phusion/baseimage-docker/issues/186
-#RUN touch /etc/service/syslog-forwarder/down
-
-# The entrypoint script below will ensure our new chaste user (for doing builds)
-# has the same userid as the host user owning the source code volume, to avoid
-# permission issues.
-# Based on https://denibertovic.com/posts/handling-permissions-with-docker-volumes/
-#COPY entrypoint.sh /usr/local/bin/entrypoint.sh
-
-# Create working directory for Chaste files
-RUN useradd -ms /bin/bash chaste
-#RUN usermod -aG sudo chaste
-# TODO: Modify or replace entrypoint.sh
-#RUN passwd chaste
-
-#RUN mkdir ~/chaste
-
+# Create user and working directory for Chaste files
+RUN useradd -ms /bin/bash chaste && echo "chaste:chaste" | chpasswd && adduser chaste sudo
 USER chaste
-
-#WORKDIR /usr/chaste
-#RUN mkdir -p /usr/chaste/build
-
-#/usr/chaste/scripts
-#/home/chaste/build/build_chaste.sh
-COPY build_chaste.sh /usr/chaste/scripts/
-COPY build_project.sh /usr/chaste/scripts/
-COPY test.sh /usr/chaste/scripts/
-
-#RUN mkdir -p /usr/chaste/output
-#ENV CHASTE_TEST_OUTPUT /usr/chaste/output
-
-# Hook to link to host chaste source folder, and set it as the working dir
-# New method for automatically mounting volumes
-# N.B. Changing the volume from within the Dockerfile: If any build steps change the data within the volume after it has been declared, those changes will be discarded.
-#VOLUME /usr/chaste
-
-#RUN chown chaste:chaste -R /usr/chaste
-#USER chaste
-
-COPY new_project.sh /usr/chaste/scripts/
-
-ENV PATH="/usr/chaste/scripts:${PATH}"
-# NOTE: Just in case...
-#RUN useradd -ms /bin/bash chaste
-#RUN chown chaste:chaste -R /home/chaste
-#RUN chown 1000:1000 -R /usr/chaste
-# Hook to link to host chaste source folder, and set it as the working dir
-# New method for automatically mounting volumes
-# N.B. Changing the volume from within the Dockerfile: If any build steps change the data within the volume after it has been declared, those changes will be discarded.
-#VOLUME /usr/chaste
-#RUN mkdir -p /home/chaste/build
-#WORKDIR /home/chaste/build
 WORKDIR /home/chaste
 
-#RUN touch /home/chaste/.sudo_as_admin_successful
+COPY build_chaste.sh /home/chaste/scripts/
+COPY build_project.sh /home/chaste/scripts/
+COPY new_project.sh /home/chaste/scripts/
+COPY test.sh /home/chaste/scripts/
 
-# Use baseimage-docker's init system, and switch to the chaste user running
-# bash as a login shell by default (see entrypoint.sh).
-# If no specific command is given the default CMD will drop us into an
-# interactive shell.
-#ENTRYPOINT ["/sbin/my_init", "--quiet", "--", "/usr/local/bin/entrypoint.sh"]
-#CMD ["/bin/bash -i"]
+ENV PATH="/home/chaste/scripts:${PATH}"
+
+RUN mkdir -p /home/chaste/lib
+ENV CHASTE_TEST_OUTPUT /home/chaste/testoutput
+RUN ln -s /home/chaste/src/projects projects
+
+# Build Chaste
+ARG TAG=master
+ENV BRANCH=$TAG
+RUN build_chaste.sh $BRANCH
+
+# Hook to link to host chaste source folder, and set it as the working dir
+# New method for automatically mounting volumes
+# N.B. Changing the volume from within the Dockerfile: If any build steps change the data within the volume after it has been declared, those changes will be discarded.
+VOLUME /home/chaste
+
 CMD ["bash"]

@@ -4,12 +4,13 @@ services:
   - docker
 before_install:
   #- docker build -t chaste:dependencies https://github.com/bdevans/chaste-docker.git
-  - docker build -t chaste:dependencies .
-  #- docker run -it -v $(pwd):/home/chaste chaste:dependencies
+  - docker build -t chaste:2017.1 --build-arg TAG=2017.1 https://github.com/bdevans/chaste-docker.git#volume
+  - docker run -it -v chaste_data:/home/chaste -v $(pwd):/home/chaste/src/projects chaste:2017.1  #- docker run -it -v chaste_data::/home/chaste -v $(pwd):/home/chaste/projects chaste
 script:
   - docker ps -a
   - docker images
-  - docker inspect chaste:dependencies
+  - docker inspect chaste
+  - docker volume inspect chaste_data
   #- ./build_images.sh
-  #- docker run -it -v $(pwd):/home/chaste chaste:dependencies ./build_chaste.sh
-  #- docker run -it -v $(pwd):/home/chaste chaste:dependencies "./test.sh"
+  #- docker run -it -v chaste_data:/home/chaste chaste:2017.1 ./build_chaste.sh
+  #- docker run -it -v chaste_data:/home/chaste chaste:2017.1 "./test.sh"
