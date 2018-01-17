@@ -41,7 +41,7 @@ RUN apt-get update && \
     python-pip \
     #libvtk5.10 \
     #libvtk5.10-qt4 \
-    #python-vtk \
+    python-vtk \
     #libvtk-java \
     #openjdk-8-jdk \
     mencoder \
@@ -59,6 +59,9 @@ RUN apt-get update && \
     gnuplot && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+# Remove Chaste tar from chaste-source (only used for dependencies)
+RUN rm /usr/src/chaste_
 
 # Install TextTest for regression testing. TODO: Check this is necessary
 RUN pip install --upgrade pip
