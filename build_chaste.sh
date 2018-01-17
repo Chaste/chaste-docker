@@ -9,7 +9,7 @@ CHASTE_DIR=/home/chaste
 SOURCE_DIR=${4:-$CHASTE_DIR/src}
 BUILD_DIR=${5:-$CHASTE_DIR/lib}
 
-if [ $VERSION != '-' ]; then
+if [ $VERSION = '-' ]; then
     echo "Skipping build!"
     exit 0
 fi
