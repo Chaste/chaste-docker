@@ -1,3 +1,9 @@
+Create a volume for data persistence:
+```
+docker volume create chaste_data
+```
+This will be stored in `/var/lib/docker/volumes/` on Linux. On macOS this can be inspected with: `screen ~/Library/Containers/com.docker.docker/Data/com.docker.driver.amd64-linux/tty`
+
 # TODO
 1. Best practices
 https://docs.docker.com/engine/userguide/eng-image/dockerfile_best-practices/

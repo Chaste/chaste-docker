@@ -28,6 +28,11 @@ Alternatively a specific branch or tag may be specified by adding the argument `
 ```
 docker build -t chaste:2017.1 --build-arg TAG=2017.1 https://github.com/bdevans/chaste-docker.git
 ```
+Finally, if you want a bare container ready for you to clone and compile your own Chaste code, run this command (N.B. the `TAG=-` argument which will skip building Chaste):
+```
+docker build -t chaste --build-arg TAG=- https://github.com/bdevans/chaste-docker.git
+```
+(When the container is running you may then edit `build_chaste.sh` in the `scripts` directory to configure the process with your own options.)
 
 3. Launch the container:
 ```
@@ -55,8 +60,6 @@ Notes
 
 § If you are using PowerShell, you can enable tab completion by installing the PowerShell module `posh-docker`: https://docs.docker.com/docker-for-windows/#set-up-tab-completion-in-powershell
 
-
-
 ## Compiling and running simulations
 
 https://chaste.cs.ox.ac.uk/trac/wiki/ChasteGuides/UserProjects
@@ -72,17 +75,16 @@ To check that your user project compiles correctly, at the command line navigate
 
 `ccmake /home/chaste`
 
-Create new “Test” header files for simulations in the projects folder then run:
+Create new “Test” header files for simulations in the projects folder (e.g. `TestProject` in this case) then run:
 ```
 cd ~/lib
 cmake ~/src
 make -j4 TestProject && ctest -V -R TestProject
 ```
 
-*N.B. Docker containers are ephemeral by design and no changes will be saved after exiting except to files in the home directory which is where the host's present working directory is mounted.*
+* This can be achieved by running the script: `build_project.sh TestProject`
 
-Notes
------
+*N.B. Docker containers are ephemeral by design and no changes will be saved after exiting except to files in the home directory which is where the host's present working directory is mounted.*
 
 TODO
 ----
@@ -99,12 +101,3 @@ TODO
 * Link GitHub to DockerHub and push images automatically: https://docs.docker.com/docker-hub/github/
 * Dockerfile best practices: https://docs.docker.com/engine/userguide/eng-image/dockerfile_best-practices/
 * Use multi-stage builds? https://docs.docker.com/engine/userguide/eng-image/multistage-build/
-
-Notes
------
-
-Create a volume for data persistence:
-```
-docker volume create chaste_data
-```
-This will be stored in `/var/lib/docker/volumes/` on Linux. On macOS this can be inspected with: `screen ~/Library/Containers/com.docker.docker/Data/com.docker.driver.amd64-linux/tty`
