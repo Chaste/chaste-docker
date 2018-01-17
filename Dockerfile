@@ -94,10 +94,4 @@ RUN build_chaste.sh $BRANCH
 # N.B. Changing the volume from within the Dockerfile: If any build steps change the data within the volume after it has been declared, those changes will be discarded.
 VOLUME /home/chaste
 
-# Use baseimage-docker's init system, and switch to the chaste user running
-# bash as a login shell by default (see entrypoint.sh).
-# If no specific command is given the default CMD will drop us into an
-# interactive shell.
-#ENTRYPOINT ["/sbin/my_init", "--quiet", "--", "/usr/local/bin/entrypoint.sh"]
-#CMD ["/bin/bash -i"]
 CMD ["bash"]
