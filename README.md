@@ -77,7 +77,6 @@ make -j4 TestProject && ctest -V -R TestProject
 TODO
 ----
 
-* Add user to sudo and set password
 * Add help (-h) option to all scripts.
 * Modify scripts to parse arguments flexibly.
 * Add commands to run.sh to launch a second terminal with `docker stats`: https://stackoverflow.com/questions/7910211/is-there-a-way-to-open-a-series-of-new-terminal-window-and-run-commands-in-a-si
