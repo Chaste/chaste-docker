@@ -7,7 +7,6 @@ LABEL maintainer "Chaste Developers <chaste-admin@maillist.ox.ac.uk>"
 USER root
 ARG DEBIAN_FRONTEND noninteractive
 
-# libcurl3-gnutls
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
     apt-utils \
@@ -45,9 +44,6 @@ RUN apt-get update && \
     openjdk-8-jdk \
     mencoder \
     mplayer \
-    #libboost-all-dev \
-    #libhdf5-openmpi-dev \
-    #libparmetis-dev \
     valgrind \
     libfltk1.1 \
     hdf5-tools \
@@ -63,9 +59,10 @@ RUN apt-get update && \
 RUN rm /usr/src/chaste-source.tar.bz2
 
 # Install TextTest for regression testing. TODO: Check this is necessary
+# This requires pygtk
 RUN pip install --upgrade pip
 RUN sudo pip install texttest
-#ENV TEXTTEST_HOME /usr/chaste/texttest
+#ENV TEXTTEST_HOME /usr/local/bin/texttest
 
 # Create working directory for Chaste files
 RUN useradd -ms /bin/bash chaste
