@@ -62,31 +62,6 @@ Notes
 
 § If you are using PowerShell, you can enable tab completion by installing the PowerShell module `posh-docker`: https://docs.docker.com/docker-for-windows/#set-up-tab-completion-in-powershell
 
-## Compiling and running simulations
-
-https://chaste.cs.ox.ac.uk/trac/wiki/ChasteGuides/UserProjects
-```
-git clone https://github.com/Chaste/template_project.git
-cd template_project
-python setup_project.py
-```
-
-* This can be done with the script: `new_project.sh`
-
-To check that your user project compiles correctly, at the command line navigate to a build folder (outside the Chaste or project source folder - see ChasteGuides/CmakeBuildGuide) and run
-
-`ccmake /home/chaste`
-
-Create new “Test” header files for simulations in the projects folder (e.g. `TestProject` in this case) then run:
-```
-cd ~/lib
-cmake ~/src
-make -j4 TestProject && ctest -V -R TestProject
-```
-
-* This can be achieved by running the script: `build_project.sh TestProject`
-
-*N.B. Docker containers are ephemeral by design and no changes will be saved after exiting except to files in the home directory which is where the host's present working directory is mounted.*
 
 TODO
 ----
