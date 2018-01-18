@@ -43,14 +43,14 @@ docker run -it -v chaste_data:/home/chaste chaste
 Or run `docker run -it -v chaste_data:/home/chaste chaste:2017` if you tagged your image name as above.
 The first time will take a little longer than usual as the volume has to be populated with data.
 
-On Linux hosts, the contents of the volume `chaste_data` may be accessed at `/var/lib/docker/volumes/chaste_data/_data`. On Windows and macOS, it is not so straight-forward and easiest to mount additional directories for data you wish to access easily.
+On Linux hosts, the contents of the volume `chaste_data` may be accessed at `/var/lib/docker/volumes/chaste_data/_data`. On Windows and macOS[^1], it is not so straight-forward and easiest to mount additional directories for data you wish to access easily.
 Any host directory (specified with an absolute path) may be mounted in the container as e.g. the `projects` directory and another for the `testoutput`. Navigate to the folder on the host which contains these directories e.g. `C:\Users\$USERNAME\chaste` (Windows) or `~/chaste` (Linux/macOS). The next command depends upon which OS (and shell) you are using:
 
-| Operating System          | Command                                                     |
-| ------------------------- | ----------------------------------------------------------- |
-| Linux & macOS (*nix)      | `docker run -it -v chaste_data:/home/chaste -v $(pwd)/projects:/home/chaste/projects -v $(pwd)/testoutput:/home/chaste/testoutput chaste` |
-| Windows (PowerShell §)    | `docker run -it -v chaste_data:/home/chaste -v ${PWD}/projects:/home/chaste/projects -v ${PWD}/testoutput:/home/chaste/testoutput chaste` |
-| Windows (Command Prompt)  | `docker run -it -v chaste_data:/home/chaste -v %cd%/projects:/home/chaste/projects -v %cd%/testoutput:/home/chaste/testoutput chaste`   |
+| Operating System         | Command                                                     |
+| ------------------------ | ----------------------------------------------------------- |
+| Linux & macOS (*nix)     | `docker run -it -v chaste_data:/home/chaste -v $(pwd)/projects:/home/chaste/projects -v $(pwd)/testoutput:/home/chaste/testoutput chaste` |
+| Windows (PowerShell[^2]) | `docker run -it -v chaste_data:/home/chaste -v ${PWD}/projects:/home/chaste/projects -v ${PWD}/testoutput:/home/chaste/testoutput chaste` |
+| Windows (Command Prompt) | `docker run -it -v chaste_data:/home/chaste -v %cd%/projects:/home/chaste/projects -v %cd%/testoutput:/home/chaste/testoutput chaste`   |
 
 3. [Optional] Run the continuous test pack to check Chaste compiled correctly (https://chaste.cs.ox.ac.uk/trac/wiki/ChasteGuides/CmakeFirstRun):
 ```
@@ -63,7 +63,12 @@ The script `test.sh` is provided in the users's path for convenience.
 Notes
 -----
 
-§ If you are using PowerShell, you can enable tab completion by installing the PowerShell module `posh-docker`: https://docs.docker.com/docker-for-windows/#set-up-tab-completion-in-powershell
+[^1]:On macOS the Linux virtual machine which hosts the containers can be inspected with:
+```
+screen ~/Library/Containers/com.docker.docker/Data/com.docker.driver.amd64-linux/tty
+```
+
+[^2]:If you are using PowerShell, you can enable tab completion by installing the PowerShell module `posh-docker`: https://docs.docker.com/docker-for-windows/#set-up-tab-completion-in-powershell
 
 
 TODO
