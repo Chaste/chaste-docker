@@ -28,7 +28,7 @@ if [ $VERSION = 'develop' ]; then
 else
     cmake -DCMAKE_BUILD_TYPE:STRING=Release \
           -DChaste_ERROR_ON_WARNING:BOOL=OFF \
-          -DChaste_UPDATE_PROVENANCE:BOOL=OFF \
+          -DChaste_UPDATE_PROVENANCE:BOOL=ON \
           -H$SOURCE_DIR \
           -B$BUILD_DIR
 fi
