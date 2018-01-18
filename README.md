@@ -71,7 +71,7 @@ TODO
 
 * Make cmake build options flexible for devs vs users.
 * Add help (-h) option to all scripts.
-* Modify scripts to parse arguments flexibly.
+* Modify scripts to parse arguments flexibly: https://sookocheff.com/post/bash/parsing-bash-script-arguments-with-shopts/.
 * Add commands to run.sh to launch a second terminal with `docker stats`: https://stackoverflow.com/questions/7910211/is-there-a-way-to-open-a-series-of-new-terminal-window-and-run-commands-in-a-si
 * Setup Travis-CI and add badge to repo
 * GitHub/Chaste release > build and tag image e.g. chaste:2017.1 > push image to Docker Cloud https://docs.docker.com/docker-hub/github/
