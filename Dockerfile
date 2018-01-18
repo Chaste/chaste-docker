@@ -69,19 +69,21 @@ RUN useradd -ms /bin/bash chaste && echo "chaste:chaste" | chpasswd && adduser c
 USER chaste
 WORKDIR /home/chaste
 
+# Add scripts
+RUN mkdir -p /home/chaste/scripts
 COPY build_chaste.sh /home/chaste/scripts/
 COPY build_project.sh /home/chaste/scripts/
 COPY new_project.sh /home/chaste/scripts/
 COPY test.sh /home/chaste/scripts/
-
 ENV PATH="/home/chaste/scripts:${PATH}"
 
+# Create Chaste build, projects and output folders
 RUN mkdir -p /home/chaste/lib
 ENV CHASTE_TEST_OUTPUT /home/chaste/testoutput
 RUN ln -s /home/chaste/src/projects projects
 
-# Build Chaste
-ARG TAG=master
+# Build Chaste ('-' skips by default)
+ARG TAG=-
 ENV BRANCH=$TAG
 RUN build_chaste.sh $BRANCH
 
