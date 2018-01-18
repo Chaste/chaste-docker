@@ -90,7 +90,7 @@ ENV CHASTE_TEST_OUTPUT /home/chaste/testoutput
 RUN ln -s /home/chaste/src/projects projects
 
 # Build Chaste
-ARG TAG=master
+ARG TAG=-
 ENV BRANCH=$TAG
 RUN build_chaste.sh $BRANCH
 

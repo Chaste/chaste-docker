@@ -21,16 +21,16 @@ If you're a developer and want to build your own image with a particular code br
 
 2. Build the Chaste image from the latest commit with the following command:
 ```
-docker build -t chaste https://github.com/bdevans/chaste-docker.git
+docker build -t chaste --build-arg TAG=develop https://github.com/bdevans/chaste-docker.git
 ```
-This will build from Chaste's GitHub `master` branch by default.
-Alternatively a specific branch or tag may be specified by adding the argument `--build-arg TAG=<branch or tag>` (with the same tag appended onto the docker image name) e.g.:
+This will build from Chaste's GitHub `develop` branch.
+Alternatively a specific branch or tag may be specified by adding the argument `--build-arg TAG=<branch/tag>` (with the same tag appended onto the docker image name) e.g.:
 ```
 docker build -t chaste:2017.1 --build-arg TAG=2017.1 https://github.com/bdevans/chaste-docker.git
 ```
-Finally, if you want a bare container ready for you to clone and compile your own Chaste code, run this command (N.B. the `TAG=-` argument which will skip building Chaste):
+Finally, if you want a bare container ready for you to clone and compile your own Chaste code, run this command omitting the `--build-arg TAG=<branch/tag>` (or explicitly using `--build-arg TAG=-` argument which will skip building Chaste):
 ```
-docker build -t chaste --build-arg TAG=- https://github.com/bdevans/chaste-docker.git
+docker build -t chaste https://github.com/bdevans/chaste-docker.git
 ```
 (When the container is running you may then edit `build_chaste.sh` in the `scripts` directory to configure the process with your own options.)
 
