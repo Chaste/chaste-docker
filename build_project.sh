@@ -8,6 +8,7 @@ else
     PROJECT=$1
 fi
 
+#TODO: Set developer options for cmake
 CMAKE_FLAG=${2:-"n"}
 NCORES=${3:-$(nproc)}
 SOURCE_DIR=${4:-/home/chaste/src}
