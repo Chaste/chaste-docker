@@ -6,20 +6,21 @@ Chaster
 Quickstart
 ----------
 
+### Prerequisites
+Install [Docker](https://www.docker.com) and configure it to have at least 4GB of RAM and as many cores as you have. For [Windows](https://docs.docker.com/docker-for-windows/install/#download-docker-for-windows) you may be prompted to install Hyper-V, in which case do so. Also select which local drives to be available to containers (e.g. the `C:` drive in Windows).
+
+*N.B. If you don't increase the amount of available RAM from the default 2GB then compilation will fail with strange errors!*
+
 ### Users
-If you're a user and want to get up and running with the latest release fully compiled and ready to go, install Docker (see instructions below) and run:
+If you're a user and want to get up and running with the latest release fully compiled and ready to go, after installing and configuring Docker simply run:
 ```
 docker run -it -v chaste_data:/home/chaste bdevans/chaste-docker:2017.1
 ```
 
 ### Developers
-If you're a developer and want to build your own image with a particular code branch, read on!
+If you're a developer and want to build your own image with a particular code branch, make sure you have Docker up and running then read on!
 
-1. Install [Docker](https://www.docker.com) and configure it to have at least 4GB of RAM and as many cores as you have. For [Windows](https://docs.docker.com/docker-for-windows/install/#download-docker-for-windows) you may be prompted to install Hyper-V, in which case do so. Also select which local drives to be available to containers (e.g. the `C:` drive in Windows).
-
-*N.B. If you don't increase the amount of available RAM from the default 2GB then compilation will fail with strange errors!*
-
-2. Build the Chaste image from the latest commit with the following command:
+1. Build the Chaste image from the latest commit with the following command:
 ```
 docker build -t chaste --build-arg TAG=develop https://github.com/bdevans/chaste-docker.git
 ```
@@ -34,7 +35,7 @@ docker build -t chaste https://github.com/bdevans/chaste-docker.git
 ```
 (When the container is running you may then edit `build_chaste.sh` in the `scripts` directory to configure the process with your own options.)
 
-3. Launch the container:
+2. Launch the container:
 ```
 docker run -it -v chaste_data:/home/chaste chaste
 ```
@@ -47,7 +48,7 @@ Any host directory (specified with an absolute path) may be mounted in the conta
 docker run -it -v chaste_data:/home/chaste -v $(pwd)/projects:/home/chaste/src/projects -v $(pwd)/testoutput:/home/chaste/testoutput chaste
 ```
 
-4. [Optional] Run the continuous test pack to check Chaste compiled correctly (https://chaste.cs.ox.ac.uk/trac/wiki/ChasteGuides/CmakeFirstRun):
+3. [Optional] Run the continuous test pack to check Chaste compiled correctly (https://chaste.cs.ox.ac.uk/trac/wiki/ChasteGuides/CmakeFirstRun):
 ```
 ctest -j$(nproc) -L Continuous
 ```
