@@ -21,12 +21,11 @@ This should present you with a bash prompt within an isolated Docker container w
 ### Developers
 If you're a developer and want to build your own image with a particular code branch, make sure you have Docker up and running then read on!
 
-1. Build the Chaste image from the latest commit with the following command:
+1. Build the Chaste image from the latest commit on Chaste's GitHub `develop` branch with the following command:
 ```
 docker build -t chaste --build-arg TAG=develop https://github.com/bdevans/chaste-docker.git
 ```
-This will build from Chaste's GitHub `develop` branch.
-Alternatively a specific branch or tag may be specified by adding the argument `--build-arg TAG=<branch/tag>` (with the same tag appended onto the docker image name) e.g.:
+Alternatively a specific branch or tag may be specified through the argument `--build-arg TAG=<branch/tag>` (with the same tag appended onto the docker image name for clarity) e.g.:
 ```
 docker build -t chaste:2017.1 --build-arg TAG=2017.1 https://github.com/bdevans/chaste-docker.git
 ```
