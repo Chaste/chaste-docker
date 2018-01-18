@@ -78,6 +78,7 @@ RUN useradd -ms /bin/bash chaste && echo "chaste:chaste" | chpasswd && adduser c
 USER chaste
 WORKDIR /home/chaste
 
+RUN mkdir -p /home/chaste/scripts
 COPY build_chaste.sh /home/chaste/scripts/
 COPY build_project.sh /home/chaste/scripts/
 COPY new_project.sh /home/chaste/scripts/
