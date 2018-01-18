@@ -16,6 +16,7 @@ If you're a user and want to get up and running with the latest release fully co
 ```
 docker run -it -v chaste_data:/home/chaste bdevans/chaste-docker:2017.1
 ```
+This should present you with a bash prompt within an isolated Docker container with all the dependencies and pre-compiled code you need to start building your own Chaste projects. If you don't already have a project, just use the provided script `new_project.sh` to create a project template in `~/projects` as a starting point. Many tutorials for projects can be found here: https://chaste.cs.ox.ac.uk/trac/wiki/UserTutorials. Once you have a project ready to build, use the script `build_project.sh <TestMyProject>` (replacing `<TestMyProject>` with the name of your project) and you will find the output in `~/testoutput`.
 
 ### Developers
 If you're a developer and want to build your own image with a particular code branch, make sure you have Docker up and running then read on!
