@@ -32,6 +32,6 @@ else
           -H$SOURCE_DIR \
           -B$BUILD_DIR
 fi
-make -j $NCORES -C $BUILD_DIR # -f $BUILD_DIR/Makefile
+make --no-print-directory -j$NCORES -C $BUILD_DIR # -f $BUILD_DIR/Makefile
 echo "Done!"
 echo "New projects may be initialised with the provided script new_project.sh"
