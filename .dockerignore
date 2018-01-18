@@ -1,4 +1,5 @@
 .git
+.gitignore
 .ipynb_checkpoints
 Dockerfile
 .DS_Store
