@@ -55,7 +55,7 @@ ctest -j$(nproc) -L Continuous
 ```
 The script `test.sh` is provided in the users's path for convenience.
 
-*N.B. Docker containers are ephemeral by design and no changes will be saved after exiting except to files in the home directory which is where the host's present working directory is mounted.*
+*N.B. Docker containers are ephemeral by design and no changes will be saved after exiting except to files in the home directory which is where the host's present working directory is mounted. If you reset Docker, the data stored in the `chaste_data` volume will be lost, so be sure to regularly push your projects to a remote git repository!*
 
 Notes
 -----
