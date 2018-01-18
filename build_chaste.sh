@@ -19,11 +19,19 @@ mkdir -p $SOURCE_DIR
 git clone -b $VERSION $GIT_REMOTE $SOURCE_DIR
 
 echo "Building Chaste $VERSION in $BUILD_DIR with $NCORES cores..."
-cmake -DCMAKE_BUILD_TYPE:STRING=Release \
-      -DChaste_ERROR_ON_WARNING:BOOL=OFF \
-      -DChaste_UPDATE_PROVENANCE:BOOL=OFF \
-      -H$SOURCE_DIR \
-      -B$BUILD_DIR && \
+if [ $VERSION = 'develop' ]; then
+    cmake -DCMAKE_BUILD_TYPE:STRING=Debug \
+          -DChaste_ERROR_ON_WARNING:BOOL=ON \
+          -DChaste_UPDATE_PROVENANCE:BOOL=OFF \
+          -H$SOURCE_DIR \
+          -B$BUILD_DIR
+else
+    cmake -DCMAKE_BUILD_TYPE:STRING=Release \
+          -DChaste_ERROR_ON_WARNING:BOOL=OFF \
+          -DChaste_UPDATE_PROVENANCE:BOOL=OFF \
+          -H$SOURCE_DIR \
+          -B$BUILD_DIR
+fi
 make -j $NCORES -C $BUILD_DIR # -f $BUILD_DIR/Makefile
 echo "Done!"
 echo "New projects may be initialised with the provided script new_project.sh"
