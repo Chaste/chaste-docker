@@ -71,11 +71,10 @@ WORKDIR /home/chaste
 
 # Add scripts
 RUN mkdir -p /home/chaste/scripts
-COPY build_chaste.sh /home/chaste/scripts/
-COPY build_project.sh /home/chaste/scripts/
-COPY new_project.sh /home/chaste/scripts/
-COPY test.sh /home/chaste/scripts/
-RUN chown -R chaste:chaste scripts
+COPY --chown=chaste:chaste build_chaste.sh /home/chaste/scripts/
+COPY --chown=chaste:chaste build_project.sh /home/chaste/scripts/
+COPY --chown=chaste:chaste new_project.sh /home/chaste/scripts/
+COPY --chown=chaste:chaste test.sh /home/chaste/scripts/
 ENV PATH="/home/chaste/scripts:${PATH}"
 
 # Create Chaste build, projects and output folders
