@@ -75,6 +75,7 @@ COPY build_chaste.sh /home/chaste/scripts/
 COPY build_project.sh /home/chaste/scripts/
 COPY new_project.sh /home/chaste/scripts/
 COPY test.sh /home/chaste/scripts/
+RUN chown -R chaste:chaste scripts
 ENV PATH="/home/chaste/scripts:${PATH}"
 
 # Create Chaste build, projects and output folders
