@@ -70,11 +70,7 @@ USER chaste
 WORKDIR /home/chaste
 
 # Add scripts
-COPY scripts /home/chaste/scripts
-USER root
-RUN chown -R chaste:chaste scripts
-USER chaste
-#COPY --chown=chaste:chaste scripts /home/chaste/scripts
+COPY --chown=chaste:chaste scripts /home/chaste/scripts
 ENV PATH="/home/chaste/scripts:${PATH}"
 
 # Create Chaste build, projects and output folders
