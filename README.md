@@ -3,6 +3,9 @@ Chaster
 
 *Dockerfiles for Chaste*
 
+[![Build Status](https://travis-ci.org/bdevans/chaste-docker.svg?branch=master)](https://travis-ci.org/bdevans/chaste-docker)
+[![Docker Pulls](https://img.shields.io/docker/pulls/bdevans/chaste-docker.svg)](https://hub.docker.com/r/bdevans/chaste-docker/)
+
 Quickstart
 ----------
 
@@ -97,13 +100,8 @@ TODO
 ----
 
 * Make cmake build options flexible for devs vs users.
+* Modify scripts to [parse arguments flexibly](https://sookocheff.com/post/bash/parsing-bash-script-arguments-with-shopts/)
 * Add help (-h) option to all scripts.
-* Modify scripts to parse arguments flexibly: https://sookocheff.com/post/bash/parsing-bash-script-arguments-with-shopts/.
-* Add commands to run.sh to launch a second terminal with `docker stats`: https://stackoverflow.com/questions/7910211/is-there-a-way-to-open-a-series-of-new-terminal-window-and-run-commands-in-a-si
-* Setup Travis-CI and add badge to repo
-* GitHub/Chaste release > build and tag image e.g. chaste:2017.1 > push image to Docker Cloud https://docs.docker.com/docker-hub/github/
-* Consider naming system e.g.:
-  - `dependencies/chaste` or `chaste/dependencies:latest`
-  - `release/chaste:3.4` or `chaste/release:3.4`
-* Dockerfile best practices: https://docs.docker.com/engine/userguide/eng-image/dockerfile_best-practices/
-* Use multi-stage builds? https://docs.docker.com/engine/userguide/eng-image/multistage-build/
+* Add commands to run.sh to [launch a second terminal](https://stackoverflow.com/questions/7910211/is-there-a-way-to-open-a-series-of-new-terminal-window-and-run-commands-in-a-si) with `docker stats`:
+* [Dockerfile best practices](https://docs.docker.com/engine/userguide/eng-image/dockerfile_best-practices/)
+* Use [multi-stage builds](https://docs.docker.com/engine/userguide/eng-image/multistage-build/)?
