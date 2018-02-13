@@ -9,6 +9,9 @@ Chaster
 [![Docker Pulls](https://img.shields.io/docker/pulls/bdevans/chaste-docker.svg)](https://hub.docker.com/r/bdevans/chaste-docker/)
 
 [Docker](https://docs.docker.com/) is a lightweight virtualisation technology allowing applications with all of their dependencies to be quickly and easily run in a platform independent manner. This project provides an image containing [Chaste](http://www.cs.ox.ac.uk/chaste/) (and some additional scripts for convenience) which can be launched with a single command, to provide a portable, homogeneous computational environment (across several operating systems and countless hardware configurations) for the simulation of cancer, heart and soft tissue.
+
+*N.B. Docker containers are ephemeral by design and no changes will be saved after exiting except to files in the home directory which is where the host's present working directory is mounted. The Chaste source code and binaries are stored in a Docker [`volume`](https://docs.docker.com/storage/volumes/). If you reset Docker, the data stored in the `chaste_data` volume will be lost, so be sure to regularly push your projects to a remote git repository!*
+
 Quickstart
 ----------
 
@@ -62,8 +65,6 @@ Any host directory (specified with an absolute path) may be mounted in the conta
 ctest -j$(nproc) -L Continuous
 ```
 The script `test.sh` is provided in the users's path for convenience.
-
-*N.B. Docker containers are ephemeral by design and no changes will be saved after exiting except to files in the home directory which is where the host's present working directory is mounted. If you reset Docker, the data stored in the `chaste_data` volume will be lost, so be sure to regularly push your projects to a remote git repository!*
 
 
 Troubleshooting
