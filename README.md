@@ -8,6 +8,7 @@ Chaster
 [![Build Status](https://travis-ci.org/bdevans/chaste-docker.svg?branch=master)](https://travis-ci.org/bdevans/chaste-docker)
 [![Docker Pulls](https://img.shields.io/docker/pulls/bdevans/chaste-docker.svg)](https://hub.docker.com/r/bdevans/chaste-docker/)
 
+[Docker](https://docs.docker.com/) is a lightweight virtualisation technology allowing applications with all of their dependencies to be quickly and easily run in a platform independent manner. This project provides an image containing [Chaste](http://www.cs.ox.ac.uk/chaste/) (and some additional scripts for convenience) which can be launched with a single command, to provide a portable, homogeneous computational environment (across several operating systems and countless hardware configurations) for the simulation of cancer, heart and soft tissue.
 Quickstart
 ----------
 
