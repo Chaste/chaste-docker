@@ -5,6 +5,7 @@ Dockerfile
 .DS_Store
 .gitignore
 README.md
+LICENSE.txt
 Notes.md
 env.*
 .travis.yml
