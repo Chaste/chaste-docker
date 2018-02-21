@@ -14,9 +14,11 @@ if [ $VERSION = '-' ]; then
     exit 0
 fi
 
-echo "Cloning Chaste from $GIT_REMOTE#$VERSION into $SOURCE_DIR..."
-mkdir -p $SOURCE_DIR
-git clone -b $VERSION $GIT_REMOTE $SOURCE_DIR
+if [ $VERSION != '.' ]; then
+    echo "Cloning Chaste from $GIT_REMOTE#$VERSION into $SOURCE_DIR..."
+    mkdir -p $SOURCE_DIR
+    git clone -b $VERSION $GIT_REMOTE $SOURCE_DIR
+fi
 
 echo "Building Chaste $VERSION in $BUILD_DIR with $NCORES cores..."
 if [ $VERSION = 'develop' ]; then
