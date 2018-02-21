@@ -66,7 +66,7 @@ Additionally, any host directory (specified with an absolute path) may be mounte
 ```
 ctest -j$(nproc) -L Continuous
 ```
-The script `test.sh` is provided in the users's path for convenience.
+The script `test.sh` (in `/home/chaste/scripts`) is provided in the users's path for convenience.
 
 Accessing volume data
 ---------------------
