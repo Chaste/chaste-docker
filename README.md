@@ -56,6 +56,7 @@ The first time will take a little longer than usual as the volume has to be popu
 Additionally, any host directory (specified with an absolute path) may be mounted in the container as e.g. the `projects` directory and another for the `testoutput`. Navigate to the folder on the host which contains these directories e.g. `C:\Users\$USERNAME\chaste` (Windows) or `~/chaste` (Linux/macOS). The next command depends upon which OS (and shell) you are using:
 
 <a name="mounting">Mounting host directories</a>
+
 | Operating System         | Command                                                     |
 | ------------------------ | ----------------------------------------------------------- |
 | Linux & macOS (*nix)     | `docker run -it --name chaste -v chaste_data:/home/chaste -v $(pwd)/projects:/home/chaste/projects -v $(pwd)/testoutput:/home/chaste/testoutput chaste` |
