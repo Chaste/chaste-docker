@@ -53,8 +53,7 @@ docker run -it -v chaste_data:/home/chaste chaste
 Or run `docker run -it -v chaste_data:/home/chaste chaste:2017` if you tagged your image name as above.
 The first time will take a little longer than usual as the volume has to be populated with data.
 
-On Linux hosts, the contents of the volume `chaste_data` may be accessed at `/var/lib/docker/volumes/chaste_data/_data`. On Windows and macOS<sup>[[1]](#FN1)</sup>, it is not so straight-forward and easiest to mount additional directories for data you wish to access easily.
-Any host directory (specified with an absolute path) may be mounted in the container as e.g. the `projects` directory and another for the `testoutput`. Navigate to the folder on the host which contains these directories e.g. `C:\Users\$USERNAME\chaste` (Windows) or `~/chaste` (Linux/macOS). The next command depends upon which OS (and shell) you are using:
+Additionally, any host directory (specified with an absolute path) may be mounted in the container as e.g. the `projects` directory and another for the `testoutput`. Navigate to the folder on the host which contains these directories e.g. `C:\Users\$USERNAME\chaste` (Windows) or `~/chaste` (Linux/macOS). The next command depends upon which OS (and shell) you are using:
 
 <a name="mounting">Mounting host directories</a>
 | Operating System         | Command                                                     |
@@ -69,6 +68,32 @@ ctest -j$(nproc) -L Continuous
 ```
 The script `test.sh` is provided in the users's path for convenience.
 
+Accessing volume data
+---------------------
+
+This image is set up to store the Chaste source code (along with compiled libraries and scripts) in a [Docker volume](https://docs.docker.com/storage/volumes/) as this is the [recommended mechanism](https://docs.docker.com/storage/) for data persistence and yields the best File I/O performance across multiple platforms. One drawback of this type of mount is that the contents are more difficult to access from the host, for example when you want to edit the Chaste source code with your favourite code editor. Some possible solutions are provided below.
+
+### Within the container
+While most users will not need direct access to the contents of the volume, it can be convenient for for searching and editing the Chaste source files. To edit the Chaste code (in `~/src`), nano is installed in the image for convenience when small tweaks need to be made, along with `git` for pushing the changes.
+
+### From the host
+On a Linux host, the `chaste_data` volume contents may be directly accessed at `/var/lib/docker/volumes/chaste_data/_data`. A symlink can me made for easier access in the present working directory:
+```
+ln -s /var/lib/docker/volumes/chaste_data/_data chaste_data
+```
+
+The situation is less straightforward for Windows and macOS<sup>[[1]](#FN1)</sup> hosts due to the intermediary Linux virtual machine (Moby based on Alpine Linux) in which images, containers and volumes are stored.
+
+1. For more extensive editing, files may be copied out of the volume, edited on the host, then copied back in with [`docker cp`](https://docs.docker.com/engine/reference/commandline/cp/). For example use the following commands to copy the whole folder, where the container has been labelled `chaste` with the `docker run` argument `--name chaste`:
+```
+docker cp chaste:/home/chaste/src .
+< Make changes to the source files here >
+docker cp src/. chaste:/home/chaste/src
+```
+
+2. For more sustained Chaste development, you may wish to use another [bind mount](https://docs.docker.com/storage/bind-mounts/) to overlay the volume's `~/src` folder with a host directory containing the Chaste source code e.g. `-v /path/to/source:/home/chaste/src`. Chaste may then need to be recompiled within the container with `build_chaste.sh <branch/tag>` or if you already have the code in the mounted host folder, cloning can be skipped before recompiling with `build_chaste.sh .`. This will make the same source files easily accessible on both the host and within the Docker container, avoiding the need to copy files back and forth. This may result in slower I/O than when stored in a Docker volume, however this problem may be ameliorated on [macOS](https://docs.docker.com/storage/bind-mounts/#configure-mount-consistency-for-macos) with the [`delegated` option](https://docs.docker.com/docker-for-mac/osxfs-caching/#examples) e.g. `--mount type=bind,source="$(pwd)"/chaste_code,destination=/home/chaste/src,consistency=delegated`.
+
+3. Alternatively, use the utility `docker-sync`: http://docker-sync.io/. This works on OSX, Windows, Linux (where it maps on to a native mount) and FreeBSD.
 
 Troubleshooting
 ---------------
