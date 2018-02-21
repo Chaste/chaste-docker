@@ -23,7 +23,7 @@ Install [Docker](https://www.docker.com/community-edition#/download) and configu
 ### Users
 If you're a user and want to get up and running with the latest release fully compiled and ready to go, after installing and configuring Docker simply run:
 ```
-docker run -it -v chaste_data:/home/chaste bdevans/chaste-docker:2017.1
+docker run -it --name chaste -v chaste_data:/home/chaste bdevans/chaste-docker:2017.1
 ```
 This should present you with a bash prompt within an isolated Docker container with all the dependencies and pre-compiled code you need to start building your own Chaste projects. If you don't already have a project, just use the provided script `new_project.sh` to create a project template in `~/projects` as a starting point. Many tutorials for projects can be found here: https://chaste.cs.ox.ac.uk/trac/wiki/UserTutorials.
 
@@ -48,19 +48,19 @@ docker build -t chaste https://github.com/bdevans/chaste-docker.git
 
 2. Launch the container:
 ```
-docker run -it -v chaste_data:/home/chaste chaste
+docker run -it --name chaste -v chaste_data:/home/chaste chaste
 ```
-Or run `docker run -it -v chaste_data:/home/chaste chaste:2017` if you tagged your image name as above.
-The first time will take a little longer than usual as the volume has to be populated with data.
+Or run `docker run -it --name chaste -v chaste_data:/home/chaste chaste:2017` if you tagged your image name as above.
+The first time will take a little longer than usual as the volume has to be populated with data. For information on accessing the contents of this volume, see [below](#accessing-volume-data).
 
 Additionally, any host directory (specified with an absolute path) may be mounted in the container as e.g. the `projects` directory and another for the `testoutput`. Navigate to the folder on the host which contains these directories e.g. `C:\Users\$USERNAME\chaste` (Windows) or `~/chaste` (Linux/macOS). The next command depends upon which OS (and shell) you are using:
 
 <a name="mounting">Mounting host directories</a>
 | Operating System         | Command                                                     |
 | ------------------------ | ----------------------------------------------------------- |
-| Linux & macOS (*nix)     | `docker run -it -v chaste_data:/home/chaste -v $(pwd)/projects:/home/chaste/projects -v $(pwd)/testoutput:/home/chaste/testoutput chaste` |
-| Windows (PowerShell<sup>[[2]](#FN2)</sup>) | `docker run -it -v chaste_data:/home/chaste -v ${PWD}/projects:/home/chaste/projects -v ${PWD}/testoutput:/home/chaste/testoutput chaste` |
-| Windows (Command Prompt) | `docker run -it -v chaste_data:/home/chaste -v %cd%/projects:/home/chaste/projects -v %cd%/testoutput:/home/chaste/testoutput chaste`   |
+| Linux & macOS (*nix)     | `docker run -it --name chaste -v chaste_data:/home/chaste -v $(pwd)/projects:/home/chaste/projects -v $(pwd)/testoutput:/home/chaste/testoutput chaste` |
+| Windows (PowerShell<sup>[[2]](#FN2)</sup>) | `docker run -it --name chaste -v chaste_data:/home/chaste -v ${PWD}/projects:/home/chaste/projects -v ${PWD}/testoutput:/home/chaste/testoutput chaste` |
+| Windows (Command Prompt) | `docker run -it --name chaste -v chaste_data:/home/chaste -v %cd%/projects:/home/chaste/projects -v %cd%/testoutput:/home/chaste/testoutput chaste`   |
 
 3. [Optional] Run the continuous test pack to check Chaste compiled correctly (https://chaste.cs.ox.ac.uk/trac/wiki/ChasteGuides/CmakeFirstRun):
 ```
