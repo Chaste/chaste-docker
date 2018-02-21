@@ -27,7 +27,7 @@ docker run -it -v chaste_data:/home/chaste bdevans/chaste-docker:2017.1
 ```
 This should present you with a bash prompt within an isolated Docker container with all the dependencies and pre-compiled code you need to start building your own Chaste projects. If you don't already have a project, just use the provided script `new_project.sh` to create a project template in `~/projects` as a starting point. Many tutorials for projects can be found here: https://chaste.cs.ox.ac.uk/trac/wiki/UserTutorials.
 
-Once you have a project ready to build, use the script `build_project.sh <TestMyProject> c` (replacing `<TestMyProject>` with the name of your project) and you will find the output in `~/testoutput` (the `c` argument is only necessary when new files are created). If you wish to mount your `projects` and `testoutput` directories from the host to make them more easily accessible (recommended), see the instructions and accompanying table on bind-mounting them below.
+Once you have a project ready to build, use the script `build_project.sh <TestMyProject> c` (replacing `<TestMyProject>` with the name of your project) and you will find the output in `~/testoutput` (the `c` argument is only necessary when new files are created). If you wish to mount your `projects` and `testoutput` directories from the host to make them more easily accessible (recommended), see the instructions and accompanying table on bind-mounting them [below](#mounting).
 
 ### Developers
 If you're a developer and want to build your own image with a particular code branch, make sure you have Docker up and running then read on!
@@ -56,6 +56,7 @@ The first time will take a little longer than usual as the volume has to be popu
 On Linux hosts, the contents of the volume `chaste_data` may be accessed at `/var/lib/docker/volumes/chaste_data/_data`. On Windows and macOS<sup>[[1]](#FN1)</sup>, it is not so straight-forward and easiest to mount additional directories for data you wish to access easily.
 Any host directory (specified with an absolute path) may be mounted in the container as e.g. the `projects` directory and another for the `testoutput`. Navigate to the folder on the host which contains these directories e.g. `C:\Users\$USERNAME\chaste` (Windows) or `~/chaste` (Linux/macOS). The next command depends upon which OS (and shell) you are using:
 
+<a name="mounting">Mounting host directories</a>
 | Operating System         | Command                                                     |
 | ------------------------ | ----------------------------------------------------------- |
 | Linux & macOS (*nix)     | `docker run -it -v chaste_data:/home/chaste -v $(pwd)/projects:/home/chaste/projects -v $(pwd)/testoutput:/home/chaste/testoutput chaste` |
