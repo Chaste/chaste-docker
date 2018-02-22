@@ -126,7 +126,7 @@ Notes
 screen ~/Library/Containers/com.docker.docker/Data/com.docker.driver.amd64-linux/tty
 ```
 
-<a name=FN2>[2]</a>: If you are using PowerShell, you can enable tab completion by installing the PowerShell module `posh-docker`: https://docs.docker.com/docker-for-windows/#set-up-tab-completion-in-powershell
+<a name=FN2>[2]</a>: If you are using PowerShell, you can enable tab completion by installing the PowerShell module [`posh-docker`](https://docs.docker.com/docker-for-windows/#set-up-tab-completion-in-powershell).
 
 
 TODO
