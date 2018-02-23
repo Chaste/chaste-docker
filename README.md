@@ -34,23 +34,23 @@ If you're a developer and want to build your own image with a particular code br
 
 1. Build the Chaste image:
     1. From the latest commit on Chaste's GitHub `develop` branch:
-    ```
-    docker build -t chaste --build-arg TAG=develop https://github.com/bdevans/chaste-docker.git
-    ```
+        ```
+        docker build -t chaste --build-arg TAG=develop https://github.com/bdevans/chaste-docker.git
+        ```
     2. Alternatively a specific branch or tag may be specified through the argument `--build-arg TAG=<branch/tag>` (with the same tag appended onto the docker image name for clarity) e.g.:
-    ```
-    docker build -t chaste:2017.1 --build-arg TAG=2017.1 https://github.com/bdevans/chaste-docker.git
-    ```
+        ```
+        docker build -t chaste:2017.1 --build-arg TAG=2017.1 https://github.com/bdevans/chaste-docker.git
+        ```
     3. Finally, if you want a bare container ready for you to clone and compile your own Chaste code, run this command omitting the `--build-arg TAG=<branch/tag>` (or explicitly using `--build-arg TAG=-` argument which will skip building Chaste):
-    ```
-    docker build -t chaste https://github.com/bdevans/chaste-docker.git
-    ```
+        ```
+        docker build -t chaste https://github.com/bdevans/chaste-docker.git
+        ```
     (When the container is running you may then edit `build_chaste.sh` in the `scripts` directory to configure the process with your own options before executing it.)
 
 2. Launch the container:
-```
-docker run -it --name chaste -v chaste_data:/home/chaste chaste
-```
+    ```
+    docker run -it --name chaste -v chaste_data:/home/chaste chaste
+    ```
 (Or run `docker run -it --name chaste -v chaste_data:/home/chaste chaste:2017` if you tagged your image name as above.)
 The first time will take a little longer than usual as the volume has to be populated with data. For information on accessing the contents of this volume, see [below](#accessing-volume-data).
 
@@ -82,11 +82,11 @@ ln -s /var/lib/docker/volumes/chaste_data/_data chaste_data
 The situation is less straightforward for Windows and macOS<sup>[[1]](#FN1)</sup> hosts due to the intermediary Linux virtual machine (Moby based on Alpine Linux) in which images, containers and volumes are stored.
 
 1. For more extensive editing, files may be copied out of the volume, edited on the host, then copied back in with [`docker cp`](https://docs.docker.com/engine/reference/commandline/cp/). For example use the following commands to copy the whole folder, where the container has been labelled `chaste` with the `docker run` argument `--name chaste`:
-```
-docker cp chaste:/home/chaste/src .
-< Make changes to the source files here >
-docker cp src/. chaste:/home/chaste/src
-```
+    ```
+    docker cp chaste:/home/chaste/src .
+    < Make changes to the source files here >
+    docker cp src/. chaste:/home/chaste/src
+    ```
 
 2. For more sustained Chaste development, you may wish to use another [bind mount](https://docs.docker.com/storage/bind-mounts/) to overlay the volume's `~/src` folder with a host directory containing the Chaste source code e.g. `-v /path/to/chaste_code:/home/chaste/src`. Chaste may then need to be recompiled within the container with `build_chaste.sh <branch/tag>` or if you already have the code in the mounted host folder, cloning can be skipped before recompiling with `build_chaste.sh .`. This will make the same source files easily accessible on both the host and within the Docker container, avoiding the need to copy files back and forth. This may result in slower I/O than when stored in a Docker volume, however this problem may be ameliorated on [macOS](https://docs.docker.com/storage/bind-mounts/#configure-mount-consistency-for-macos) with the [`delegated` option](https://docs.docker.com/docker-for-mac/osxfs-caching/#examples) e.g. `--mount type=bind,source="$(pwd)"/chaste_code,destination=/home/chaste/src,consistency=delegated`.
 
