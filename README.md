@@ -45,14 +45,14 @@ If you're a developer and want to build your own image with a particular code br
         ```
         docker build -t chaste https://github.com/bdevans/chaste-docker.git
         ```
-    (When the container is running you may then edit `build_chaste.sh` in the `scripts` directory to configure the process with your own options before executing it.)
+        (When the container is running you may then edit `build_chaste.sh` in the `scripts` directory to configure the process with your own options before executing it.)
 
 2. Launch the container:
     ```
     docker run -it --name chaste -v chaste_data:/home/chaste chaste
     ```
-(Or run `docker run -it --name chaste -v chaste_data:/home/chaste chaste:2017` if you tagged your image name as above.)
-The first time will take a little longer than usual as the volume has to be populated with data. For information on accessing the contents of this volume, see [below](#accessing-volume-data).
+    (Or run `docker run -it --name chaste -v chaste_data:/home/chaste chaste:2017` if you tagged your image name as above.)
+    The first time will take a little longer than usual as the volume has to be populated with data. For information on accessing the contents of this volume, see [below](#accessing-volume-data).
 
 Mounting host directories
 -------------------------
