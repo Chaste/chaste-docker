@@ -27,47 +27,43 @@ docker run -it --name chaste -v chaste_data:/home/chaste bdevans/chaste-docker:2
 ```
 This should present you with a bash prompt within an isolated Docker container with all the dependencies and pre-compiled code you need to start building your own Chaste projects. If you don't already have a project, just use the provided script `new_project.sh` to create a project template in `~/projects` as a starting point. Many tutorials for projects can be found here: https://chaste.cs.ox.ac.uk/trac/wiki/UserTutorials.
 
-Once you have a project ready to build, use the script `build_project.sh <TestMyProject> c` (replacing `<TestMyProject>` with the name of your project) and you will find the output in `~/testoutput` (the `c` argument is only necessary when new files are created). If you wish to mount your `projects` and `testoutput` directories from the host to make them more easily accessible (recommended), see the instructions and accompanying table on bind-mounting them [below](#mounting).
+Once you have a project ready to build, use the script `build_project.sh <TestMyProject> c` (replacing `<TestMyProject>` with the name of your project) and you will find the output in `~/testoutput` (the `c` argument is only necessary when new files are created). If you wish to mount your `projects` and `testoutput` directories from the host to make them more easily accessible (recommended), see the instructions and accompanying table on bind-mounting them [below](#mounting-host-directories).
 
 ### Developers
 If you're a developer and want to build your own image with a particular code branch, make sure you have Docker up and running then read on!
 
-1. Build the Chaste image from the latest commit on Chaste's GitHub `develop` branch with the following command:
-```
-docker build -t chaste --build-arg TAG=develop https://github.com/bdevans/chaste-docker.git
-```
-Alternatively a specific branch or tag may be specified through the argument `--build-arg TAG=<branch/tag>` (with the same tag appended onto the docker image name for clarity) e.g.:
-```
-docker build -t chaste:2017.1 --build-arg TAG=2017.1 https://github.com/bdevans/chaste-docker.git
-```
-Finally, if you want a bare container ready for you to clone and compile your own Chaste code, run this command omitting the `--build-arg TAG=<branch/tag>` (or explicitly using `--build-arg TAG=-` argument which will skip building Chaste):
-```
-docker build -t chaste https://github.com/bdevans/chaste-docker.git
-```
-(When the container is running you may then edit `build_chaste.sh` in the `scripts` directory to configure the process with your own options.)
+1. Build the Chaste image:
+    1. From the latest commit on Chaste's GitHub `develop` branch:
+    ```
+    docker build -t chaste --build-arg TAG=develop https://github.com/bdevans/chaste-docker.git
+    ```
+    2. Alternatively a specific branch or tag may be specified through the argument `--build-arg TAG=<branch/tag>` (with the same tag appended onto the docker image name for clarity) e.g.:
+    ```
+    docker build -t chaste:2017.1 --build-arg TAG=2017.1 https://github.com/bdevans/chaste-docker.git
+    ```
+    3. Finally, if you want a bare container ready for you to clone and compile your own Chaste code, run this command omitting the `--build-arg TAG=<branch/tag>` (or explicitly using `--build-arg TAG=-` argument which will skip building Chaste):
+    ```
+    docker build -t chaste https://github.com/bdevans/chaste-docker.git
+    ```
+    (When the container is running you may then edit `build_chaste.sh` in the `scripts` directory to configure the process with your own options before executing it.)
 
 2. Launch the container:
 ```
 docker run -it --name chaste -v chaste_data:/home/chaste chaste
 ```
-Or run `docker run -it --name chaste -v chaste_data:/home/chaste chaste:2017` if you tagged your image name as above.
+(Or run `docker run -it --name chaste -v chaste_data:/home/chaste chaste:2017` if you tagged your image name as above.)
 The first time will take a little longer than usual as the volume has to be populated with data. For information on accessing the contents of this volume, see [below](#accessing-volume-data).
 
-Additionally, any host directory (specified with an absolute path) may be mounted in the container as e.g. the `projects` directory and another for the `testoutput`. Navigate to the folder on the host which contains these directories e.g. `C:\Users\$USERNAME\chaste` (Windows) or `~/chaste` (Linux/macOS). The next command depends upon which OS (and shell) you are using:
+Mounting host directories
+-------------------------
 
-<a name="mounting">Mounting host directories</a>
+Any host directory (specified with an absolute path) may be mounted in the container as e.g. the `projects` directory and another for the `testoutput`. Navigate to the folder on the host which contains these directories e.g. `C:\Users\$USERNAME\chaste` (Windows) or `~/chaste` (Linux/macOS). The next command depends upon which OS (and shell) you are using:
 
-| Operating System         | Command                                                     |
-| ------------------------ | ----------------------------------------------------------- |
+| Operating System         | Command                                                       |
+| ------------------------ | ------------------------------------------------------------- |
 | Linux & macOS (*nix)     | `docker run -it --name chaste -v chaste_data:/home/chaste -v $(pwd)/projects:/home/chaste/projects -v $(pwd)/testoutput:/home/chaste/testoutput chaste` |
 | Windows (PowerShell<sup>[[2]](#FN2)</sup>) | `docker run -it --name chaste -v chaste_data:/home/chaste -v ${PWD}/projects:/home/chaste/projects -v ${PWD}/testoutput:/home/chaste/testoutput chaste` |
-| Windows (Command Prompt) | `docker run -it --name chaste -v chaste_data:/home/chaste -v %cd%/projects:/home/chaste/projects -v %cd%/testoutput:/home/chaste/testoutput chaste`   |
-
-3. [Optional] Run the continuous test pack to check Chaste compiled correctly (https://chaste.cs.ox.ac.uk/trac/wiki/ChasteGuides/CmakeFirstRun):
-```
-ctest -j$(nproc) -L Continuous
-```
-The script `test.sh` (in `/home/chaste/scripts`) is provided in the users's path for convenience.
+| Windows (Command Prompt) | `docker run -it --name chaste -v chaste_data:/home/chaste -v %cd%/projects:/home/chaste/projects -v %cd%/testoutput:/home/chaste/testoutput chaste`     |
 
 Accessing volume data
 ---------------------
@@ -102,7 +98,6 @@ Troubleshooting
 Firstly, make sure you have given Docker at least 4GB RAM, especially if you compiling Chaste from source.
 
 If building the image from scratch, occasionally problems can occur if a dependency fails to download and install correctly. If such an issue occurs, try resetting your Docker environment (i.e. remove all containers, images and their intermediate layers) with the following command:
-
 ```
 docker system prune -a
 ```
@@ -110,13 +105,20 @@ docker system prune -a
 This will give you a clean slate from which to restart the building process described above.
 
 If you have deleted or otherwise corrupted the persistent data in the `chaste_data` volume, the command can be used with the `--volumes` flag. Warning - this will completely reset any changes to data in the image home directory along with any other Docker images on your system (except where other host folders have been bind-mounted). Commit and push any changes made to the Chaste source code or projects and save any important test outputs before running the command with this flag. If you are unsure, do not use this flag - instead list the volumes on your system with `docker volume ls` and then use the following command to delete a specific volume once you are happy that no important data remains within it:
-
 ```
 docker volume rm <volume_name>
 ```
 
 For more information on cleaning up Docker, see [this tutorial](https://www.digitalocean.com/community/tutorials/how-to-remove-docker-images-containers-and-volumes).
 
+Testing
+-------
+
+To check Chaste compiled correctly you may wish to [run the continuous test pack](https://chaste.cs.ox.ac.uk/trac/wiki/ChasteGuides/CmakeFirstRun#Testingstep):
+```
+ctest -j$(nproc) -L Continuous
+```
+The script `test.sh` (in `/home/chaste/scripts`) is provided in the users's path for convenience.
 
 Notes
 -----
