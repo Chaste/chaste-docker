@@ -10,18 +10,18 @@ Chaster
 
 [Docker](https://docs.docker.com/) is a lightweight virtualisation technology allowing applications with all of their dependencies to be quickly and easily run in a platform-independent manner. This project provides an image containing [Chaste](http://www.cs.ox.ac.uk/chaste/) (and some additional scripts for convenience) which can be launched with a single command, to provide a portable, homogeneous computational environment (across several operating systems and countless hardware configurations) for the simulation of cancer, heart and soft tissue.
 
-*N.B. Docker containers are ephemeral by design and no changes will be saved after exiting except to files in the home directory. The contents of the home directory (including the Chaste source code and binaries) are stored in a Docker [`volume`](https://docs.docker.com/storage/volumes/). If you reset Docker, the data stored in the `chaste_data` volume will be lost, so be sure to regularly push your projects to a remote git repository!*
+*N.B. Docker containers are ephemeral by design and no changes will be saved after exiting (except to files in volumes or folders mounted from the host). The contents of the container's home directory (including the Chaste source code and binaries) are stored in a Docker [`volume`](https://docs.docker.com/storage/volumes/). If you reset Docker, the data stored in the `chaste_data` volume will be lost, so be sure to regularly push your projects to a remote git repository!*
 
 Quickstart
 ----------
 
 ### Prerequisites
-Install [Docker](https://www.docker.com/community-edition#/download) and configure it to have at least 4GB of RAM and as many cores as you have (more than four cores will need more RAM). For [Windows](https://docs.docker.com/docker-for-windows/install/#download-docker-for-windows) you may be prompted to install Hyper-V, in which case do so. Also select which local drives to be available to containers (e.g. the `C:` drive in Windows).
+Install [Docker](https://www.docker.com/community-edition#/download) and configure it to have at least 4GB of RAM and as many cores as you have (more than four cores will need more RAM). On [Linux](https://docs.docker.com/install/#docker-ce) all available RAM and processing cores are shared by default. For [Windows](https://docs.docker.com/docker-for-windows/install/#download-docker-for-windows) you may be prompted to install Hyper-V, in which case do so. Next [configure the preferences](https://docs.docker.com/docker-for-windows/#docker-settings) to increase RAM and select which local drives should be available to containers (e.g. the `C:` drive). Similarly, if you use [macOS](https://docs.docker.com/docker-for-mac/install/) you may need to [configure the preferences](https://docs.docker.com/docker-for-mac/#preferences) to increase the available RAM and share any additional areas of the hard disk.
 
 *N.B. If you don't increase the amount of available RAM from the default 2GB then compilation will fail with strange errors!*
 
 ### Users
-If you're a user and want to get up and running with the latest release fully compiled and ready to go, after installing and configuring Docker simply run:
+If you're a Chaste user and want to get up and running with the latest release fully compiled and ready to go, after installing and configuring Docker simply run:
 ```
 docker run -it --name chaste -v chaste_data:/home/chaste bdevans/chaste-docker:2017.1
 ```
@@ -30,7 +30,7 @@ This should present you with a bash prompt within an isolated Docker container w
 Once you have a project ready to build, use the script `build_project.sh <TestMyProject> c` (replacing `<TestMyProject>` with the name of your project) and you will find the output in `~/testoutput` (the `c` argument is only necessary when new files are created). If you wish to mount your `projects` and `testoutput` directories from the host to make them more easily accessible (recommended), see the instructions and accompanying table on bind-mounting them [below](#mounting-host-directories).
 
 ### Developers
-If you're a developer and want to build your own image with a particular code branch, make sure you have Docker up and running then read on!
+If you're a Chaste developer and want to build your own image with a particular code branch, make sure you have Docker up and running then read on!
 
 1. Build the Chaste image:
     1. From the latest commit on Chaste's GitHub `develop` branch:
@@ -123,7 +123,7 @@ The script `test.sh` (in `/home/chaste/scripts`) is provided in the users's path
 Notes
 -----
 
-<a name=FN1>[1]</a>: On macOS the Linux virtual machine which hosts the containers can be inspected with:
+<a name=FN1>[1]</a>: On macOS the Linux virtual machine which hosts the containers can be inspected with the command:
 ```
 screen ~/Library/Containers/com.docker.docker/Data/com.docker.driver.amd64-linux/tty
 ```
@@ -134,10 +134,10 @@ screen ~/Library/Containers/com.docker.docker/Data/com.docker.driver.amd64-linux
 TODO
 ----
 
-* Make cmake build options flexible for devs vs users.
+* Make cmake build options flexible for developers vs. users.
 * Modify scripts to [parse arguments flexibly](https://sookocheff.com/post/bash/parsing-bash-script-arguments-with-shopts/)
 * Add help (-h) option to all scripts.
 * Add commands to run.sh to [launch a second terminal](https://stackoverflow.com/questions/7910211/is-there-a-way-to-open-a-series-of-new-terminal-window-and-run-commands-in-a-si) with `docker stats`:
 * [Dockerfile best practices](https://docs.docker.com/engine/userguide/eng-image/dockerfile_best-practices/)
-* Use [multi-stage builds](https://docs.docker.com/engine/userguide/eng-image/multistage-build/)?
+* Use [multi-stage builds](https://docs.docker.com/engine/userguide/eng-image/multistage-build/) for building apps.
 * Use [tmpfs mounts](https://docs.docker.com/storage/tmpfs/#use-a-tmpfs-mount-in-a-container) to store temporary data in RAM for extra speed.
