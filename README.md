@@ -10,7 +10,7 @@ Chaster
 
 [Docker](https://docs.docker.com/) is a lightweight virtualisation technology allowing applications with all of their dependencies to be quickly and easily run in a platform-independent manner. This project provides an image containing [Chaste](http://www.cs.ox.ac.uk/chaste/) (and some additional scripts for convenience) which can be launched with a single command, to provide a portable, homogeneous computational environment (across several operating systems and countless hardware configurations) for the simulation of cancer, heart and soft tissue.
 
-![Docker schematic](https://www.docker.com/sites/default/files/Container%402x.png)
+<img src="https://www.docker.com/sites/default/files/Container%402x.png" alt="Docker schematic" align="middle" width="402px"/>
 
 *N.B. Docker containers are ephemeral by design and no changes will be saved after exiting (except to files in volumes or folders mounted from the host). The contents of the container's home directory (including the Chaste source code and binaries) are stored in a Docker [`volume`](https://docs.docker.com/storage/volumes/). If you reset Docker, the data stored in the `chaste_data` volume will be lost, so be sure to regularly push your projects to a remote git repository!*
 
