@@ -30,7 +30,7 @@ RUN apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 422C4D99
 
 RUN apt-get update && \
     apt-get install -y \
-    chaste-source \
+    chaste-dependencies \
     sudo \
     git \
     nano \
@@ -54,9 +54,6 @@ RUN apt-get update && \
     gnuplot && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
-
-# Remove Chaste tar from chaste-source (only used for dependencies)
-RUN rm /usr/src/chaste-source.tar.bz2
 
 # Install TextTest for regression testing. TODO: Check this is necessary
 # This requires pygtk
