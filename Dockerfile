@@ -21,12 +21,11 @@ RUN echo "deb http://www.cs.ox.ac.uk/chaste/ubuntu bionic/" >> /etc/apt/sources.
 RUN apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 422C4D99
 
 # https://chaste.cs.ox.ac.uk/trac/wiki/InstallGuides/DependencyVersions
-# Install the chaste source metapackage for its dependencies
-# chaste-source
-# Version: 3.4.93224.rea10412117df767b9f0bc0f88fa1cc5aaef9d160
-#Depends: cmake | scons, g++, libopenmpi-dev, petsc-dev (>= 3.0), libhdf5-openmpi-dev, xsdcxx, libboost-serialization-dev, libboost-filesystem-dev, libboost-program-options-dev, libparmetis-dev, libmetis-dev, libxerces-c-dev, libsundials-serial-dev, libvtk6-dev | libvtk5-dev, python-lxml, python-amara, python-rdflib, libproj-dev
-#Recommends: valgrind, libfltk1.1, hdf5-tools, cmake-curses-gui
-#Suggests: libgoogle-perftools-dev, doxygen, graphviz, eclipse-cdt, gnuplot, paraview
+# Package: chaste-dependencies
+# Version: 2018.04.18
+# Depends: cmake | scons, g++, libopenmpi-dev, petsc-dev, libhdf5-openmpi-dev, xsdcxx, libboost-serialization-dev, libboost-filesystem-dev, libboost-program-options-dev, libparmetis-dev, libmetis-dev, libxerces-c-dev, libsundials-dev | libsundials-serial-dev, libvtk7-dev | libvtk6-dev | libvtk5-dev, python-lxml, python-amara, python-rdflib, libproj-dev
+# Recommends: git, valgrind, libpetsc3.7.7-dbg | libpetsc3.7.6-dbg | libpetsc3.6.4-dbg | libpetsc3.6.2-dbg | libpetsc3.4.2-dbg, libfltk1.1, hdf5-tools, cmake-curses-gui
+# Suggests: libgoogle-perftools-dev, doxygen, graphviz, eclipse-cdt, eclipse-egit, libsvn-java, subversion, git-svn, gnuplot, paraview
 
 RUN apt-get update && \
     apt-get install -y \
@@ -39,13 +38,14 @@ RUN apt-get update && \
     python-pip \
     python-vtk \
     #libvtk7.1 \
-    #libvtk7-dev \
+    libvtk7-dev \
     libvtk7.1-qt4 \
     libvtk-java \
     openjdk-11-jdk \
     libboost-serialization1.63-dev \
     libboost-filesystem1.63-dev \
     libboost-program-options1.63-dev \
+    libpetsc3.7.7-dbg \
     mencoder \
     mplayer \
     valgrind \
