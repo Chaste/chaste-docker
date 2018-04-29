@@ -1,7 +1,7 @@
 # docker run -it -v chaste_data:/usr/chaste chaste
 
 # https://github.com/tianon/docker-brew-ubuntu-core/blob/1637ff264a1654f77807ce53522eff7f6a57b773/xenial/Dockerfile
-FROM ubuntu:xenial
+FROM ubuntu:bionic
 LABEL maintainer "Chaste Developers <chaste-admin@maillist.ox.ac.uk>"
 
 USER root
