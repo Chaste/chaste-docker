@@ -38,14 +38,18 @@ RUN apt-get update && \
     python-dev \
     python-pip \
     python-vtk \
-    libvtk5.10 \
-    libvtk5.10-qt4 \
+    #libvtk7.1 \
+    #libvtk7-dev \
+    libvtk7.1-qt4 \
     libvtk-java \
-    openjdk-8-jdk \
+    openjdk-11-jdk \
+    libboost-serialization1.63-dev \
+    libboost-filesystem1.63-dev \
+    libboost-program-options1.63-dev \
     mencoder \
     mplayer \
     valgrind \
-    libfltk1.1 \
+    libfltk1.3 \
     hdf5-tools \
     cmake-curses-gui \
     libgoogle-perftools-dev \
@@ -86,7 +90,7 @@ RUN build_chaste.sh $BRANCH
 
 # Hook to link to host chaste source folder, and set it as the working dir
 # New method for automatically mounting volumes
-# N.B. Changing the volume from within the Dockerfile: If any build steps change the data within the volume after it has been declared, those changes will be discarded.
+# N.B. If any build steps change the data within the volume after it has been declared, those changes will be discarded.
 VOLUME /home/chaste
 
 CMD ["bash"]
