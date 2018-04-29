@@ -37,15 +37,18 @@ RUN apt-get update && \
     wget \
     python-dev \
     python-pip \
-    python-vtk \
+    python-vtk6 \
+    #python3-vtk7 \
     #libvtk7.1 \
-    libvtk7-dev \
-    libvtk7.1-qt4 \
-    libvtk-java \
+    #libvtk7-dev \
+    #libvtk7.1-qt4 \
+    libvtk6-dev \
+    libvtk6.3-qt \
+    #libvtk-java \
     openjdk-11-jdk \
-    libboost-serialization1.63-dev \
-    libboost-filesystem1.63-dev \
-    libboost-program-options1.63-dev \
+    libboost-serialization1.62-dev \
+    libboost-filesystem1.62-dev \
+    libboost-program-options1.62-dev \
     libpetsc3.7.7-dbg \
     mencoder \
     mplayer \
