@@ -11,7 +11,8 @@ RUN apt-get update && \
     apt-get install -y --no-install-recommends \
     apt-utils \
     apt-transport-https \
-    ca-certificates && \
+    ca-certificates \
+    gnupg && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
