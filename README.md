@@ -110,6 +110,17 @@ Troubleshooting
 
 Firstly, make sure you have given Docker at least 4GB RAM, especially if you compiling Chaste from source.
 
+If you ran a container before but it now refuses to launch with an error message like below, it's because you need to remove the container before one can be recreated with the same name.
+
+```docker: Error response from daemon: Conflict. The container name "/chaste" is already in use by container "1711bce2674e399b6084c6d452857377f6ed4dd8ee3aa19460de00fac7b86bc7". You have to remove (or rename) that container to be able to reuse that name.
+```
+
+To remove the container, simply run the following command then rerun the `docker run ...` command to launch the container (N.B. This will not delete the data stored in the `chaste_data` volume):
+
+```
+docker rm chaste
+```
+
 If building the image from scratch, occasionally problems can occur if a dependency fails to download and install correctly. If such an issue occurs, try resetting your Docker environment (i.e. remove all containers, images and their intermediate layers) with the following command:
 ```
 docker system prune -a
