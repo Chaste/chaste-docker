@@ -110,7 +110,7 @@ Troubleshooting
 
 Firstly, make sure you have given Docker at least 4GB RAM, especially if you compiling Chaste from source.
 
-If you get a message beginning: `Unexpected end of /proc/mounts line ...`, this can be safely ignored! 
+If you get a message beginning: `Unexpected end of /proc/mounts line ...`, this can be safely ignored!
 
 If you ran a container before but it now refuses to launch with an error message like below, it's because you need to remove the container before one can be recreated with the same name.
 
@@ -169,6 +169,20 @@ screen ~/Library/Containers/com.docker.docker/Data/com.docker.driver.amd64-linux
 
 <a name=FN2>[2]</a>: If you are using PowerShell, you can enable tab completion by installing the PowerShell module [`posh-docker`](https://docs.docker.com/docker-for-windows/#set-up-tab-completion-in-powershell). Similarly, for tab completion of git commands in PowerShell, install [`posh-git`](https://git-scm.com/book/uz/v2/Appendix-A%3A-Git-in-Other-Environments-Git-in-Powershell).
 
+Benchmarks
+----------
+
+Running the continuous test pack (`test.sh`):
+
+| OS        | Chaste src in Volume | Chaste src on host | Difference |
+| --------- | --------------------:| ------------------:|:---------- |
+| Linux 1   |                      |                    |            |
+| macOS 2   |                      |                    |            |
+| Windows 3 | 19m21.260s           | 6m48.780s          | -64.8%     |
+
+1:
+2: macOS 10.13.5; Intel i7 @ 3.1GHz; 8GB (of 16GB) RAM. Docker: 18.03.1-ce-mac65 (24312)
+3: Windows 10; Intel i7 6700 CPU @ 3.40GHz; 8GB (of 64GB) RAM. Docker: 18.03.1-ce-win65 (17513)
 
 TODO
 ----
