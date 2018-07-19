@@ -147,6 +147,18 @@ ctest -j$(nproc) -L Continuous
 ```
 The script `test.sh` (in `/home/chaste/scripts`) is provided in the users's path for convenience.
 
+Software
+--------
+
+If you want to use a package which is not installed within the image, you can install it with the command:
+
+```
+sudo apt-get update && sudo apt-get install <PackageName>
+```
+Replacing `<PackageName>` as appropriate. Enter the password: `chaste` when prompted to do so.
+
+Note that packages installed this way will not persist after the container is shut-down and relaunched (because the relevant files are not stored in `/home/chaste`). If there is a package you think would be a particularly useful permanent addition to the Docker image, then email your suggestion to me or submit a pull request.
+
 Notes
 -----
 
