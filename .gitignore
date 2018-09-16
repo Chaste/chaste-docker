@@ -2,3 +2,9 @@ tmp
 
 .bash_history
 Notes.md
+Docker.md
+docker.command
+
+# Admin
+push.sh
+clean.sh
