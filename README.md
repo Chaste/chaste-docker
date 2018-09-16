@@ -93,7 +93,7 @@ Any host directory (specified with an absolute path) may be mounted in the conta
 | Operating System         | Command                                                       |
 | ------------------------ | ------------------------------------------------------------- |
 | Linux & macOS (*nix)     | `docker run -it --name chaste -v chaste_data:/home/chaste -v $(pwd)/projects:/home/chaste/projects -v $(pwd)/testoutput:/home/chaste/testoutput chaste` |
-| Windows (PowerShell<sup>[[2]](#FN2)</sup>) | `docker run -it --name chaste -v chaste_data:/home/chaste -v ${PWD}/projects:/home/chaste/projects -v ${PWD}/testoutput:/home/chaste/testoutput chaste` |
+| Windows (PowerShell [[2]](#FN2)) | `docker run -it --name chaste -v chaste_data:/home/chaste -v ${PWD}/projects:/home/chaste/projects -v ${PWD}/testoutput:/home/chaste/testoutput chaste` |
 | Windows (Command Prompt) | `docker run -it --name chaste -v chaste_data:/home/chaste -v %cd%/projects:/home/chaste/projects -v %cd%/testoutput:/home/chaste/testoutput chaste`     |
 
 Accessing volume data
@@ -116,7 +116,7 @@ On a Linux host, the `chaste_data` volume contents may be directly accessed at `
 ln -s /var/lib/docker/volumes/chaste_data/_data chaste_data
 ```
 
-The situation is less straightforward for Windows and macOS<sup>[[1]](#FN1)</sup> hosts due to the intermediary Linux virtual machine (Moby based on Alpine Linux) in which images, containers and volumes are stored.
+The situation is less straightforward for Windows and macOS [[1]](#FN1) hosts due to the intermediary Linux virtual machine (Moby based on Alpine Linux) in which images, containers and volumes are stored.
 
 1. For more extensive editing, files may be copied out of the volume, edited on the host, then copied back in with [`docker cp`](https://docs.docker.com/engine/reference/commandline/cp/). For example use the following commands to copy the whole folder, where the container has been labelled `chaste` with the `docker run` argument `--name chaste`:
     ```
@@ -198,11 +198,11 @@ Benchmarks
 
 Running the continuous test pack (`test.sh`):
 
-| OS                            | src in Volume | src on host | Difference |
-| ----------------------------- | -------------:| -----------:|:---------- |
-| Linux<sup>[[1]](#BM1)</sup>   |               |             |            |
-| macOS<sup>[[2]](#BM2)</sup>   |               |             |            |
-| Windows<sup>[[3]](#BM3)</sup> | 19m21.260s    | 6m48.780s   | -64.8%     |
+| OS                  | src in Volume | src on host | Difference |
+| ------------------- | -------------:| -----------:|:---------- |
+| Linux [[1]](#BM1)   |               |             |            |
+| macOS [[2]](#BM2)   |               |             |            |
+| Windows [[3]](#BM3) | 19m21.260s    | 6m48.780s   | -64.8%     |
 
 <a name=BM1>[1]</a>: Ubuntu 18.04 LTS; 
 <a name=BM2>[2]</a>: macOS 10.13.5; Intel i7 @ 3.1GHz; 8GB (of 16GB) RAM. Docker: 18.03.1-ce-mac65 (24312)
