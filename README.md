@@ -61,6 +61,30 @@ If you're a Chaste developer and want to build your own image with a particular 
     (Or run `docker run -it --name chaste -v chaste_data:/home/chaste chaste:2017` if you tagged your image name as above.)
     The first time will take a little longer than usual as the volume has to be populated with data. For information on accessing the contents of this volume, see [below](#accessing-volume-data).
 
+Container directory structure
+-----------------------------
+
+Once launched, the container will launch in the `chaste` user's home directory at `/home/chaste` with the following structure:
+
+```bash
+.
+|-- lib
+|-- projects -> /home/chaste/src/projects
+|-- scripts
+|-- src
+`-- testoutput
+```
+
+These folders contain the following types of data:
+
+- `lib`: precompiled Chaste binaries and libraries
+- `projects`: a symlink to `/home/chaste/src/projects` for user projects
+- `scripts`: convenience scripts for creating, building and testing projects
+- `src`: the Chaste source code
+- `testoutput`: the output folder for the project testing framework (set with `$CHASTE_TEST_OUTPUT`)
+
+Any changes made in the home folder (`/home/chaste`) will persist between restarting containers as it is designated as a `VOLUME`. Additionally, specific folders may be mounted over any of these subfolders, for example, to gain access to the test outputs for visualising in ParaView or for mounting a different version of the Chaste source code. 
+
 Mounting host directories
 -------------------------
 
