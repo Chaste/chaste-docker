@@ -83,7 +83,7 @@ These folders contain the following types of data:
 - `src`: the Chaste source code
 - `testoutput`: the output folder for the project testing framework (set with `$CHASTE_TEST_OUTPUT`)
 
-Any changes made in the home folder (`/home/chaste`) will persist between restarting containers as it is designated as a `VOLUME`. Additionally, specific folders may be mounted over any of these subfolders, for example, to gain access to the test outputs for visualising in ParaView or for mounting a different version of the Chaste source code. 
+Any changes made in the home folder (`/home/chaste`) will persist between restarting containers as it is designated as a `VOLUME`. Additionally, specific folders may be mounted over any of these subfolders, for example, to gain access to the test outputs for visualising in ParaView or for mounting a different version of the Chaste source code.
 
 Mounting host directories
 -------------------------
@@ -198,15 +198,15 @@ Benchmarks
 
 Running the continuous test pack (`test.sh`):
 
-| OS        | Chaste src in Volume | Chaste src on host | Difference |
-| --------- | --------------------:| ------------------:|:---------- |
-| Linux 1   |                      |                    |            |
-| macOS 2   |                      |                    |            |
-| Windows 3 | 19m21.260s           | 6m48.780s          | -64.8%     |
+| OS                            | src in Volume | src on host | Difference |
+| ----------------------------- | -------------:| -----------:|:---------- |
+| Linux<sup>[[1]](#BM1)</sup>   |               |             |            |
+| macOS<sup>[[2]](#BM2)</sup>   |               |             |            |
+| Windows<sup>[[3]](#BM3)</sup> | 19m21.260s    | 6m48.780s   | -64.8%     |
 
-1:
-2: macOS 10.13.5; Intel i7 @ 3.1GHz; 8GB (of 16GB) RAM. Docker: 18.03.1-ce-mac65 (24312)
-3: Windows 10; Intel i7 6700 CPU @ 3.40GHz; 8GB (of 64GB) RAM. Docker: 18.03.1-ce-win65 (17513)
+<a name=BM1>[1]</a>: Ubuntu 18.04 LTS; 
+<a name=BM2>[2]</a>: macOS 10.13.5; Intel i7 @ 3.1GHz; 8GB (of 16GB) RAM. Docker: 18.03.1-ce-mac65 (24312)
+<a name=BM3>[3]</a>: Windows 10; Intel i7 6700 CPU @ 3.40GHz; 8GB (of 64GB) RAM. Docker: 18.03.1-ce-win65 (17513)
 
 TODO
 ----
