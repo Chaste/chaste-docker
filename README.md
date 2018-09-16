@@ -21,7 +21,9 @@ Quickstart
 ----------
 
 ### Prerequisites
-Install [Docker](https://www.docker.com/community-edition#/download) and configure it to have at least 4GB of RAM and as many cores as you have (more than four cores will need more RAM). On [Linux](https://docs.docker.com/install/#docker-ce) all available RAM and processing cores are shared by default. For [Windows](https://docs.docker.com/docker-for-windows/install/#download-docker-for-windows) you may be prompted to install Hyper-V, in which case do so. Next [configure the preferences](https://docs.docker.com/docker-for-windows/#docker-settings) to increase RAM and select which local drives should be available to containers (e.g. the `C:` drive). Similarly, if you use [macOS](https://docs.docker.com/docker-for-mac/install/) you may need to [configure the preferences](https://docs.docker.com/docker-for-mac/#preferences) to increase the available RAM and share any additional areas of the hard disk.
+Install [Docker](https://www.docker.com/community-edition#/download) and configure it to have at least 4GB of RAM and as many cores as you have (more than four cores will need more RAM). On [Linux](https://docs.docker.com/install/#docker-ce) all available RAM and processing cores are shared by default.
+If you use [macOS](https://docs.docker.com/docker-for-mac/install/) you may need to [configure the preferences](https://docs.docker.com/docker-for-mac/#preferences) to increase the available RAM and share any additional areas of the hard disk.
+For [Windows](https://docs.docker.com/docker-for-windows/install/#download-docker-for-windows) you may be prompted to install Hyper-V, in which case do so. Next [configure the preferences](https://docs.docker.com/docker-for-windows/#docker-settings) to increase RAM and select which local drives should be available to containers (e.g. the `C:` drive). On Windows, it is also recommended that you [install git](https://www.atlassian.com/git/tutorials/install-git#windows) for tracking changes in your projects and to enable you to build the Docker image directly from GitHub if required. It is recommend to [use PowerShell on Windows](https://docs.microsoft.com/en-us/powershell/scripting/setup/installing-windows-powershell) as a more powerful alternative to the Command Prompt. Optionally, PowerShell can be further customised with the modules [`posh-docker`](https://docs.docker.com/docker-for-windows/#set-up-tab-completion-in-powershell) and [`posh-git`](https://git-scm.com/book/uz/v2/Appendix-A%3A-Git-in-Other-Environments-Git-in-Powershell) which enable tab completion for docker and git commands respectively.
 
 *N.B. If you don't increase the amount of available RAM from the default 2GB then compilation will fail with strange errors!*
 
@@ -58,6 +60,30 @@ If you're a Chaste developer and want to build your own image with a particular 
     ```
     (Or run `docker run -it --name chaste -v chaste_data:/home/chaste chaste:2017` if you tagged your image name as above.)
     The first time will take a little longer than usual as the volume has to be populated with data. For information on accessing the contents of this volume, see [below](#accessing-volume-data).
+
+Container directory structure
+-----------------------------
+
+Once launched, the container will launch in the `chaste` user's home directory at `/home/chaste` with the following structure:
+
+```bash
+.
+|-- lib
+|-- projects -> /home/chaste/src/projects
+|-- scripts
+|-- src
+`-- testoutput
+```
+
+These folders contain the following types of data:
+
+- `lib`: precompiled Chaste binaries and libraries
+- `projects`: a symlink to `/home/chaste/src/projects` for user projects
+- `scripts`: convenience scripts for creating, building and testing projects
+- `src`: the Chaste source code
+- `testoutput`: the output folder for the project testing framework (set with `$CHASTE_TEST_OUTPUT`)
+
+Any changes made in the home folder (`/home/chaste`) will persist between restarting containers as it is designated as a `VOLUME`. Additionally, specific folders may be mounted over any of these subfolders, for example, to gain access to the test outputs for visualising in ParaView or for mounting a different version of the Chaste source code. 
 
 Mounting host directories
 -------------------------
@@ -108,6 +134,20 @@ Troubleshooting
 
 Firstly, make sure you have given Docker at least 4GB RAM, especially if you compiling Chaste from source.
 
+If you get a message beginning: `Unexpected end of /proc/mounts line ...`, this can be safely ignored!
+
+If you ran a container before but it now refuses to launch with an error message like below, it's because you need to remove the container before one can be recreated with the same name.
+
+```
+docker: Error response from daemon: Conflict. The container name "/chaste" is already in use by container "1711bce2674e399b6084c6d452857377f6ed4dd8ee3aa19460de00fac7b86bc7". You have to remove (or rename) that container to be able to reuse that name.
+```
+
+To remove the container, simply run the following command then rerun the `docker run ...` command to launch the container (N.B. This will not delete the data stored in the `chaste_data` volume):
+
+```
+docker rm chaste
+```
+
 If building the image from scratch, occasionally problems can occur if a dependency fails to download and install correctly. If such an issue occurs, try resetting your Docker environment (i.e. remove all containers, images and their intermediate layers) with the following command:
 ```
 docker system prune -a
@@ -131,6 +171,18 @@ ctest -j$(nproc) -L Continuous
 ```
 The script `test.sh` (in `/home/chaste/scripts`) is provided in the users's path for convenience.
 
+Software
+--------
+
+If you want to use a package which is not installed within the image, you can install it with the command:
+
+```
+sudo apt-get update && sudo apt-get install <PackageName>
+```
+Replacing `<PackageName>` as appropriate. Enter the password: `chaste` when prompted to do so.
+
+Note that packages installed this way will not persist after the container is shut-down and relaunched (because the relevant files are not stored in `/home/chaste`). If there is a package you think would be a particularly useful permanent addition to the Docker image, then email your suggestion to me or submit a pull request.
+
 Notes
 -----
 
@@ -139,8 +191,22 @@ Notes
 screen ~/Library/Containers/com.docker.docker/Data/com.docker.driver.amd64-linux/tty
 ```
 
-<a name=FN2>[2]</a>: If you are using PowerShell, you can enable tab completion by installing the PowerShell module [`posh-docker`](https://docs.docker.com/docker-for-windows/#set-up-tab-completion-in-powershell).
+<a name=FN2>[2]</a>: If you are using PowerShell, you can enable tab completion by installing the PowerShell module [`posh-docker`](https://docs.docker.com/docker-for-windows/#set-up-tab-completion-in-powershell). Similarly, for tab completion of git commands in PowerShell, install [`posh-git`](https://git-scm.com/book/uz/v2/Appendix-A%3A-Git-in-Other-Environments-Git-in-Powershell).
 
+Benchmarks
+----------
+
+Running the continuous test pack (`test.sh`):
+
+| OS        | Chaste src in Volume | Chaste src on host | Difference |
+| --------- | --------------------:| ------------------:|:---------- |
+| Linux 1   |                      |                    |            |
+| macOS 2   |                      |                    |            |
+| Windows 3 | 19m21.260s           | 6m48.780s          | -64.8%     |
+
+1:
+2: macOS 10.13.5; Intel i7 @ 3.1GHz; 8GB (of 16GB) RAM. Docker: 18.03.1-ce-mac65 (24312)
+3: Windows 10; Intel i7 6700 CPU @ 3.40GHz; 8GB (of 64GB) RAM. Docker: 18.03.1-ce-win65 (17513)
 
 TODO
 ----

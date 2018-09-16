@@ -1,8 +1,8 @@
 # docker run -it -v chaste_data:/usr/chaste chaste
 
-# https://github.com/tianon/docker-brew-ubuntu-core/blob/1637ff264a1654f77807ce53522eff7f6a57b773/xenial/Dockerfile
-FROM ubuntu:xenial
-LABEL maintainer "Chaste Developers <chaste-admin@maillist.ox.ac.uk>"
+# https://github.com/tianon/docker-brew-ubuntu-core/blob/404d80486fada09bff68a210b7eddf78f3235156/bionic/Dockerfile
+FROM ubuntu:bionic
+LABEL maintainer "Ben Evans <ben.d.evans@gmail.com>"
 
 USER root
 ARG DEBIAN_FRONTEND=noninteractive
@@ -11,41 +11,49 @@ RUN apt-get update && \
     apt-get install -y --no-install-recommends \
     apt-utils \
     apt-transport-https \
-    ca-certificates && \
+    ca-certificates \
+    gnupg && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # Install the Chaste repo list and key
 # https://chaste.cs.ox.ac.uk/trac/wiki/InstallGuides/UbuntuPackage
-RUN echo "deb http://www.cs.ox.ac.uk/chaste/ubuntu xenial/" >> /etc/apt/sources.list
+RUN echo "deb http://www.cs.ox.ac.uk/chaste/ubuntu bionic/" >> /etc/apt/sources.list.d/chaste.list
 RUN apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 422C4D99
 
 # https://chaste.cs.ox.ac.uk/trac/wiki/InstallGuides/DependencyVersions
-# Install the chaste source metapackage for its dependencies
-# chaste-source
-# Version: 3.4.93224.rea10412117df767b9f0bc0f88fa1cc5aaef9d160
-#Depends: cmake | scons, g++, libopenmpi-dev, petsc-dev (>= 3.0), libhdf5-openmpi-dev, xsdcxx, libboost-serialization-dev, libboost-filesystem-dev, libboost-program-options-dev, libparmetis-dev, libmetis-dev, libxerces-c-dev, libsundials-serial-dev, libvtk6-dev | libvtk5-dev, python-lxml, python-amara, python-rdflib, libproj-dev
-#Recommends: valgrind, libfltk1.1, hdf5-tools, cmake-curses-gui
-#Suggests: libgoogle-perftools-dev, doxygen, graphviz, eclipse-cdt, gnuplot, paraview
+# Package: chaste-dependencies
+# Version: 2018.04.18
+# Depends: cmake | scons, g++, libopenmpi-dev, petsc-dev, libhdf5-openmpi-dev, xsdcxx, libboost-serialization-dev, libboost-filesystem-dev, libboost-program-options-dev, libparmetis-dev, libmetis-dev, libxerces-c-dev, libsundials-dev | libsundials-serial-dev, libvtk7-dev | libvtk6-dev | libvtk5-dev, python-lxml, python-amara, python-rdflib, libproj-dev
+# Recommends: git, valgrind, libpetsc3.7.7-dbg | libpetsc3.7.6-dbg | libpetsc3.6.4-dbg | libpetsc3.6.2-dbg | libpetsc3.4.2-dbg, libfltk1.1, hdf5-tools, cmake-curses-gui
+# Suggests: libgoogle-perftools-dev, doxygen, graphviz, eclipse-cdt, eclipse-egit, libsvn-java, subversion, git-svn, gnuplot, paraview
 
 RUN apt-get update && \
     apt-get install -y \
-    chaste-source \
+    chaste-dependencies \
     sudo \
     git \
     nano \
     wget \
     python-dev \
     python-pip \
-    python-vtk \
-    libvtk5.10 \
-    libvtk5.10-qt4 \
-    libvtk-java \
-    openjdk-8-jdk \
+    python-vtk6 \
+    #python3-vtk7 \
+    #libvtk7.1 \
+    #libvtk7-dev \
+    #libvtk7.1-qt4 \
+    libvtk6-dev \
+    libvtk6.3-qt \
+    #libvtk-java \
+    openjdk-11-jdk \
+    #libboost-serialization1.62-dev \
+    #libboost-filesystem1.62-dev \
+    #libboost-program-options1.62-dev \
+    libpetsc3.7.7-dbg \
     mencoder \
     mplayer \
     valgrind \
-    libfltk1.1 \
+    libfltk1.3 \
     hdf5-tools \
     cmake-curses-gui \
     libgoogle-perftools-dev \
@@ -55,8 +63,10 @@ RUN apt-get update && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-# Remove Chaste tar from chaste-source (only used for dependencies)
-RUN rm /usr/src/chaste-source.tar.bz2
+# Fix the CMake warnings
+RUN update-alternatives --install /usr/bin/vtk vtk /usr/bin/vtk6 10
+# RUN ln -s /usr/bin/vtk6 /usr/bin/vtk
+RUN ln -s /usr/lib/python2.7/dist-packages/vtk/libvtkRenderingPythonTkWidgets.x86_64-linux-gnu.so /usr/lib/x86_64-linux-gnu/libvtkRenderingPythonTkWidgets.so
 
 # Install TextTest for regression testing. TODO: Check this is necessary
 # This requires pygtk
@@ -89,7 +99,7 @@ RUN build_chaste.sh $BRANCH
 
 # Hook to link to host chaste source folder, and set it as the working dir
 # New method for automatically mounting volumes
-# N.B. Changing the volume from within the Dockerfile: If any build steps change the data within the volume after it has been declared, those changes will be discarded.
+# N.B. If any build steps change the data within the volume after it has been declared, those changes will be discarded.
 VOLUME /home/chaste
 
 CMD ["bash"]

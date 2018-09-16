@@ -3,8 +3,10 @@ language: bash
 services:
   - docker
 before_install:
+  - export BRANCH=$(if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then echo $TRAVIS_BRANCH; else echo $TRAVIS_PULL_REQUEST_BRANCH; fi)
+  - echo "TRAVIS_BRANCH=$TRAVIS_BRANCH, PR=$PR, BRANCH=$BRANCH"
   #- docker build -t chaste:dependencies https://github.com/bdevans/chaste-docker.git
-  - docker build -t chaste --build-arg TAG=- https://github.com/bdevans/chaste-docker.git
+  - docker build -t chaste --build-arg TAG=- https://github.com/bdevans/chaste-docker.git#$BRANCH
   - docker run -it -d -v chaste_data:/home/chaste -v $(pwd):/home/chaste/src/projects chaste  #- docker run -it -v chaste_data::/home/chaste -v $(pwd):/home/chaste/projects chaste
 script:
   - docker ps -a
