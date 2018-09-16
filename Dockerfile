@@ -63,6 +63,11 @@ RUN apt-get update && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
+# Fix the CMake warnings
+RUN update-alternatives --install /usr/bin/vtk vtk /usr/bin/vtk6 10
+# RUN ln -s /usr/bin/vtk6 /usr/bin/vtk
+RUN ln -s /usr/lib/python2.7/dist-packages/vtk/libvtkRenderingPythonTkWidgets.x86_64-linux-gnu.so /usr/lib/x86_64-linux-gnu/libvtkRenderingPythonTkWidgets.so
+
 # Install TextTest for regression testing. TODO: Check this is necessary
 # This requires pygtk
 RUN pip install --upgrade pip
