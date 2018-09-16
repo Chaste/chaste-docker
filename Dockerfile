@@ -2,7 +2,7 @@
 
 # https://github.com/tianon/docker-brew-ubuntu-core/blob/404d80486fada09bff68a210b7eddf78f3235156/bionic/Dockerfile
 FROM ubuntu:bionic
-LABEL maintainer "Chaste Developers <chaste-admin@maillist.ox.ac.uk>"
+LABEL maintainer "Ben Evans <ben.d.evans@gmail.com>"
 
 USER root
 ARG DEBIAN_FRONTEND=noninteractive
