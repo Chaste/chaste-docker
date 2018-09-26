@@ -97,8 +97,7 @@ ARG TAG=-
 ENV BRANCH=$TAG
 RUN build_chaste.sh $BRANCH
 
-# Hook to link to host chaste source folder, and set it as the working dir
-# New method for automatically mounting volumes
+# Automatically mount the home directory in a volume to persist changes made there
 # N.B. If any build steps change the data within the volume after it has been declared, those changes will be discarded.
 VOLUME /home/chaste
 
