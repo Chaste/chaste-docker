@@ -61,6 +61,14 @@ If you're a Chaste developer and want to build your own image with a particular 
     (Or run `docker run -it --rm -v chaste_data:/home/chaste chaste:2017` if you tagged your image name as above.)
     The first time will take a little longer than usual as the volume has to be populated with data. For information on accessing the contents of this volume, see [below](#accessing-volume-data).
 
+Once the container has successfully launched, you should see a command prompt a bit like this:
+
+```
+chaste@301291afbedf:~$
+```
+
+In here you can build and test your projects without interfering with the rest of your system. You may also find it useful to open another terminal and run `docker stats` so you can see system resource usage for your running containers. When you are finished with the container, simply type `exit` to close it.
+
 Container directory structure
 -----------------------------
 
