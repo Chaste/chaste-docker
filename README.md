@@ -136,7 +136,7 @@ Firstly, make sure you have given Docker at least 4GB RAM, especially if you com
 
 If you get a message beginning: `Unexpected end of /proc/mounts line ...`, this can be safely ignored!
 
-If you ran a container before but it now refuses to launch with an error message like below, it's because you need to remove the container before one can be recreated with the same name.
+If you ran a container before and explicitly gave it a name (e.g. using `--name chaste` as an argument to `docker run`) but it now refuses to launch with an error message like below, it's because you need to remove the existing (stopped) container before one can be recreated with the same name.
 
 ```
 docker: Error response from daemon: Conflict. The container name "/chaste" is already in use by container "1711bce2674e399b6084c6d452857377f6ed4dd8ee3aa19460de00fac7b86bc7". You have to remove (or rename) that container to be able to reuse that name.
@@ -147,6 +147,8 @@ To remove the container, simply run the following command then rerun the `docker
 ```
 docker rm chaste
 ```
+
+N.B. You can find out the names of existing containers (and their status) with the command: `docker ps -a`.
 
 If building the image from scratch, occasionally problems can occur if a dependency fails to download and install correctly. If such an issue occurs, try resetting your Docker environment (i.e. remove all containers, images and their intermediate layers) with the following command:
 ```
