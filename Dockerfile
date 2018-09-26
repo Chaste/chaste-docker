@@ -68,11 +68,10 @@ RUN update-alternatives --install /usr/bin/vtk vtk /usr/bin/vtk6 10
 # RUN ln -s /usr/bin/vtk6 /usr/bin/vtk
 RUN ln -s /usr/lib/python2.7/dist-packages/vtk/libvtkRenderingPythonTkWidgets.x86_64-linux-gnu.so /usr/lib/x86_64-linux-gnu/libvtkRenderingPythonTkWidgets.so
 
-# Install TextTest for regression testing. TODO: Check this is necessary
-# This requires pygtk
+# Install TextTest for regression testing (this requires pygtk)
 RUN pip install --upgrade pip
-#RUN sudo pip install texttest
-#ENV TEXTTEST_HOME /usr/local/bin/texttest
+RUN sudo pip install texttest
+ENV TEXTTEST_HOME /usr/local/bin/texttest
 
 # Create user and working directory for Chaste files
 RUN useradd -ms /bin/bash chaste && echo "chaste:chaste" | chpasswd && adduser chaste sudo
