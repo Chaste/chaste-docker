@@ -71,7 +71,7 @@ RUN ln -s /usr/lib/python2.7/dist-packages/vtk/libvtkRenderingPythonTkWidgets.x8
 
 # Install TextTest for regression testing (this requires pygtk)
 RUN pip install --upgrade pip
-RUN sudo pip install texttest
+RUN pip install texttest
 ENV TEXTTEST_HOME /usr/local/bin/texttest
 
 # Create user and working directory for Chaste files
