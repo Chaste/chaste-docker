@@ -6,8 +6,8 @@ Chaster
 [![Chaste logo](https://chaste.cs.ox.ac.uk/logos/chaste-266x60.jpg "Chaste")](http://www.cs.ox.ac.uk/chaste/)
 [![Docker logo](https://www.docker.com/sites/default/files/horizontal.png)](https://docs.docker.com/)
 
-[![Build Status](https://travis-ci.org/bdevans/chaste-docker.svg?branch=master)](https://travis-ci.org/bdevans/chaste-docker)
-[![Docker Pulls](https://img.shields.io/docker/pulls/bdevans/chaste-docker.svg)](https://hub.docker.com/r/bdevans/chaste-docker/)
+[![Build Status](https://travis-ci.org/Chaste/chaste-docker.svg?branch=master)](https://travis-ci.org/Chaste/chaste-docker)
+[![Docker Pulls](https://img.shields.io/docker/pulls/chaste/chaste-docker.svg)](https://hub.docker.com/r/chaste/chaste-docker/)
 
 [Docker](https://docs.docker.com/) is a lightweight virtualisation technology allowing applications with all of their dependencies to be quickly and easily run in a platform-independent manner. This project provides an image containing [Chaste](http://www.cs.ox.ac.uk/chaste/) (and some additional scripts for convenience) which can be launched with a single command, to provide a portable, homogeneous computational environment (across several operating systems and countless hardware configurations) for the simulation of cancer, heart and soft tissue.
 
@@ -30,7 +30,7 @@ For [Windows](https://docs.docker.com/docker-for-windows/install/#download-docke
 ### Users
 If you're a Chaste user and want to get up and running with the latest release fully compiled and ready to go, after installing and configuring Docker simply run:
 ```
-docker run -it --rm -v chaste_data:/home/chaste bdevans/chaste-docker:2017.1
+docker run -it --rm -v chaste_data:/home/chaste chaste/chaste-docker:2017.1
 ```
 This should present you with a bash prompt within an isolated Docker container with all the dependencies and pre-compiled code you need to start building your own Chaste projects. If you don't already have a project, just use the provided script `new_project.sh` to create a project template in `~/projects` as a starting point. Many tutorials for projects can be found here: https://chaste.cs.ox.ac.uk/trac/wiki/UserTutorials.
 
@@ -42,15 +42,15 @@ If you're a Chaste developer and want to build your own image with a particular 
 1. Build the Chaste image:
     1. From the latest commit on Chaste's GitHub `develop` branch:
         ```
-        docker build -t chaste --build-arg TAG=develop https://github.com/bdevans/chaste-docker.git
+        docker build -t chaste --build-arg TAG=develop https://github.com/chaste/chaste-docker.git
         ```
     2. Alternatively a specific branch or tag may be specified through the argument `--build-arg TAG=<branch/tag>` (with the same tag appended onto the docker image name for clarity) e.g.:
         ```
-        docker build -t chaste:2017.1 --build-arg TAG=2017.1 https://github.com/bdevans/chaste-docker.git
+        docker build -t chaste:2017.1 --build-arg TAG=2017.1 https://github.com/chaste/chaste-docker.git
         ```
     3. Finally, if you want a bare container ready for you to clone and compile your own Chaste code, run this command omitting the `--build-arg TAG=<branch/tag>` (or explicitly using `--build-arg TAG=-` argument which will skip building Chaste):
         ```
-        docker build -t chaste https://github.com/bdevans/chaste-docker.git
+        docker build -t chaste https://github.com/chaste/chaste-docker.git
         ```
         (When the container is running you may then edit `build_chaste.sh` in the `scripts` directory to configure the process with your own options before executing it.)
 
