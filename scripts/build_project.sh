@@ -15,7 +15,7 @@ SOURCE_DIR=${4:-/home/chaste/src}
 BUILD_DIR=${5:-/home/chaste/lib}
 
 echo "Building and testing project: $PROJECT..."
-if [[ -v CHASTE_TEST_OUTPUT ]]; then
+if [[ -n CHASTE_TEST_OUTPUT ]]; then
     echo "Test outputs will be written to: $CHASTE_TEST_OUTPUT"
 fi
 

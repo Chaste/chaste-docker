@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 set -e
 
 TEST_SUITE=${1:-"Continuous"}
@@ -8,7 +8,7 @@ SOURCE_DIR=${4:-/home/chaste/src}
 BUILD_DIR=${5:-/home/chaste/lib}
 
 echo "Building and running $TEST_SUITE tests..."
-if [[ -v CHASTE_TEST_OUTPUT ]]; then
+if [[ ! -v CHASTE_TEST_OUTPUT ]]; then
     echo "Test outputs will be written to: $CHASTE_TEST_OUTPUT"
 fi
 
