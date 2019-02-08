@@ -58,7 +58,8 @@ RUN apt-get update && \
     #libboost-serialization1.62-dev \
     #libboost-filesystem1.62-dev \
     #libboost-program-options1.62-dev \
-    libpetsc3.7.7-dbg \
+    libpetsc-real3.9-dbg \
+    #libpetsc-complex3.9-dbg \
     mencoder \
     mplayer \
     valgrind \
