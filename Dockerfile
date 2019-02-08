@@ -98,8 +98,21 @@ ENV PATH="/home/chaste/scripts:${PATH}"
 
 # Create Chaste build, projects and output folders
 RUN mkdir -p /home/chaste/lib
-ENV CHASTE_TEST_OUTPUT /home/chaste/testoutput
+# ENV CHASTE_TEST_OUTPUT /home/chaste/testoutput
 RUN ln -s /home/chaste/src/projects projects
+
+# Set environment variables
+# RUN . /home/chaste/scripts/set_env_vars.sh
+ENV NCORES=$(nproc)
+ENV CHASTE_DIR="/home/chaste"
+ENV CHASTE_SOURCE_DIR="$CHASTE_DIR/src" \
+    CHASTE_BUILD_DIR="$CHASTE_DIR/lib" \
+    CHASTE_PROJECTS_DIR="$CHASTE_SOURCE_DIR/projects" \
+    CHASTE_TEST_OUTPUT="$CHASTE_DIR/testoutput"
+# CMake environment variables
+ENV CHASTE_BUILD_TYPE="Release" \
+    Chaste_ERROR_ON_WARNING="OFF" \
+    Chaste_UPDATE_PROVENANCE="OFF"
 
 # Build Chaste ('-' skips by default)
 ARG TAG=-
