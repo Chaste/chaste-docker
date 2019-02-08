@@ -1,7 +1,7 @@
 # docker run -it -v chaste_data:/usr/chaste chaste
 
 # https://github.com/tianon/docker-brew-ubuntu-core/blob/404d80486fada09bff68a210b7eddf78f3235156/bionic/Dockerfile
-FROM ubuntu:bionic
+FROM ubuntu:cosmic
 LABEL maintainer="Ben Evans <ben.d.evans@gmail.com>"
 # Written by Benjamin D. Evans
 
@@ -19,7 +19,7 @@ RUN apt-get update && \
 
 # Install the Chaste repo list and key
 # https://chaste.cs.ox.ac.uk/trac/wiki/InstallGuides/UbuntuPackage
-RUN echo "deb http://www.cs.ox.ac.uk/chaste/ubuntu bionic/" >> /etc/apt/sources.list.d/chaste.list
+RUN echo "deb http://www.cs.ox.ac.uk/chaste/ubuntu cosmic/" >> /etc/apt/sources.list.d/chaste.list
 RUN apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 422C4D99
 
 # https://chaste.cs.ox.ac.uk/trac/wiki/InstallGuides/DependencyVersions
@@ -28,6 +28,14 @@ RUN apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 422C4D99
 # Depends: cmake | scons, g++, libopenmpi-dev, petsc-dev, libhdf5-openmpi-dev, xsdcxx, libboost-serialization-dev, libboost-filesystem-dev, libboost-program-options-dev, libparmetis-dev, libmetis-dev, libxerces-c-dev, libsundials-dev | libsundials-serial-dev, libvtk7-dev | libvtk6-dev | libvtk5-dev, python-lxml, python-amara, python-rdflib, libproj-dev
 # Recommends: git, valgrind, libpetsc3.7.7-dbg | libpetsc3.7.6-dbg | libpetsc3.6.4-dbg | libpetsc3.6.2-dbg | libpetsc3.4.2-dbg, libfltk1.1, hdf5-tools, cmake-curses-gui
 # Suggests: libgoogle-perftools-dev, doxygen, graphviz, eclipse-cdt, eclipse-egit, libsvn-java, subversion, git-svn, gnuplot, paraview
+
+# Release 2018.1
+# Chaste now supports Boost 1.66 and 1.67 (boosts 1.64 and 1.65 are a bit buggy for us and should be avoided if possible).
+# Chaste now supports CVODE (Sundials versions) 3.0.0 and 3.1.0.
+# Chaste now supports HDF5 versions 1.8.20 and 1.10.2.
+# Chaste now supports PETSc versions 3.8 and 3.9.
+# Chaste now supports VTK version 8.1.
+# Chaste now supports Xerces versions 3.2.0 and 3.2.1.
 
 RUN apt-get update && \
     apt-get install -y \
