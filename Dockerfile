@@ -87,6 +87,7 @@ ENV TEXTTEST_HOME /usr/local/bin/texttest
 RUN useradd -ms /bin/bash chaste && echo "chaste:chaste" | chpasswd && adduser chaste sudo
 USER chaste
 WORKDIR /home/chaste
+ENV USER="chaste"
 
 # Add scripts
 #COPY --chown=chaste:chaste scripts /home/chaste/scripts
