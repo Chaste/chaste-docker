@@ -105,10 +105,10 @@ ENV PATH "${CHASTE_DIR}/scripts:${PATH}"
 
 # Set environment variables
 # RUN . /home/chaste/scripts/set_env_vars.sh
-ENV CHASTE_SOURCE_DIR="$CHASTE_DIR/src" \
-    CHASTE_BUILD_DIR="$CHASTE_DIR/lib" \
-    CHASTE_PROJECTS_DIR="$CHASTE_SOURCE_DIR/projects" \
-    CHASTE_TEST_OUTPUT="$CHASTE_DIR/testoutput"
+ENV CHASTE_SOURCE_DIR="${CHASTE_DIR}/src" \
+    CHASTE_BUILD_DIR="${CHASTE_DIR}/lib" \
+    CHASTE_PROJECTS_DIR="${CHASTE_DIR}/src/projects" \
+    CHASTE_TEST_OUTPUT="${CHASTE_DIR}/testoutput"
 # CMake environment variables
 ENV CHASTE_BUILD_TYPE="Release" \
     Chaste_ERROR_ON_WARNING="OFF" \
