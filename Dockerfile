@@ -1,4 +1,5 @@
-# docker run -it -v chaste_data:/usr/chaste chaste
+# docker build -t chaste .
+# docker run -it --rm -v chaste_data:/home/chaste chaste
 
 # https://github.com/tianon/docker-brew-ubuntu-core/blob/404d80486fada09bff68a210b7eddf78f3235156/bionic/Dockerfile
 FROM ubuntu:cosmic
