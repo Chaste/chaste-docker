@@ -222,6 +222,13 @@ Running the continuous test pack (`test.sh`):
 TODO
 ----
 
+* Migrate to Python 3 (which allows migration to VTK7)
+    - python3-dev
+    - python3-pip
+    - python3-vtk7
+    - libvtk7.1
+    - libvtk7-dev
+    - libvtk7.1-qt4
 * Make cmake build options flexible for developers vs. users.
 * Modify scripts to [parse arguments flexibly](https://sookocheff.com/post/bash/parsing-bash-script-arguments-with-shopts/)
 * Add help (-h) option to all scripts.
