@@ -99,8 +99,6 @@ COPY scripts "${CHASTE_DIR}/scripts"
 USER root
 RUN chown -R chaste:chaste scripts
 USER chaste
-
-# ENV CHASTE_TEST_OUTPUT /home/chaste/testoutput
 ENV PATH "${CHASTE_DIR}/scripts:${PATH}"
 
 # Set environment variables
