@@ -38,6 +38,20 @@ RUN apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 422C4D99
 # Chaste now supports VTK version 8.1.
 # Chaste now supports Xerces versions 3.2.0 and 3.2.1.
 
+# https://chaste.cs.ox.ac.uk/trac/wiki/InstallGuides/DependencyVersions
+# CMake (cmake) 3.12.1-1
+# GCC (g++) 8.2.0-7
+# PETSc (libpetsc-real3.9-dbg) 3.9.3
+# Boost (libboost-serialization-dev, libboost-filesystem-dev, libboost-program-options-dev) 1.67
+# parMETIS (libparmetis-dev) 4.0.3-5
+# HDF5 (libhdf5-openmpi-dev, hdf5-tools) 1.10.0-patch1
+# XSD (xsdcxx) 4.0.0-8
+# Xerces (libxerces-c-dev) 3.2.1
+# Amara (python-amara) 2.0.0
+# SUNDIALS CVODE (libsundials-dev) 3.1.1
+# VTK (libvtk6-dev, libvtk6.3-qt, python-vtk6) 6.3
+# Python (python-dev, python-pip, python-vtk6) 2.7
+
 RUN apt-get update && \
     apt-get install -y \
     chaste-dependencies \
@@ -48,19 +62,10 @@ RUN apt-get update && \
     python-dev \
     python-pip \
     python-vtk6 \
-    #python3-vtk7 \
-    #libvtk7.1 \
-    #libvtk7-dev \
-    #libvtk7.1-qt4 \
     libvtk6-dev \
     libvtk6.3-qt \
-    #libvtk-java \
     openjdk-11-jdk \
-    #libboost-serialization1.62-dev \
-    #libboost-filesystem1.62-dev \
-    #libboost-program-options1.62-dev \
     libpetsc-real3.9-dbg \
-    #libpetsc-complex3.9-dbg \
     mencoder \
     mplayer \
     valgrind \
