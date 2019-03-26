@@ -87,26 +87,25 @@ ENV TEXTTEST_HOME /usr/local/bin/texttest
 # Create user and working directory for Chaste files
 RUN useradd -ms /bin/bash chaste && echo "chaste:chaste" | chpasswd && adduser chaste sudo
 USER chaste
-WORKDIR /home/chaste
 ENV USER="chaste"
+# Allow CHASTE_DIR to be set at build time if desired
+ARG CHASTE_DIR="/home/chaste"
+ENV CHASTE_DIR=${CHASTE_DIR}
+WORKDIR ${CHASTE_DIR}
 
 # Add scripts
 #COPY --chown=chaste:chaste scripts /home/chaste/scripts
-COPY scripts /home/chaste/scripts
+COPY scripts "${CHASTE_DIR}/scripts"
 USER root
 RUN chown -R chaste:chaste scripts
 USER chaste
-ENV PATH="/home/chaste/scripts:${PATH}"
 
-# Create Chaste build, projects and output folders
-RUN mkdir -p /home/chaste/lib
 # ENV CHASTE_TEST_OUTPUT /home/chaste/testoutput
-RUN ln -s /home/chaste/src/projects projects
+ENV PATH "${CHASTE_DIR}/scripts:${PATH}"
 
 # Set environment variables
 # RUN . /home/chaste/scripts/set_env_vars.sh
 ENV NCORES=$(nproc)
-ENV CHASTE_DIR="/home/chaste"
 ENV CHASTE_SOURCE_DIR="$CHASTE_DIR/src" \
     CHASTE_BUILD_DIR="$CHASTE_DIR/lib" \
     CHASTE_PROJECTS_DIR="$CHASTE_SOURCE_DIR/projects" \
@@ -116,6 +115,10 @@ ENV CHASTE_BUILD_TYPE="Release" \
     Chaste_ERROR_ON_WARNING="OFF" \
     Chaste_UPDATE_PROVENANCE="OFF"
 
+# Create Chaste build, projects and output folders
+RUN mkdir -p "${CHASTE_BUILD_DIR}"
+RUN ln -s "${CHASTE_PROJECTS_DIR}" projects
+
 # Build Chaste ('-' skips by default)
 ARG TAG=-
 ENV BRANCH=$TAG
@@ -123,6 +126,6 @@ RUN build_chaste.sh $BRANCH
 
 # Automatically mount the home directory in a volume to persist changes made there
 # N.B. If any build steps change the data within the volume after it has been declared, those changes will be discarded.
-VOLUME /home/chaste
+VOLUME "${CHASTE_DIR}"
 
 CMD ["bash"]
