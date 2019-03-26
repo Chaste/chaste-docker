@@ -105,7 +105,6 @@ ENV PATH "${CHASTE_DIR}/scripts:${PATH}"
 
 # Set environment variables
 # RUN . /home/chaste/scripts/set_env_vars.sh
-ENV NCORES=$(nproc)
 ENV CHASTE_SOURCE_DIR="$CHASTE_DIR/src" \
     CHASTE_BUILD_DIR="$CHASTE_DIR/lib" \
     CHASTE_PROJECTS_DIR="$CHASTE_SOURCE_DIR/projects" \
