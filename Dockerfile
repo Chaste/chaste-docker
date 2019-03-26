@@ -85,9 +85,9 @@ RUN pip install texttest
 ENV TEXTTEST_HOME /usr/local/bin/texttest
 
 # Create user and working directory for Chaste files
+ENV USER "chaste"
 RUN useradd -ms /bin/bash chaste && echo "chaste:chaste" | chpasswd && adduser chaste sudo
 USER chaste
-ENV USER="chaste"
 # Allow CHASTE_DIR to be set at build time if desired
 ARG CHASTE_DIR="/home/chaste"
 ENV CHASTE_DIR=${CHASTE_DIR}
