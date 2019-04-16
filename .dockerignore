@@ -2,6 +2,7 @@
 .gitignore
 .ipynb_checkpoints
 Dockerfile
+Makefile
 .DS_Store
 README.md
 LICENSE.txt
