@@ -109,6 +109,8 @@ ENV CHASTE_BUILD_TYPE="Release" \
     Chaste_ERROR_ON_WARNING="OFF" \
     Chaste_UPDATE_PROVENANCE="OFF"
 
+ENV PYTHONPATH="${CHASTE_BUILD_DIR}/lib/python:$PYTHONPATH"
+
 # Create Chaste build, projects and output folders
 RUN mkdir -p "${CHASTE_BUILD_DIR}"
 RUN ln -s "${CHASTE_PROJECTS_DIR}" projects
