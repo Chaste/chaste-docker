@@ -15,18 +15,18 @@ if [ -z "$CHASTE_DIR" ]; then
     export CHASTE_DIR="/home/chaste"
 fi
 if [ -z "$CHASTE_SOURCE_DIR" ]; then
-    export CHASTE_SOURCE_DIR="$CHASTE_DIR/src"
+    export CHASTE_SOURCE_DIR="${CHASTE_DIR}/src"
 fi
 if [ -z "$CHASTE_BUILD_DIR" ]; then
-    export CHASTE_BUILD_DIR="$CHASTE_DIR/lib"
+    export CHASTE_BUILD_DIR="${CHASTE_DIR}/lib"
 fi
 if [ -z "$CHASTE_TEST_OUTPUT" ]; then
-    export CHASTE_TEST_OUTPUT="$CHASTE_DIR/testoutput"
+    export CHASTE_TEST_OUTPUT="${CHASTE_DIR}/testoutput"
 fi
 
-echo "Building and testing project: $PROJECT..."
+echo "Building and testing project: ${PROJECT}..."
 if [[ -n CHASTE_TEST_OUTPUT ]]; then
-    echo "Test outputs will be written to: $CHASTE_TEST_OUTPUT"
+    echo "Test outputs will be written to: ${CHASTE_TEST_OUTPUT}"
 fi
 
 if [ "$CMAKE_FLAG" = "c" ]; then

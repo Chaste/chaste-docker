@@ -13,12 +13,12 @@ fi
 echo "Chaste directory: $CHASTE_DIR"
 
 if [ -z "$CHASTE_SOURCE_DIR" ]; then
-    export CHASTE_SOURCE_DIR="$CHASTE_DIR/src"
+    export CHASTE_SOURCE_DIR="${CHASTE_DIR}/src"
 fi
 echo "Chaste source directory: $CHASTE_SOURCE_DIR"
 
 if [ -z "$CHASTE_BUILD_DIR" ]; then
-    export CHASTE_BUILD_DIR="$CHASTE_DIR/lib"
+    export CHASTE_BUILD_DIR="${CHASTE_DIR}/lib"
 fi
 echo "Chaste build directory: $CHASTE_BUILD_DIR"
 
@@ -28,7 +28,7 @@ fi
 echo "Chaste projects directory: $CHASTE_PROJECTS_DIR"
 
 if [ -z "$CHASTE_TEST_OUTPUT" ]; then
-    export CHASTE_TEST_OUTPUT="$CHASTE_DIR/testoutput"
+    export CHASTE_TEST_OUTPUT="${CHASTE_DIR}/testoutput"
 fi
 echo "Chaste test outputs directory: $CHASTE_TEST_OUTPUT"
 

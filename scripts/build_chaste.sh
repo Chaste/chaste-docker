@@ -13,14 +13,14 @@ if [ -z "$CHASTE_DIR" ]; then
     export CHASTE_DIR="/home/chaste"
 fi
 if [ -z "$CHASTE_SOURCE_DIR" ]; then
-    export CHASTE_SOURCE_DIR="$CHASTE_DIR/src"
+    export CHASTE_SOURCE_DIR="${CHASTE_DIR}/src"
 fi
 if [ -z "$CHASTE_BUILD_DIR" ]; then
-    export CHASTE_BUILD_DIR="$CHASTE_DIR/lib"
+    export CHASTE_BUILD_DIR="${CHASTE_DIR}/lib"
 fi
 
 if [ $VERSION != '.' ]; then
-    echo "Cloning Chaste from $GIT_REMOTE#$VERSION into $CHASTE_SOURCE_DIR..."
+    echo "Cloning Chaste from ${GIT_REMOTE}#${VERSION} into ${CHASTE_SOURCE_DIR}..."
     mkdir -p $CHASTE_SOURCE_DIR
     git clone -b $VERSION $GIT_REMOTE $CHASTE_SOURCE_DIR
 fi
