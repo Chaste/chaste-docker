@@ -1,4 +1,8 @@
 #!/bin/sh
+
+# This script can be used to set all environment variables to their default values e.g.
+# $ source /home/chaste/scripts/set_env_vars.sh
+
 set -e
 
 if [ -z "$NCORES" ]; then
