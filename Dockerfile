@@ -30,14 +30,6 @@ RUN apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 422C4D99
 # Recommends: git, valgrind, libpetsc3.7.7-dbg | libpetsc3.7.6-dbg | libpetsc3.6.4-dbg | libpetsc3.6.2-dbg | libpetsc3.4.2-dbg, libfltk1.1, hdf5-tools, cmake-curses-gui
 # Suggests: libgoogle-perftools-dev, doxygen, graphviz, eclipse-cdt, eclipse-egit, libsvn-java, subversion, git-svn, gnuplot, paraview
 
-# Release 2018.1
-# Chaste now supports Boost 1.66 and 1.67 (boosts 1.64 and 1.65 are a bit buggy for us and should be avoided if possible).
-# Chaste now supports CVODE (Sundials versions) 3.0.0 and 3.1.0.
-# Chaste now supports HDF5 versions 1.8.20 and 1.10.2.
-# Chaste now supports PETSc versions 3.8 and 3.9.
-# Chaste now supports VTK version 8.1.
-# Chaste now supports Xerces versions 3.2.0 and 3.2.1.
-
 # https://chaste.cs.ox.ac.uk/trac/wiki/InstallGuides/DependencyVersions
 # CMake (cmake) 3.12.1-1
 # GCC (g++) 8.2.0-7
@@ -107,7 +99,7 @@ USER chaste
 ENV PATH "${CHASTE_DIR}/scripts:${PATH}"
 
 # Set environment variables
-# RUN . /home/chaste/scripts/set_env_vars.sh
+# RUN source /home/chaste/scripts/set_env_vars.sh
 ENV CHASTE_SOURCE_DIR="${CHASTE_DIR}/src" \
     CHASTE_BUILD_DIR="${CHASTE_DIR}/lib" \
     CHASTE_PROJECTS_DIR="${CHASTE_DIR}/src/projects" \
@@ -121,7 +113,7 @@ ENV CHASTE_BUILD_TYPE="Release" \
 RUN mkdir -p "${CHASTE_BUILD_DIR}"
 RUN ln -s "${CHASTE_PROJECTS_DIR}" projects
 
-# Build Chaste ('-' skips by default)
+# Build Chaste: TAG can be a branch or release ('-' skips by default)
 ARG TAG=-
 ENV BRANCH=$TAG
 RUN build_chaste.sh $BRANCH
