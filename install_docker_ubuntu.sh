@@ -20,9 +20,6 @@ sudo add-apt-repository \
 sudo apt-get update
 sudo apt-get install docker-ce
 
-# Verify installation
-# sudo docker run hello-world
-
 # https://docs.docker.com/install/linux/linux-postinstall/
 # Add docker group to run without sudo
 sudo groupadd docker
