@@ -45,7 +45,7 @@ RUN apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 422C4D99
 # Python (python-dev, python-pip, python-vtk6) 2.7
 
 RUN apt-get update && \
-    apt-get install -y \
+    apt-get install -y --no-install-recommends \
     chaste-dependencies \
     sudo \
     git \
