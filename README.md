@@ -30,7 +30,7 @@ For [Windows](https://docs.docker.com/docker-for-windows/install/#download-docke
 ### Users
 If you're a Chaste user and want to get up and running with the latest release fully compiled and ready to go, after installing and configuring Docker simply run:
 ```
-docker run -it --rm -v chaste_data:/home/chaste chaste/chaste-docker:2017.1
+docker run -it --rm -v chaste_data:/home/chaste chaste/chaste-docker:2018.1
 ```
 This should present you with a bash prompt within an isolated Docker container with all the dependencies and pre-compiled code you need to start building your own Chaste projects. If you don't already have a project, just use the provided script `new_project.sh` to create a project template in `~/projects` as a starting point. Many tutorials for projects can be found here: https://chaste.cs.ox.ac.uk/trac/wiki/UserTutorials.
 
@@ -46,7 +46,7 @@ If you're a Chaste developer and want to build your own image with a particular 
         ```
     2. Alternatively a specific branch or tag may be specified through the argument `--build-arg TAG=<branch/tag>` (with the same tag appended onto the docker image name for clarity) e.g.:
         ```
-        docker build -t chaste:2017.1 --build-arg TAG=2017.1 https://github.com/chaste/chaste-docker.git
+        docker build -t chaste:2018.1 --build-arg TAG=2018.1 https://github.com/chaste/chaste-docker.git
         ```
     3. Finally, if you want a bare container ready for you to clone and compile your own Chaste code, run this command omitting the `--build-arg TAG=<branch/tag>` (or explicitly using `--build-arg TAG=-` argument which will skip building Chaste):
         ```
@@ -58,7 +58,7 @@ If you're a Chaste developer and want to build your own image with a particular 
     ```
     docker run -it --rm -v chaste_data:/home/chaste chaste
     ```
-    (Or run `docker run -it --rm -v chaste_data:/home/chaste chaste:2017` if you tagged your image name as above.)
+    (Or run `docker run -it --rm -v chaste_data:/home/chaste chaste:2018.1` if you tagged your image name as above.)
     The first time will take a little longer than usual as the volume has to be populated with data. For information on accessing the contents of this volume, see [below](#accessing-volume-data).
 
 Once the container has successfully launched, you should see a command prompt a bit like this:
