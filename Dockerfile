@@ -53,6 +53,7 @@ RUN apt-get update && \
     wget \
     python-dev \
     python-pip \
+    python-setuptools \
     python-vtk6 \
     libvtk6-dev \
     libvtk6.3-qt \
