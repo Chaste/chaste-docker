@@ -48,7 +48,7 @@ If you're a Chaste developer and want to build your own image with a particular 
         ```
         docker build -t chaste:2018.1 --build-arg TAG=2018.1 https://github.com/chaste/chaste-docker.git
         ```
-    3. Finally, if you want a bare container ready for you to clone and compile your own Chaste code, run this command omitting the `--build-arg TAG=<branch/tag>` (or explicitly using `--build-arg TAG=-` argument which will skip building Chaste):
+    3. Finally, if you want a bare container ready for you to clone and compile your own Chaste code, run this command omitting the `--build-arg TAG=<branch/tag>` (or explicitly using `--build-arg TAG=-` argument which will skip compiling Chaste within the image):
         ```
         docker build -t chaste https://github.com/chaste/chaste-docker.git
         ```
@@ -67,7 +67,7 @@ Once the container has successfully launched, you should see a command prompt a 
 chaste@301291afbedf:~$
 ```
 
-In here you can build and test your projects without interfering with the rest of your system. You may also find it useful to open another terminal and run `docker stats` so you can see system resource usage for your running containers. When you are finished with the container, simply type `exit` to close it.
+In here you can build and test your projects without interfering with the rest of your system. You may also find it useful to open another terminal and run `docker stats` so you can see system resource usage for your running containers. When you are finished with the container, simply type `exit` to close it. Any changes made in `/home/chaste` will persist when you relaunch a container, however everything else (e.g. installed packages, changes to system files) will be reset to how it was when the image was first used. 
 
 Container directory structure
 -----------------------------
