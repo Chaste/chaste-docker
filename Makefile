@@ -26,6 +26,12 @@ clean:
 stats:
 	docker stats
 
+clone:
+	docker pull $(CHASTE_IMAGE):$(TAG)
+
+run: clone
+	docker run -it --rm -v $(CHASTE_DATA_VOLUME):$(CHASTE_DIR) $(CHASTE_IMAGE):$(TAG) bash
+
 bash: build
 	docker run -it --rm -v $(CHASTE_DATA_VOLUME):$(CHASTE_DIR) $(CHASTE_IMAGE):$(TAG) bash
 
