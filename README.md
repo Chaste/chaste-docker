@@ -15,7 +15,7 @@ Chaste-docker
 
 *Docker container schematic*
 
-*N.B. Docker containers are ephemeral by design and no changes will be saved after exiting (except to files in volumes or folders mounted from the host). The contents of the container's home directory (including the Chaste source code and binaries) are stored in a Docker [`volume`](https://docs.docker.com/storage/volumes/). If you reset Docker, the data stored in the `chaste_data` volume will be lost, so be sure to regularly push your projects to a remote git repository!*
+Some slides from a workshop introducing Docker and how to use this Chaste image can be found [here](https://docs.google.com/presentation/d/1nrK95awEO_g0-g4W656EFgFD0c-GPSkntt-uXYVQ590/edit?usp=sharing).
 
 Quickstart
 ----------
@@ -91,7 +91,9 @@ These folders contain the following types of data:
 - `src`: the Chaste source code
 - `testoutput`: the output folder for the project testing framework (set with `$CHASTE_TEST_OUTPUT`)
 
-Any changes made in the home folder (`/home/chaste`) will persist between restarting containers as it is designated as a `VOLUME`. Additionally, specific folders may be mounted over any of these subfolders, for example, to gain access to the test outputs for visualising in ParaView or for mounting a different version of the Chaste source code.
+Any changes made in the home folder (`/home/chaste`) will persist between restarting containers as it is designated as a `VOLUME`. Additionally, specific folders may be mounted over any of these subfolders, for example, to gain access to the test outputs for visualising in ParaView or for mounting a different version of the Chaste source code. In general, data should be left in a (named) volume, as file I/O performance will be best that way. However, bind mounting host directories can be convenient e.g. for access to output files and so is explained next.
+
+<note class="notice">Docker containers are ephemeral by design and no changes will be saved after exiting (except to files in volumes or folders bind mounted from the host). The contents of the container's home directory (including the Chaste source code and binaries) are stored in a Docker [`VOLUME`](https://docs.docker.com/storage/volumes/) and so will persist between container instances. However if you reset Docker, all volumes and their contained data will be lost, so be sure to regularly push your projects to a remote git repository!</note>
 
 Mounting host directories
 -------------------------
