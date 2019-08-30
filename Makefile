@@ -2,6 +2,7 @@ help:
 	@cat Makefile
 
 CHASTE_IMAGE?=chaste/chaste-docker
+BASE?=cosmic
 TAG?=2018.1
 CHASTE_DIR?="/home/chaste"
 DOCKER_FILE?=Dockerfile
@@ -13,6 +14,9 @@ TEST_SUITE?="Continuous"
 
 build:
 	docker build -t $(CHASTE_IMAGE):$(TAG) --build-arg CHASTE_DIR=$(CHASTE_DIR) --build-arg TAG=$(TAG) -f $(DOCKER_FILE) .
+
+dependencies:
+	docker build --target dependencies -t chaste/dependencies:$(BASE) .
 
 fresh:
 	docker build --no-cache -t $(CHASTE_IMAGE):$(TAG) --build-arg CHASTE_DIR=$(CHASTE_DIR) --build-arg TAG=$(TAG) -f $(DOCKER_FILE) .
