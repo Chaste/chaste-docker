@@ -12,6 +12,10 @@ TEST_OUTPUT?="${HOME}/testoutput"
 TEST_SUITE?="Continuous"
 # SRC?=$(shell dirname `pwd`)
 
+all: dependencies build
+.PHONY: all
+# TODO: Make all recipes phony
+
 build:
 	docker build -t $(CHASTE_IMAGE):$(TAG) --build-arg CHASTE_DIR=$(CHASTE_DIR) --build-arg TAG=$(TAG) -f $(DOCKER_FILE) .
 
