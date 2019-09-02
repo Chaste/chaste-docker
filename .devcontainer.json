@@ -1,0 +1,9 @@
+// See https://aka.ms/vscode-remote/devcontainer.json for format details or
+// https://aka.ms/vscode-dev-containers/definitions for sample configurations.
+{
+	"dockerFile": "Dockerfile",
+	"extensions": [],
+	"image": "chaste/chaste-docker:2018.1",
+	"workspaceFolder": "/home/chaste",
+	"workspaceMount": "src=chaste_data,dst=/home/chaste,type=volume,volume-driver=local"
+}

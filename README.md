@@ -15,7 +15,7 @@ Chaste-docker
 
 *Docker container schematic*
 
-*N.B. Docker containers are ephemeral by design and no changes will be saved after exiting (except to files in volumes or folders mounted from the host). The contents of the container's home directory (including the Chaste source code and binaries) are stored in a Docker [`volume`](https://docs.docker.com/storage/volumes/). If you reset Docker, the data stored in the `chaste_data` volume will be lost, so be sure to regularly push your projects to a remote git repository!*
+Some slides from a workshop introducing Docker and how to use this Chaste image can be found [here](https://docs.google.com/presentation/d/1nrK95awEO_g0-g4W656EFgFD0c-GPSkntt-uXYVQ590/edit?usp=sharing).
 
 Quickstart
 ----------
@@ -48,7 +48,7 @@ If you're a Chaste developer and want to build your own image with a particular 
         ```
         docker build -t chaste:2018.1 --build-arg TAG=2018.1 https://github.com/chaste/chaste-docker.git
         ```
-    3. Finally, if you want a bare container ready for you to clone and compile your own Chaste code, run this command omitting the `--build-arg TAG=<branch/tag>` (or explicitly using `--build-arg TAG=-` argument which will skip building Chaste):
+    3. Finally, if you want a bare container ready for you to clone and compile your own Chaste code, run this command omitting the `--build-arg TAG=<branch/tag>` (or explicitly using `--build-arg TAG=-` argument which will skip compiling Chaste within the image):
         ```
         docker build -t chaste https://github.com/chaste/chaste-docker.git
         ```
@@ -67,7 +67,7 @@ Once the container has successfully launched, you should see a command prompt a 
 chaste@301291afbedf:~$
 ```
 
-In here you can build and test your projects without interfering with the rest of your system. You may also find it useful to open another terminal and run `docker stats` so you can see system resource usage for your running containers. When you are finished with the container, simply type `exit` to close it.
+In here you can build and test your projects without interfering with the rest of your system. You may also find it useful to open another terminal and run `docker stats` so you can see system resource usage for your running containers. When you are finished with the container, simply type `exit` to close it. Any changes made in `/home/chaste` will persist when you relaunch a container, however everything else (e.g. installed packages, changes to system files) will be reset to how it was when the image was first used. 
 
 Container directory structure
 -----------------------------
@@ -91,7 +91,9 @@ These folders contain the following types of data:
 - `src`: the Chaste source code
 - `testoutput`: the output folder for the project testing framework (set with `$CHASTE_TEST_OUTPUT`)
 
-Any changes made in the home folder (`/home/chaste`) will persist between restarting containers as it is designated as a `VOLUME`. Additionally, specific folders may be mounted over any of these subfolders, for example, to gain access to the test outputs for visualising in ParaView or for mounting a different version of the Chaste source code.
+Any changes made in the home folder (`/home/chaste`) will persist between restarting containers as it is designated as a `VOLUME`. Additionally, specific folders may be mounted over any of these subfolders, for example, to gain access to the test outputs for visualising in ParaView or for mounting a different version of the Chaste source code. In general, data should be left in a (named) volume, as file I/O performance will be best that way. However, bind mounting host directories can be convenient e.g. for access to output files and so is explained next.
+
+*N.B. Docker containers are ephemeral by design and no changes will be saved after exiting (except to files in volumes or folders bind mounted from the host). The contents of the container's home directory (including the Chaste source code and binaries) are stored in a Docker [`VOLUME`](https://docs.docker.com/storage/volumes/) and so will persist between container instances. However if you reset Docker, all volumes and their contained data will be lost, so be sure to regularly push your projects to a remote git repository!*
 
 Mounting host directories
 -------------------------
@@ -229,6 +231,7 @@ TODO
     - libvtk7.1
     - libvtk7-dev
     - libvtk7.1-qt4
+* Add [`.vscode` and `.devcontainer`](https://github.com/microsoft/vscode-remote-try-cpp) (for `launch.json`, [`devcontainer.json`](https://code.visualstudio.com/docs/remote/containers), etc.) to [automatically configure VS Code](https://code.visualstudio.com/docs/remote/containers-advanced).
 * Make cmake build options flexible for developers vs. users.
 * Modify scripts to [parse arguments flexibly](https://sookocheff.com/post/bash/parsing-bash-script-arguments-with-shopts/)
 * Add help (-h) option to all scripts.
@@ -236,3 +239,4 @@ TODO
 * [Dockerfile best practices](https://docs.docker.com/engine/userguide/eng-image/dockerfile_best-practices/)
 * Use [multi-stage builds](https://docs.docker.com/engine/userguide/eng-image/multistage-build/) for building apps.
 * Use [tmpfs mounts](https://docs.docker.com/storage/tmpfs/#use-a-tmpfs-mount-in-a-container) to store temporary data in RAM for extra speed.
+* Add support for singularity #4
