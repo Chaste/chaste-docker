@@ -2,7 +2,7 @@
 # docker run -it --rm -v chaste_data:/home/chaste chaste
 
 # https://github.com/tianon/docker-brew-ubuntu-core/blob/404d80486fada09bff68a210b7eddf78f3235156/bionic/Dockerfile
-FROM ubuntu:cosmic AS dependencies
+FROM ubuntu:cosmic AS base
 LABEL maintainer="Ben Evans <ben.d.evans@gmail.com>"
 # Written by Benjamin D. Evans
 
@@ -88,7 +88,7 @@ RUN useradd -ms /bin/bash chaste && echo "chaste:chaste" | chpasswd && adduser c
 USER chaste
 
 
-FROM dependencies
+FROM base
 LABEL maintainer="Ben Evans <ben.d.evans@gmail.com>"
 
 # Allow CHASTE_DIR to be set at build time if desired

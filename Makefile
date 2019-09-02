@@ -15,8 +15,9 @@ TEST_SUITE?="Continuous"
 build:
 	docker build -t $(CHASTE_IMAGE):$(TAG) --build-arg CHASTE_DIR=$(CHASTE_DIR) --build-arg TAG=$(TAG) -f $(DOCKER_FILE) .
 
-dependencies:
-	docker build --target dependencies -t chaste/dependencies:$(BASE) .
+base:
+	docker build --target base -t chaste/base:$(BASE) .
+	docker push chaste/base:$(BASE)
 
 fresh:
 	docker build --no-cache -t $(CHASTE_IMAGE):$(TAG) --build-arg CHASTE_DIR=$(CHASTE_DIR) --build-arg TAG=$(TAG) -f $(DOCKER_FILE) .
