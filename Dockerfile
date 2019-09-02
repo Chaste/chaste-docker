@@ -130,5 +130,3 @@ RUN build_chaste.sh $BRANCH
 # Automatically mount the home directory in a volume to persist changes made there
 # N.B. If any build steps change the data within the volume after it has been declared, those changes will be discarded.
 VOLUME "${CHASTE_DIR}"
-
-CMD ["bash"]
