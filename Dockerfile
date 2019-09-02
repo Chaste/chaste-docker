@@ -87,9 +87,6 @@ ENV USER "chaste"
 RUN useradd -ms /bin/bash chaste && echo "chaste:chaste" | chpasswd && adduser chaste sudo
 USER chaste
 
-
-FROM base
-
 # Allow CHASTE_DIR to be set at build time if desired
 ARG CHASTE_DIR="/home/chaste"
 ENV CHASTE_DIR=${CHASTE_DIR}
@@ -119,6 +116,11 @@ ENV PYTHONPATH="${CHASTE_BUILD_DIR}/lib/python:$PYTHONPATH"
 # Create Chaste build, projects and output folders
 RUN mkdir -p "${CHASTE_BUILD_DIR}"
 RUN ln -s "${CHASTE_PROJECTS_DIR}" projects
+
+CMD ["bash"]
+
+
+FROM base
 
 # Build Chaste: TAG can be a branch or release ('-' skips by default)
 ARG TAG=-
