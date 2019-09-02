@@ -2,7 +2,7 @@ help:
 	@cat Makefile
 
 CHASTE_IMAGE?=chaste/chaste-docker
-BASE?=cosmic
+BASE?=disco
 TAG?=2018.1
 CHASTE_DIR?="/home/chaste"
 DOCKER_FILE?=Dockerfile
