@@ -89,7 +89,6 @@ USER chaste
 
 
 FROM dependencies
-LABEL maintainer="Ben Evans <ben.d.evans@gmail.com>"
 
 # Allow CHASTE_DIR to be set at build time if desired
 ARG CHASTE_DIR="/home/chaste"
