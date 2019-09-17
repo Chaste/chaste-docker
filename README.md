@@ -9,6 +9,12 @@ Chaste-docker
 [![Build Status](https://travis-ci.org/Chaste/chaste-docker.svg?branch=master)](https://travis-ci.org/Chaste/chaste-docker)
 [![Docker Pulls](https://img.shields.io/docker/pulls/chaste/chaste-docker.svg)](https://hub.docker.com/r/chaste/chaste-docker/)
 
+## TL;DR
+
+1. [Install Docker](https://docs.docker.com/install/#supported-platforms)
+2. `docker run -it --rm -v chaste_data:/home/chaste chaste/chaste-docker:2019.1`
+3. GL HF! ;)
+
 [Docker](https://docs.docker.com/) is a lightweight virtualisation technology allowing applications with all of their dependencies to be quickly and easily run in a platform-independent manner. This project provides an image containing [Chaste](http://www.cs.ox.ac.uk/chaste/) (and some additional scripts for convenience) which can be launched with a single command, to provide a portable, homogeneous computational environment (across several operating systems and countless hardware configurations) for the simulation of cancer, heart and soft tissue.
 
 [![Docker schematic](https://docs.docker.com/engine/images/architecture.svg)](https://docs.docker.com/)
