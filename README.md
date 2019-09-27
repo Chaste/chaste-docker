@@ -145,6 +145,27 @@ The situation is less straightforward for Windows and macOS [[1]](#FN1) hosts du
 
 3. Alternatively, use the utility `docker-sync`: http://docker-sync.io/. This works on OSX, Windows, Linux (where it maps on to a native mount) and FreeBSD.
 
+Testing
+-------
+
+To check Chaste compiled correctly you may wish to [run the continuous test pack](https://chaste.cs.ox.ac.uk/trac/wiki/ChasteGuides/CmakeFirstRun#Testingstep):
+```
+ctest -j$(nproc) -L Continuous
+```
+The script `test.sh` (in `/home/chaste/scripts`) is provided in the users's path for convenience.
+
+Software
+--------
+
+If you want to use a package which is not installed within the image, you can install it with the command:
+
+```
+sudo apt-get update && sudo apt-get install <PackageName>
+```
+Replacing `<PackageName>` as appropriate. Enter the password: `chaste` when prompted to do so.
+
+Note that packages installed this way will not persist after the container is deleted (because the relevant files are not stored in `/home/chaste`). This can be avoided by omitting the `--rm` flag from the `docker run` command and using `docker start <container_name>` to relaunch a previously used container. If there is a package you think would be a particularly useful permanent addition to the Docker image, then email your suggestion to me or submit a pull request.
+
 Troubleshooting
 ---------------
 
@@ -181,27 +202,6 @@ docker volume rm <volume_name>
 For more information on cleaning up Docker, see [this tutorial](https://www.digitalocean.com/community/tutorials/how-to-remove-docker-images-containers-and-volumes).
 
 For more general troubleshooting, opening a terminal and running `docker events` then launching the container in another terminal will provide logging information of the events happening behind the scenes.
-
-Testing
--------
-
-To check Chaste compiled correctly you may wish to [run the continuous test pack](https://chaste.cs.ox.ac.uk/trac/wiki/ChasteGuides/CmakeFirstRun#Testingstep):
-```
-ctest -j$(nproc) -L Continuous
-```
-The script `test.sh` (in `/home/chaste/scripts`) is provided in the users's path for convenience.
-
-Software
---------
-
-If you want to use a package which is not installed within the image, you can install it with the command:
-
-```
-sudo apt-get update && sudo apt-get install <PackageName>
-```
-Replacing `<PackageName>` as appropriate. Enter the password: `chaste` when prompted to do so.
-
-Note that packages installed this way will not persist after the container is deleted (because the relevant files are not stored in `/home/chaste`). This can be avoided by omitting the `--rm` flag from the `docker run` command and using `docker start <container_name>` to relaunch a previously used container. If there is a package you think would be a particularly useful permanent addition to the Docker image, then email your suggestion to me or submit a pull request.
 
 Notes
 -----
