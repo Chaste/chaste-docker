@@ -51,7 +51,6 @@ RUN apt-get update && \
     git \
     nano \
     wget \
-    g++-7
     python-dev \
     python-pip \
     python-setuptools \
@@ -80,7 +79,7 @@ RUN ln -s /usr/lib/python2.7/dist-packages/vtk/libvtkRenderingPythonTkWidgets.x8
 
 # Install TextTest for regression testing (this requires pygtk)
 RUN pip install --upgrade pip
-RUN pip install texttest python-amara
+RUN pip install texttest
 ENV TEXTTEST_HOME /usr/local/bin/texttest
 
 # Create user and working directory for Chaste files
