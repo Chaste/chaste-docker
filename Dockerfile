@@ -2,7 +2,7 @@
 # docker run -it --rm -v chaste_data:/home/chaste chaste
 
 # https://github.com/tianon/docker-brew-ubuntu-core/blob/404d80486fada09bff68a210b7eddf78f3235156/bionic/Dockerfile
-FROM ubuntu:disco AS base
+FROM ubuntu:eoan AS base
 LABEL maintainer="Ben Evans <ben.d.evans@gmail.com>"
 # Written by Benjamin D. Evans
 
@@ -20,7 +20,7 @@ RUN apt-get update && \
 
 # Install the Chaste repo list and key
 # https://chaste.cs.ox.ac.uk/trac/wiki/InstallGuides/UbuntuPackage
-RUN echo "deb http://www.cs.ox.ac.uk/chaste/ubuntu disco/" >> /etc/apt/sources.list.d/chaste.list
+RUN echo "deb http://www.cs.ox.ac.uk/chaste/ubuntu eoan/" >> /etc/apt/sources.list.d/chaste.list
 RUN apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 422C4D99
 
 # https://chaste.cs.ox.ac.uk/trac/wiki/InstallGuides/DependencyVersions
@@ -31,18 +31,18 @@ RUN apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 422C4D99
 # Suggests: libgoogle-perftools-dev, doxygen, graphviz, eclipse-cdt, eclipse-egit, libsvn-java, subversion, git-svn, gnuplot, paraview
 
 # https://chaste.cs.ox.ac.uk/trac/wiki/InstallGuides/DependencyVersions
-# CMake (cmake) 3.12.1-1
-# GCC (g++) 8.2.0-7
-# PETSc (libpetsc-real3.9-dbg) 3.9.3
+# CMake (cmake) 3.13.4-1build1
+# GCC (g++) g++: 4:9.2.1-3.1ubuntu1; g++-7: 7.4.0-12ubuntu2
+# PETSc (libpetsc-real3.11-dbg) 3.11.3+dfsg1-2
 # Boost (libboost-serialization-dev, libboost-filesystem-dev, libboost-program-options-dev) 1.67
-# parMETIS (libparmetis-dev) 4.0.3-5
-# HDF5 (libhdf5-openmpi-dev, hdf5-tools) 1.10.0-patch1
+# parMETIS (libparmetis-dev) 4.0.3-5build1
+# HDF5 (libhdf5-openmpi-dev, hdf5-tools) 1.10.4+repack-10
 # XSD (xsdcxx) 4.0.0-8
-# Xerces (libxerces-c-dev) 3.2.1
+# Xerces (libxerces-c-dev) 3.2.2+debian-1build
 # Amara (python-amara) 2.0.0
-# SUNDIALS CVODE (libsundials-dev) 3.1.1
+# SUNDIALS CVODE (libsundials-dev) 3.1.2+dfsg-3build3
 # VTK (libvtk6-dev, libvtk6.3-qt, python-vtk6) 6.3
-# Python (python-dev, python-pip, python-vtk6) 2.7
+# Python (python-dev, python-pip, python-vtk6) 2.7.16-1
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
@@ -51,14 +51,15 @@ RUN apt-get update && \
     git \
     nano \
     wget \
+    g++-7
     python-dev \
     python-pip \
     python-setuptools \
     python-vtk6 \
     libvtk6-dev \
     libvtk6.3-qt \
-    openjdk-12-jdk \
-    libpetsc-real3.10-dbg \
+    openjdk-14-jdk \
+    libpetsc-real3.11-dbg \
     mencoder \
     mplayer \
     valgrind \
@@ -79,7 +80,7 @@ RUN ln -s /usr/lib/python2.7/dist-packages/vtk/libvtkRenderingPythonTkWidgets.x8
 
 # Install TextTest for regression testing (this requires pygtk)
 RUN pip install --upgrade pip
-RUN pip install texttest
+RUN pip install texttest python-amara
 ENV TEXTTEST_HOME /usr/local/bin/texttest
 
 # Create user and working directory for Chaste files
