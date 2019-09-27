@@ -3,7 +3,8 @@ help:
 
 CHASTE_IMAGE?=chaste/chaste-docker
 BASE?=disco
-TAG?=2018.1
+GIT_TAG?=release_2019.1
+TAG?=2019.1
 CHASTE_DIR?="/home/chaste"
 DOCKER_FILE?=Dockerfile
 CHASTE_DATA_VOLUME?=chaste_data
@@ -17,14 +18,14 @@ all: dependencies build
 # TODO: Make all recipes phony
 
 build:
-	docker build -t $(CHASTE_IMAGE):$(TAG) --build-arg CHASTE_DIR=$(CHASTE_DIR) --build-arg TAG=$(TAG) -f $(DOCKER_FILE) .
+	docker build -t $(CHASTE_IMAGE):$(TAG) --build-arg CHASTE_DIR=$(CHASTE_DIR) --build-arg TAG=$(GIT_TAG) -f $(DOCKER_FILE) .
 
 base:
 	docker build --target base -t chaste/base:$(BASE) .
 	docker push chaste/base:$(BASE)
 
 fresh:
-	docker build --no-cache -t $(CHASTE_IMAGE):$(TAG) --build-arg CHASTE_DIR=$(CHASTE_DIR) --build-arg TAG=$(TAG) -f $(DOCKER_FILE) .
+	docker build --no-cache -t $(CHASTE_IMAGE):$(TAG) --build-arg CHASTE_DIR=$(CHASTE_DIR) --build-arg TAG=$(GIT_TAG) -f $(DOCKER_FILE) .
 
 latest:
 	docker build --no-cache -t $(CHASTE_IMAGE):$(TAG) --build-arg CHASTE_DIR=$(CHASTE_DIR) --build-arg TAG=master -f $(DOCKER_FILE) .
