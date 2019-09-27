@@ -57,7 +57,7 @@ RUN apt-get update && \
     python-vtk6 \
     libvtk6-dev \
     libvtk6.3-qt \
-    openjdk-12-jdk \
+    openjdk-13-jdk \
     libpetsc-real3.10-dbg \
     mencoder \
     mplayer \
