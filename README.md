@@ -201,7 +201,7 @@ sudo apt-get update && sudo apt-get install <PackageName>
 ```
 Replacing `<PackageName>` as appropriate. Enter the password: `chaste` when prompted to do so.
 
-Note that packages installed this way will not persist after the container is shut-down and relaunched (because the relevant files are not stored in `/home/chaste`). If there is a package you think would be a particularly useful permanent addition to the Docker image, then email your suggestion to me or submit a pull request.
+Note that packages installed this way will not persist after the container is deleted (because the relevant files are not stored in `/home/chaste`). This can be avoided by omitting the `--rm` flag from the `docker run` command and using `docker start <container_name>` to relaunch a previously used container. If there is a package you think would be a particularly useful permanent addition to the Docker image, then email your suggestion to me or submit a pull request.
 
 Notes
 -----
