@@ -128,6 +128,7 @@ One drawback of this type of mount is that the contents are more difficult to ac
 We recommend using [VS Code](https://code.visualstudio.com/download) with the "[remote development](https://code.visualstudio.com/docs/remote/remote-overview)" plugin which allows the files within a container to be directly accessed and edited as if they were on the host system. Simply start the container with the command given then in VS Code select "Remote-Containers: Attach to Running Container..." then choose the chaste-docker container (which will have a random name unless you launch it by adding `--name <name>` to the run command). Finally open the folder `/home/chaste` with the built-in file browser and you will be able to assess the files and directories described above. 
 
 <details><summary>Alternative approaches</summary><p> 
+
 On a Linux host, the `chaste_data` volume contents may be directly accessed at `/var/lib/docker/volumes/chaste_data/_data`. A symlink can me made for easier access in the present working directory:
 ```
 ln -s /var/lib/docker/volumes/chaste_data/_data chaste_data
