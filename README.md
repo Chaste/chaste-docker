@@ -123,9 +123,6 @@ This image is set up to store the Chaste source code (along with compiled librar
 
 One drawback of this type of mount is that the contents are more difficult to access from the host. While most users will not need direct access to the contents of the volume, it can be convenient for searching and editing the Chaste source files with your favourite code editor. Some possible solutions are provided below.
 
-### Within the container
-To edit the Chaste code (in `~/src`), nano is installed in the image for convenience when small tweaks need to be made, along with `git` for pushing the changes.
-
 ### From the host
 On a Linux host, the `chaste_data` volume contents may be directly accessed at `/var/lib/docker/volumes/chaste_data/_data`. A symlink can me made for easier access in the present working directory:
 ```
@@ -144,6 +141,9 @@ The situation is less straightforward for Windows and macOS [[1]](#FN1) hosts du
 2. For more sustained Chaste development, you may wish to use another [bind mount](https://docs.docker.com/storage/bind-mounts/) to overlay the volume's `~/src` folder with a host directory containing the Chaste source code e.g. `-v /path/to/chaste_code:/home/chaste/src`. Chaste may then need to be recompiled within the container with `build_chaste.sh <branch/tag>` or if you already have the code in the mounted host folder, cloning can be skipped before recompiling with `build_chaste.sh .`. This will make the same source files easily accessible on both the host and within the Docker container, avoiding the need to copy files back and forth. This may result in slower I/O than when stored in a Docker volume, however this problem may be ameliorated on [macOS](https://docs.docker.com/storage/bind-mounts/#configure-mount-consistency-for-macos) with the [`delegated` option](https://docs.docker.com/docker-for-mac/osxfs-caching/#examples) e.g. `--mount type=bind,source="$(pwd)"/chaste_code,destination=/home/chaste/src,consistency=delegated`.
 
 3. Alternatively, use the utility `docker-sync`: http://docker-sync.io/. This works on OSX, Windows, Linux (where it maps on to a native mount) and FreeBSD.
+
+### Within the container
+To edit the Chaste code (in `~/src`), nano is installed in the image for convenience when small tweaks need to be made, along with `git` for pushing the changes.
 
 Testing
 -------
