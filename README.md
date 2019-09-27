@@ -73,7 +73,7 @@ Once the container has successfully launched, you should see a command prompt a 
 chaste@301291afbedf:~$
 ```
 
-In here you can build and test your projects without interfering with the rest of your system. You may also find it useful to open another terminal and run `docker stats` so you can see system resource usage for your running containers. When you are finished with the container, simply type `exit` to close it. Any changes made in `/home/chaste` will persist when you relaunch a container, however everything else (e.g. installed packages, changes to system files) will be reset to how it was when the image was first used. 
+In here you can build and test your projects without interfering with the rest of your system. You may also find it useful to open another terminal and run `docker stats` so you can see system resource usage for your running containers. When you are finished with the container, simply type `exit` to close it. Any changes made in `/home/chaste` will persist when you relaunch a container, however if the container is deleted, everything else (e.g. installed packages, changes to system files) will be reset to how it was when the image was first used. 
 
 Container directory structure
 -----------------------------
