@@ -30,10 +30,19 @@ if [[ -n CHASTE_TEST_OUTPUT ]]; then
 fi
 
 if [ "$CMAKE_FLAG" = "c" ]; then
+    if [ -z "$CMAKE_BUILD_TYPE" ]; then
+        export CMAKE_BUILD_TYPE="Release"
+    fi
+    if [ -z "$Chaste_ERROR_ON_WARNING" ]; then
+        export Chaste_ERROR_ON_WARNING="OFF"
+    fi
+        if [ -z "$Chaste_UPDATE_PROVENANCE" ]; then
+        export Chaste_UPDATE_PROVENANCE="OFF"
+    fi
     # Only run if new files have been created
-    cmake -DCMAKE_BUILD_TYPE:STRING=Release \
-          -DChaste_ERROR_ON_WARNING:BOOL=OFF \
-          -DChaste_UPDATE_PROVENANCE:BOOL=OFF \
+    cmake -DCMAKE_BUILD_TYPE:STRING=${CMAKE_BUILD_TYPE} \
+          -DChaste_ERROR_ON_WARNING:BOOL=${Chaste_ERROR_ON_WARNING} \
+          -DChaste_UPDATE_PROVENANCE:BOOL=${Chaste_UPDATE_PROVENANCE} \
           -H$CHASTE_SOURCE_DIR \
           -B$CHASTE_BUILD_DIR
 else
