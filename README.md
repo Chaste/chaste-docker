@@ -12,7 +12,7 @@ Chaste-docker
 ## TL;DR
 
 1. [Install Docker](https://docs.docker.com/install/#supported-platforms)
-2. `docker run -it --rm -v chaste_data:/home/chaste chaste/chaste-docker:2019.1`
+2. `docker run -it --init --rm -v chaste_data:/home/chaste chaste/chaste-docker:2019.1`
 3. GL HF! ;)
 
 [Docker](https://docs.docker.com/) is a lightweight virtualisation technology allowing applications with all of their dependencies to be quickly and easily run in a platform-independent manner. This project provides an image containing [Chaste](http://www.cs.ox.ac.uk/chaste/) (and some additional scripts for convenience) which can be launched with a single command, to provide a portable, homogeneous computational environment (across several operating systems and countless hardware configurations) for the simulation of cancer, heart and soft tissue.
@@ -36,7 +36,7 @@ For [Windows](https://docs.docker.com/docker-for-windows/install/#download-docke
 ### Users
 If you're a Chaste user and want to get up and running with the latest release fully compiled and ready to go, after installing and configuring Docker simply run:
 ```
-docker run -it --rm -v chaste_data:/home/chaste chaste/chaste-docker:2019.1
+docker run -it --init --rm -v chaste_data:/home/chaste chaste/chaste-docker:2019.1
 ```
 This should present you with a bash prompt within an isolated Docker container with all the dependencies and pre-compiled code you need to start building your own Chaste projects. If you don't already have a project, just use the provided script `new_project.sh` to create a project template in `~/projects` as a starting point. Many tutorials for projects can be found here: https://chaste.cs.ox.ac.uk/trac/wiki/UserTutorials.
 
@@ -62,9 +62,9 @@ If you're a Chaste developer and want to build your own image with a particular 
 
 2. Launch the container:
     ```
-    docker run -it --rm -v chaste_data:/home/chaste chaste
+    docker run -it --init --rm -v chaste_data:/home/chaste chaste
     ```
-    (Or run `docker run -it --rm -v chaste_data:/home/chaste chaste:2019.1` if you tagged your image name as above.)
+    (Or run `docker run -it --init --rm -v chaste_data:/home/chaste chaste:2019.1` if you tagged your image name as above.)
     The first time will take a little longer than usual as the volume has to be populated with data. For information on accessing the contents of this volume, see [below](#accessing-volume-data).
 
 Once the container has successfully launched, you should see a command prompt a bit like this:
@@ -104,13 +104,13 @@ Any changes made in the home folder (`/home/chaste`) will persist between restar
 Mounting host directories
 -------------------------
 
-Any host directory (specified with an absolute path) may be mounted in the container as e.g. the `projects` directory and another for the `testoutput`. Navigate to the folder on the host which contains these directories e.g. `C:\Users\$USERNAME\chaste` (Windows) or `~/chaste` (Linux/macOS). The next command depends upon which OS (and shell) you are using:
+Any host directory (specified with an absolute path) may be mounted in the container e.g. the `testoutput` directory. Navigate to the folder on the host which contains these directories e.g. `C:\Users\$USERNAME\chaste` (Windows) or `~/chaste` (Linux/macOS). The next command depends upon which OS (and shell) you are using:
 
 | Operating System         | Command                                                       |
 | ------------------------ | ------------------------------------------------------------- |
-| Linux & macOS (*nix)     | `docker run -it --rm -v chaste_data:/home/chaste -v $(pwd)/projects:/home/chaste/projects -v $(pwd)/testoutput:/home/chaste/testoutput chaste` |
-| Windows (PowerShell [[2]](#FN2)) | `docker run -it --rm -v chaste_data:/home/chaste -v ${PWD}/projects:/home/chaste/projects -v ${PWD}/testoutput:/home/chaste/testoutput chaste` |
-| Windows (Command Prompt) | `docker run -it --rm -v chaste_data:/home/chaste -v %cd%/projects:/home/chaste/projects -v %cd%/testoutput:/home/chaste/testoutput chaste`     |
+| Linux & macOS (*nix)     | `docker run -it --init --rm -v chaste_data:/home/chaste -v $(pwd)/testoutput:/home/chaste/testoutput chaste` |
+| Windows (PowerShell [[2]](#FN2)) | `docker run -it --init --rm -v chaste_data:/home/chaste -v ${PWD}/testoutput:/home/chaste/testoutput chaste` |
+| Windows (Command Prompt) | `docker run -it --init --rm -v chaste_data:/home/chaste -v %cd%/testoutput:/home/chaste/testoutput chaste`     |
 
 Accessing volume data
 ---------------------
