@@ -1,4 +1,5 @@
 # docker build -t chaste .
+# docker build --target base -t chaste/base .
 # docker run -it --rm -v chaste_data:/home/chaste chaste
 
 # https://github.com/tianon/docker-brew-ubuntu-core/blob/404d80486fada09bff68a210b7eddf78f3235156/bionic/Dockerfile
