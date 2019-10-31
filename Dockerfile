@@ -66,6 +66,7 @@ RUN apt-get update && \
     libfltk1.3 \
     hdf5-tools \
     cmake-curses-gui \
+    scons \
     libgoogle-perftools-dev \
     doxygen \
     graphviz \
