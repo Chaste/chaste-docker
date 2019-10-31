@@ -2,7 +2,8 @@
 # docker run -it --rm -v chaste_data:/home/chaste chaste
 
 # https://github.com/tianon/docker-brew-ubuntu-core/blob/404d80486fada09bff68a210b7eddf78f3235156/bionic/Dockerfile
-FROM ubuntu:eoan AS base
+ARG BASE=eoan
+FROM ubuntu:${BASE} AS base
 LABEL maintainer="Ben Evans <ben.d.evans@gmail.com>"
 # Written by Benjamin D. Evans
 
@@ -20,7 +21,7 @@ RUN apt-get update && \
 
 # Install the Chaste repo list and key
 # https://chaste.cs.ox.ac.uk/trac/wiki/InstallGuides/UbuntuPackage
-RUN echo "deb http://www.cs.ox.ac.uk/chaste/ubuntu eoan/" >> /etc/apt/sources.list.d/chaste.list
+RUN echo "deb http://www.cs.ox.ac.uk/chaste/ubuntu ${BASE}/" >> /etc/apt/sources.list.d/chaste.list
 RUN apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 422C4D99
 
 # https://chaste.cs.ox.ac.uk/trac/wiki/InstallGuides/DependencyVersions
