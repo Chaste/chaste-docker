@@ -46,9 +46,13 @@ RUN apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 422C4D99
 # VTK (libvtk6-dev, libvtk6.3-qt, python-vtk6) 6.3
 # Python (python-dev, python-pip, python-vtk6) 2.7.16-1
 
+# Install dependencies with recommended packages
+RUN apt-get update && apt-get install -y --install-recommends chaste-dependencies
+
+# Install applicable suggested packages and useful tools
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
-    chaste-dependencies \
+    # chaste-dependencies \
     sudo \
     git \
     nano \
