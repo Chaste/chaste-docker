@@ -54,23 +54,26 @@ RUN apt-get update && \
     apt-get install -y --no-install-recommends \
     # chaste-dependencies \
     sudo \
-    git \
+    # git \
     nano \
+    curl \
     wget \
+    rsync \
     python-dev \
     python-pip \
     python-setuptools \
-    python-vtk6 \
-    libvtk6-dev \
-    libvtk6.3-qt \
-    openjdk-14-jdk \
-    libpetsc-real3.11-dbg \
+    # python-vtk6 \
+    # libvtk6-dev \
+    # libvtk6.3-qt \
+    # openjdk-14-jdk \
+    # libpetsc-real3.11-dbg \
     mencoder \
     mplayer \
-    valgrind \
-    libfltk1.3 \
-    hdf5-tools \
-    cmake-curses-gui \
+    # valgrind \
+    # libfltk1.3 \
+    cmake \
+    # hdf5-tools \
+    # cmake-curses-gui \
     scons \
     libgoogle-perftools-dev \
     doxygen \
