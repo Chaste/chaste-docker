@@ -79,8 +79,9 @@ RUN apt-get update && \
     doxygen \
     graphviz \
     gnuplot && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+    rm -rf /var/lib/apt/lists/*
+    # apt-get clean && \
+    # rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # Fix the CMake warnings
 RUN update-alternatives --install /usr/bin/vtk vtk /usr/bin/vtk6 10
