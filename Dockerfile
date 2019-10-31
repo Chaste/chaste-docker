@@ -15,9 +15,10 @@ RUN apt-get update && \
     apt-utils \
     apt-transport-https \
     ca-certificates \
-    gnupg && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+    gnupg
+    # gnupg && \
+    # apt-get clean && \
+    # rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # Install the Chaste repo list and key
 # https://chaste.cs.ox.ac.uk/trac/wiki/InstallGuides/UbuntuPackage
