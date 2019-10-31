@@ -27,9 +27,10 @@ RUN apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 422C4D99
 
 # https://chaste.cs.ox.ac.uk/trac/wiki/InstallGuides/DependencyVersions
 # Package: chaste-dependencies
-# Version: 2018.04.18
+# Version: 2019.10.31
+# Architecture: all
 # Depends: cmake | scons, g++, libopenmpi-dev, petsc-dev, libhdf5-openmpi-dev, xsdcxx, libboost-serialization-dev, libboost-filesystem-dev, libboost-program-options-dev, libparmetis-dev, libmetis-dev, libxerces-c-dev, libsundials-dev | libsundials-serial-dev, libvtk7-dev | libvtk6-dev | libvtk5-dev, python-lxml, python-amara, python-rdflib, libproj-dev
-# Recommends: git, valgrind, libpetsc3.7.7-dbg | libpetsc3.7.6-dbg | libpetsc3.6.4-dbg | libpetsc3.6.2-dbg | libpetsc3.4.2-dbg, libfltk1.1, hdf5-tools, cmake-curses-gui
+# Recommends: git, valgrind, libpetsc-real3.11-dbg | libpetsc-real3.10-dbg | libpetsc-real3.9-dbg | libpetsc3.7.7-dbg | libpetsc3.6.2-dbg, libfltk1.1, hdf5-tools, cmake-curses-gui
 # Suggests: libgoogle-perftools-dev, doxygen, graphviz, eclipse-cdt, eclipse-egit, libsvn-java, subversion, git-svn, gnuplot, paraview
 
 # https://chaste.cs.ox.ac.uk/trac/wiki/InstallGuides/DependencyVersions
