@@ -66,6 +66,5 @@ mount: build
 							   $(CHASTE_IMAGE):$(TAG) bash
 
 test: build
-	docker run -it --init --rm -v $(CHASTE_DATA_VOLUME):$(CHASTE_DIR) \
-							   --env CMAKE_BUILD_TYPE=Debug \
+	docker run -it --init --rm --env CMAKE_BUILD_TYPE=Debug \
 							   $(CHASTE_IMAGE):$(TAG) test.sh $(TEST_SUITE)
