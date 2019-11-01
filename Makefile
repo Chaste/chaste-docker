@@ -2,7 +2,7 @@ help:
 	@cat Makefile
 
 CHASTE_IMAGE?=chaste/chaste-docker
-BASE?=disco
+BASE?=eoan
 GIT_TAG?=release_2019.1
 TAG?=2019.1
 CHASTE_DIR?="/home/chaste"
