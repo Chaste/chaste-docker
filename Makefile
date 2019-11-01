@@ -62,7 +62,7 @@ bash: build
 mount: build
 	docker run -it --init --rm -v $(CHASTE_DATA_VOLUME):$(CHASTE_DIR) \
 							   -v $(PROJECTS):$(CHASTE_DIR)/projects \
-							   -v $(TEST_OUTPUT):/$(CHASTE_DIR)/testoutput \
+							   -v $(TEST_OUTPUT):$(CHASTE_DIR)/testoutput \
 							   $(CHASTE_IMAGE):$(TAG) bash
 
 test: build
