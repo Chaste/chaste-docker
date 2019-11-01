@@ -10,6 +10,7 @@ LABEL maintainer="Ben Evans <ben.d.evans@gmail.com>"
 USER root
 ARG DEBIAN_FRONTEND=noninteractive
 # Declare IMAGE_BASE in this build stage (the value is inherited from the global stage)
+# https://github.com/moby/moby/issues/34482
 ARG IMAGE_BASE
 
 RUN apt-get update && \
@@ -25,7 +26,11 @@ RUN apt-get update && \
 # Install the Chaste repo list and key
 # https://chaste.cs.ox.ac.uk/trac/wiki/InstallGuides/UbuntuPackage
 RUN echo "deb http://www.cs.ox.ac.uk/chaste/ubuntu ${IMAGE_BASE}/" >> /etc/apt/sources.list.d/chaste.list
-RUN echo "deb http://www.cs.ox.ac.uk/chaste/ubuntu ${BASE}/" >> /etc/apt/sources.list.d/chaste.list
+# COPY ${IMAGE_BASE} /etc/apt/sources.list.d/chaste.list
+# This is a workaround because COPY fails if the filename is changed
+# COPY scripts/set_source.sh set_source.sh 
+# RUN ./set_source.sh $IMAGE_BASE && rm set_source.sh
+# RUN cat /etc/apt/sources.list.d/chaste.list
 RUN apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 422C4D99
 
 # https://chaste.cs.ox.ac.uk/trac/wiki/InstallGuides/DependencyVersions
@@ -50,10 +55,7 @@ RUN apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 422C4D99
 # VTK (libvtk6-dev, libvtk6.3-qt, python-vtk6) 6.3
 # Python (python-dev, python-pip, python-vtk6) 2.7.16-1
 
-# Install dependencies with recommended packages
-RUN apt-get update && apt-get install -y --install-recommends chaste-dependencies
-
-# Install applicable suggested packages and useful tools
+# Install dependencies with recommended, applicable suggested and other useful packages
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
     # chaste-dependencies \
@@ -88,7 +90,9 @@ RUN apt-get update && \
     # rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # Fix the CMake warnings
+# https://github.com/autowarefoundation/autoware/issues/795
 RUN update-alternatives --install /usr/bin/vtk vtk /usr/bin/vtk6 10
+# RUN update-alternatives --install /usr/bin/vtk vtk /usr/bin/vtk7 10
 # RUN ln -s /usr/bin/vtk6 /usr/bin/vtk
 RUN ln -s /usr/lib/python2.7/dist-packages/vtk/libvtkRenderingPythonTkWidgets.x86_64-linux-gnu.so /usr/lib/x86_64-linux-gnu/libvtkRenderingPythonTkWidgets.so
 
