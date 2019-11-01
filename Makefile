@@ -40,13 +40,13 @@ clone:
 	docker pull $(CHASTE_IMAGE):$(TAG)
 
 run: clone
-	docker run -it --rm -v $(CHASTE_DATA_VOLUME):$(CHASTE_DIR) $(CHASTE_IMAGE):$(TAG) bash
+	docker run -it --init --rm -v $(CHASTE_DATA_VOLUME):$(CHASTE_DIR) $(CHASTE_IMAGE):$(TAG) bash
 
 bash: build
-	docker run -it --rm -v $(CHASTE_DATA_VOLUME):$(CHASTE_DIR) $(CHASTE_IMAGE):$(TAG) bash
+	docker run -it --init --rm -v $(CHASTE_DATA_VOLUME):$(CHASTE_DIR) $(CHASTE_IMAGE):$(TAG) bash
 
 mount: build
-	docker run -it --rm -v $(CHASTE_DATA_VOLUME):$(CHASTE_DIR) -v $(PROJECTS):$(CHASTE_DIR)/projects -v $(TEST_OUTPUT):/$(CHASTE_DIR)/testoutput $(CHASTE_IMAGE):$(TAG) bash
+	docker run -it --init --rm -v $(CHASTE_DATA_VOLUME):$(CHASTE_DIR) -v $(PROJECTS):$(CHASTE_DIR)/projects -v $(TEST_OUTPUT):/$(CHASTE_DIR)/testoutput $(CHASTE_IMAGE):$(TAG) bash
 
 test: build
-	docker run -it --rm -v $(CHASTE_DATA_VOLUME):$(CHASTE_DIR) --env CMAKE_BUILD_TYPE=Debug $(CHASTE_IMAGE):$(TAG) test.sh $(TEST_SUITE)
+	docker run -it --init --rm -v $(CHASTE_DATA_VOLUME):$(CHASTE_DIR) --env CMAKE_BUILD_TYPE=Debug $(CHASTE_IMAGE):$(TAG) test.sh $(TEST_SUITE)
