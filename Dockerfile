@@ -137,7 +137,6 @@ ENV PYTHONPATH="${CHASTE_BUILD_DIR}/lib/python:$PYTHONPATH"
 
 # Create Chaste build, projects and output folders
 RUN mkdir -p "${CHASTE_SOURCE_DIR}" "${CHASTE_BUILD_DIR}" "${CHASTE_TEST_OUTPUT}"
-RUN ln -s "${CHASTE_TEST_OUTPUT}" "${CHASTE_SOURCE_DIR}/testoutput"
 RUN ln -s "${CHASTE_PROJECTS_DIR}" projects
 
 CMD ["bash"]
@@ -149,6 +148,7 @@ FROM base
 ARG TAG=-
 ENV BRANCH=$TAG
 RUN build_chaste.sh $BRANCH
+# RUN ln -s "${CHASTE_TEST_OUTPUT}" "${CHASTE_SOURCE_DIR}/testoutput"
 
 # Automatically mount the home directory in a volume to persist changes made there
 # N.B. If any build steps change the data within the volume after it has been declared, those changes will be discarded.
