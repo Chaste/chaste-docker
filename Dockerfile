@@ -2,13 +2,15 @@
 # docker run -it --rm -v chaste_data:/home/chaste chaste
 
 # https://github.com/tianon/docker-brew-ubuntu-core/blob/404d80486fada09bff68a210b7eddf78f3235156/bionic/Dockerfile
-ARG BASE=eoan
-FROM ubuntu:${BASE} AS base
+ARG IMAGE_BASE=eoan
+FROM ubuntu:${IMAGE_BASE} AS base
 LABEL maintainer="Ben Evans <ben.d.evans@gmail.com>"
 # Written by Benjamin D. Evans
 
 USER root
 ARG DEBIAN_FRONTEND=noninteractive
+# Declare IMAGE_BASE in this build stage (the value is inherited from the global stage)
+ARG IMAGE_BASE
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
@@ -22,6 +24,7 @@ RUN apt-get update && \
 
 # Install the Chaste repo list and key
 # https://chaste.cs.ox.ac.uk/trac/wiki/InstallGuides/UbuntuPackage
+RUN echo "deb http://www.cs.ox.ac.uk/chaste/ubuntu ${IMAGE_BASE}/" >> /etc/apt/sources.list.d/chaste.list
 RUN echo "deb http://www.cs.ox.ac.uk/chaste/ubuntu ${BASE}/" >> /etc/apt/sources.list.d/chaste.list
 RUN apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 422C4D99
 
