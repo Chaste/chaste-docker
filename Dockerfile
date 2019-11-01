@@ -42,7 +42,7 @@ RUN apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 422C4D99
 # Suggests: libgoogle-perftools-dev, doxygen, graphviz, eclipse-cdt, eclipse-egit, libsvn-java, subversion, git-svn, gnuplot, paraview
 
 # CMake (cmake) 3.13.4-1build1
-# GCC (g++) g++: 4:9.2.1-3.1ubuntu1; g++-7: 7.4.0-12ubuntu2
+# GCC (g++) g++: 9.2.1-9ubuntu2
 # PETSc (libpetsc-real3.11-dbg) 3.11.3+dfsg1-2
 # Boost (libboost-serialization-dev, libboost-filesystem-dev, libboost-program-options-dev) 1.67
 # parMETIS (libparmetis-dev) 4.0.3-5build1
