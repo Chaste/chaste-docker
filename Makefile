@@ -19,22 +19,25 @@ all: dependencies build
 
 build:
 	docker build -t $(CHASTE_IMAGE):$(TAG) \
+				 --build-arg BASE=$(BASE) \
 				 --build-arg CHASTE_DIR=$(CHASTE_DIR) \
 				 --build-arg TAG=$(GIT_TAG) \
 				 -f $(DOCKER_FILE) .
 
 base:
-	docker build --target base -t chaste/base:$(BASE) .
+	docker build --build-arg BASE=$(BASE) --target base -t chaste/base:$(BASE) .
 	docker push chaste/base:$(BASE)
 
 fresh:
 	docker build --no-cache -t $(CHASTE_IMAGE):$(TAG) \
+				 --build-arg BASE=$(BASE) \
 				 --build-arg CHASTE_DIR=$(CHASTE_DIR) \
 				 --build-arg TAG=$(GIT_TAG) \
 				 -f $(DOCKER_FILE) .
 
 latest:
 	docker build --no-cache -t $(CHASTE_IMAGE):$(TAG) \
+				 --build-arg BASE=$(BASE) \
 				 --build-arg CHASTE_DIR=$(CHASTE_DIR) \
 				 --build-arg TAG=master \
 				 -f $(DOCKER_FILE) .
