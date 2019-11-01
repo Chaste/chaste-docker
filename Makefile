@@ -45,10 +45,10 @@ clean:
 stats:
 	docker stats
 
-clone:
+pull:
 	docker pull $(CHASTE_IMAGE):$(TAG)
 
-run: clone
+run: build
 	docker run -it --init --rm -v $(CHASTE_DATA_VOLUME):$(CHASTE_DIR) \
 							   $(CHASTE_IMAGE):$(TAG) bash
 
