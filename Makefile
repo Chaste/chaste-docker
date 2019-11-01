@@ -14,8 +14,8 @@ TEST_SUITE?="Continuous"
 # SRC?=$(shell dirname `pwd`)
 
 all: dependencies build
-.PHONY: all
-# TODO: Make all recipes phony
+
+.PHONY: all build base fresh latest clean stats clone run bash mount test
 
 build:
 	docker build -t $(CHASTE_IMAGE):$(TAG) --build-arg CHASTE_DIR=$(CHASTE_DIR) --build-arg TAG=$(GIT_TAG) -f $(DOCKER_FILE) .
