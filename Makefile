@@ -51,6 +51,9 @@ stats:
 pull:
 	docker pull $(CHASTE_IMAGE):$(TAG)
 
+push:
+	docker push $(CHASTE_IMAGE):$(TAG)
+
 run: build
 	docker run -it --init --rm -v $(CHASTE_DATA_VOLUME):$(CHASTE_DIR) \
 							   $(CHASTE_IMAGE):$(TAG) bash
