@@ -41,7 +41,6 @@ RUN apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 422C4D99
 # Recommends: git, valgrind, libpetsc-real3.11-dbg | libpetsc-real3.10-dbg | libpetsc-real3.9-dbg | libpetsc3.7.7-dbg | libpetsc3.6.2-dbg, libfltk1.1, hdf5-tools, cmake-curses-gui
 # Suggests: libgoogle-perftools-dev, doxygen, graphviz, eclipse-cdt, eclipse-egit, libsvn-java, subversion, git-svn, gnuplot, paraview
 
-# https://chaste.cs.ox.ac.uk/trac/wiki/InstallGuides/DependencyVersions
 # CMake (cmake) 3.13.4-1build1
 # GCC (g++) g++: 4:9.2.1-3.1ubuntu1; g++-7: 7.4.0-12ubuntu2
 # PETSc (libpetsc-real3.11-dbg) 3.11.3+dfsg1-2
@@ -58,33 +57,38 @@ RUN apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 422C4D99
 # Install dependencies with recommended, applicable suggested and other useful packages
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
-    # chaste-dependencies \
+    chaste-dependencies \
+    git \
+    valgrind \
+    # libpetsc-real3.11-dbg \
+    "libpetsc-real*-dbg" \
+    # libfltk1.3 \
+    hdf5-tools \
+    cmake-curses-gui \
+    libgoogle-perftools-dev \
+    doxygen \
+    graphviz \
+    gnuplot \
+    python-dev \
+    python-pip \
+    python-setuptools \
+    # Needed for /usr/lib/x86_64-linux-gnu/libvtkRenderingPythonTkWidgets.so
+    # python3-vtk7 \
+    # Match any future version of Python VTK bindings
+    # 'python3-vtk[0-9]+' \
+    python-vtk6 \
+    libvtk6-dev \
+    cmake \
+    scons \
     sudo \
-    # git \
     nano \
     curl \
     wget \
     rsync \
-    python-dev \
-    python-pip \
-    python-setuptools \
-    # python-vtk6 \
-    # libvtk6-dev \
+    mencoder \
+    mplayer && \
     # libvtk6.3-qt \
     # openjdk-14-jdk \
-    # libpetsc-real3.11-dbg \
-    mencoder \
-    mplayer \
-    # valgrind \
-    # libfltk1.3 \
-    cmake \
-    # hdf5-tools \
-    # cmake-curses-gui \
-    scons \
-    libgoogle-perftools-dev \
-    doxygen \
-    graphviz \
-    gnuplot && \
     rm -rf /var/lib/apt/lists/*
     # apt-get clean && \
     # rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
