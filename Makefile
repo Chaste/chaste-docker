@@ -20,7 +20,7 @@ all: dependencies build
 
 build:
 	docker build -t $(CHASTE_IMAGE):$(TAG) \
-				 -t $(CHASTE_IMAGE):$(BASE)_$(TAG) \
+				 -t $(CHASTE_IMAGE):$(BASE)-$(TAG) \
 				 --build-arg BASE=$(BASE) \
 				 --build-arg CHASTE_DIR=$(CHASTE_DIR) \
 				 --build-arg TAG=$(GIT_TAG) \
