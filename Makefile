@@ -4,6 +4,7 @@ help:
 CHASTE_IMAGE?=chaste/chaste-docker
 BASE?=eoan
 GIT_TAG?=release_2019.1
+# GIT_TAG?=$(git describe --abbrev=0)
 TAG?=2019.1
 CHASTE_DIR?="/home/chaste"
 DOCKER_FILE?=Dockerfile
