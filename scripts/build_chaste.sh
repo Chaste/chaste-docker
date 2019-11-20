@@ -20,6 +20,10 @@ if [ -z "$CHASTE_BUILD_DIR" ]; then
 fi
 
 if [ $VERSION != '.' ]; then
+    if [ $VERSION = 'master' ] || [ $VERSION = 'develop' ]; then
+        # Override GIT_REMOTE to build from the upstream server
+        GIT_REMOTE=https://chaste.cs.ox.ac.uk/git/chaste.git
+    fi
     echo "Cloning Chaste from ${GIT_REMOTE}#${VERSION} into ${CHASTE_SOURCE_DIR}..."
     mkdir -p $CHASTE_SOURCE_DIR
     git clone -b $VERSION $GIT_REMOTE $CHASTE_SOURCE_DIR
