@@ -19,6 +19,7 @@ all: dependencies build
 
 build:
 	docker build -t $(CHASTE_IMAGE):$(TAG) \
+				 -t $(CHASTE_IMAGE):$(BASE)_$(TAG) \
 				 --build-arg BASE=$(BASE) \
 				 --build-arg CHASTE_DIR=$(CHASTE_DIR) \
 				 --build-arg TAG=$(GIT_TAG) \
@@ -30,6 +31,7 @@ base:
 
 push:
 	docker push $(CHASTE_IMAGE):$(TAG)
+	docker push $(CHASTE_IMAGE):$(BASE)_$(TAG)
 
 release: CHASTE_IMAGE=chaste/release
 release: build push
