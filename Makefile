@@ -28,6 +28,11 @@ base:
 	docker build --build-arg BASE=$(BASE) --target base -t chaste/base:$(BASE) .
 	docker push chaste/base:$(BASE)
 
+push:
+	docker push $(CHASTE_IMAGE):$(TAG)
+
+release: build push
+
 fresh:
 	docker build --no-cache -t $(CHASTE_IMAGE):$(TAG) \
 				 --build-arg BASE=$(BASE) \
