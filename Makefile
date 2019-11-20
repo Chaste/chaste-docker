@@ -71,3 +71,11 @@ mount: build
 test: build
 	docker run -it --init --rm --env CMAKE_BUILD_TYPE=Debug \
 							   $(CHASTE_IMAGE):$(TAG) test.sh $(TEST_SUITE)
+
+info:
+	lsb_release -a
+	docker -v
+
+verbose: info
+	docker system info
+
