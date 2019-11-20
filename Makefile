@@ -31,6 +31,7 @@ base:
 push:
 	docker push $(CHASTE_IMAGE):$(TAG)
 
+release: CHASTE_IMAGE=chaste/release
 release: build push
 
 fresh:
