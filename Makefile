@@ -47,6 +47,13 @@ latest:
 				 --build-arg TAG=master \
 				 -f $(DOCKER_FILE) .
 
+master develop:
+	docker build -t $(CHASTE_IMAGE):$@ \
+				 --build-arg BASE=$(BASE) \
+				 --build-arg CHASTE_DIR=$(CHASTE_DIR) \
+				 --build-arg TAG=$@ \
+				 -f $(DOCKER_FILE) .
+
 clean:
 	docker system prune
 
