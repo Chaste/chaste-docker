@@ -1,7 +1,7 @@
 help:
 	@cat Makefile
 
-CHASTE_IMAGE?=chaste/chaste-docker
+CHASTE_IMAGE?=chaste/release
 BASE?=eoan
 GIT_TAG?=release_2019.1
 # GIT_TAG?=$(git describe --abbrev=0)
