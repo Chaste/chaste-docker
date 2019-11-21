@@ -30,9 +30,6 @@ base:
 	docker build --build-arg BASE=$(BASE) --target base -t chaste/base:$(BASE) .
 	docker push chaste/base:$(BASE)
 
-release: CHASTE_IMAGE=chaste/release
-release: build push
-
 fresh:
 	docker build --no-cache -t $(CHASTE_IMAGE):$(TAG) \
 				 --build-arg BASE=$(BASE) \
@@ -81,6 +78,9 @@ run: build
 test: build
 	docker run -it --init --rm --env CMAKE_BUILD_TYPE=Debug \
 				$(CHASTE_IMAGE):$(TAG) test.sh $(TEST_SUITE)
+
+release: CHASTE_IMAGE=chaste/release
+release: build test push
 
 info:
 	@echo "Mounts: $(MOUNTS)"
