@@ -2,14 +2,20 @@
 .gitignore
 .ipynb_checkpoints
 Dockerfile
+.dockerignore
 Makefile
 .DS_Store
 README.md
 LICENSE.txt
 Notes.md
+benchmark.md
 env.*
 .travis.yml
 run.sh
+install_docker_ubuntu.sh
+LICENSE.txt
+.devcontainer
+.devcontainer.json
 
 # To prevent storing dev/temporary container data
 *.csv

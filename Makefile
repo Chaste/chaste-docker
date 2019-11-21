@@ -2,33 +2,57 @@ help:
 	@cat Makefile
 
 CHASTE_IMAGE?=chaste/chaste-docker
-BASE?=disco
+BASE?=eoan
 GIT_TAG?=release_2019.1
+# GIT_TAG?=$(git describe --abbrev=0)
 TAG?=2019.1
 CHASTE_DIR?="/home/chaste"
 DOCKER_FILE?=Dockerfile
 CHASTE_DATA_VOLUME?=chaste_data
-PROJECTS?="${HOME}/projects"
-TEST_OUTPUT?="${HOME}/testoutput"
+# PROJECTS?="${HOME}/projects"
+# TEST_OUTPUT?="${HOME}/testoutput"
 TEST_SUITE?="Continuous"
 # SRC?=$(shell dirname `pwd`)
 
-all: dependencies build
-.PHONY: all
-# TODO: Make all recipes phony
+all: base build
+
+.PHONY: all build base release fresh latest master develop clean stats pull push run test info verbose
 
 build:
-	docker build -t $(CHASTE_IMAGE):$(TAG) --build-arg CHASTE_DIR=$(CHASTE_DIR) --build-arg TAG=$(GIT_TAG) -f $(DOCKER_FILE) .
+	docker build -t $(CHASTE_IMAGE):$(TAG) \
+				 -t $(CHASTE_IMAGE):$(BASE)-$(TAG) \
+				 --build-arg BASE=$(BASE) \
+				 --build-arg CHASTE_DIR=$(CHASTE_DIR) \
+				 --build-arg TAG=$(GIT_TAG) \
+				 -f $(DOCKER_FILE) .
 
 base:
-	docker build --target base -t chaste/base:$(BASE) .
+	docker build --build-arg BASE=$(BASE) --target base -t chaste/base:$(BASE) .
 	docker push chaste/base:$(BASE)
 
+release: CHASTE_IMAGE=chaste/release
+release: build push
+
 fresh:
-	docker build --no-cache -t $(CHASTE_IMAGE):$(TAG) --build-arg CHASTE_DIR=$(CHASTE_DIR) --build-arg TAG=$(GIT_TAG) -f $(DOCKER_FILE) .
+	docker build --no-cache -t $(CHASTE_IMAGE):$(TAG) \
+				 --build-arg BASE=$(BASE) \
+				 --build-arg CHASTE_DIR=$(CHASTE_DIR) \
+				 --build-arg TAG=$(GIT_TAG) \
+				 -f $(DOCKER_FILE) .
 
 latest:
-	docker build --no-cache -t $(CHASTE_IMAGE):$(TAG) --build-arg CHASTE_DIR=$(CHASTE_DIR) --build-arg TAG=master -f $(DOCKER_FILE) .
+	docker build --no-cache -t $(CHASTE_IMAGE):$(TAG) \
+				 --build-arg BASE=$(BASE) \
+				 --build-arg CHASTE_DIR=$(CHASTE_DIR) \
+				 --build-arg TAG=master \
+				 -f $(DOCKER_FILE) .
+
+master develop:
+	docker build -t $(CHASTE_IMAGE):$@ \
+				 --build-arg BASE=$(BASE) \
+				 --build-arg CHASTE_DIR=$(CHASTE_DIR) \
+				 --build-arg TAG=$@ \
+				 -f $(DOCKER_FILE) .
 
 clean:
 	docker system prune
@@ -36,17 +60,32 @@ clean:
 stats:
 	docker stats
 
-clone:
+pull:
 	docker pull $(CHASTE_IMAGE):$(TAG)
 
-run: clone
-	docker run -it --rm -v $(CHASTE_DATA_VOLUME):$(CHASTE_DIR) $(CHASTE_IMAGE):$(TAG) bash
+push:
+	docker push $(CHASTE_IMAGE):$(TAG)
+	docker push $(CHASTE_IMAGE):$(BASE)-$(TAG)
 
-bash: build
-	docker run -it --rm -v $(CHASTE_DATA_VOLUME):$(CHASTE_DIR) $(CHASTE_IMAGE):$(TAG) bash
+MOUNTS = -v $(CHASTE_DATA_VOLUME):$(CHASTE_DIR)
+ifdef PROJECTS
+MOUNTS += -v $(PROJECTS):$(CHASTE_DIR)/projects
+endif
+ifdef TEST_OUTPUT
+MOUNTS += -v $(TEST_OUTPUT):$(CHASTE_DIR)/testoutput
+endif
 
-mount: build
-	docker run -it --rm -v $(CHASTE_DATA_VOLUME):$(CHASTE_DIR) -v $(PROJECTS):$(CHASTE_DIR)/projects -v $(TEST_OUTPUT):/$(CHASTE_DIR)/testoutput $(CHASTE_IMAGE):$(TAG) bash
+run: build
+	docker run -it --init --rm $(MOUNTS) $(CHASTE_IMAGE):$(TAG)
 
 test: build
-	docker run -it --rm -v $(CHASTE_DATA_VOLUME):$(CHASTE_DIR) --env CMAKE_BUILD_TYPE=Debug $(CHASTE_IMAGE):$(TAG) test.sh $(TEST_SUITE)
+	docker run -it --init --rm --env CMAKE_BUILD_TYPE=Debug \
+				$(CHASTE_IMAGE):$(TAG) test.sh $(TEST_SUITE)
+
+info:
+	@echo "Mounts: $(MOUNTS)"
+	lsb_release -a
+	docker -v
+
+verbose: info
+	docker system info
