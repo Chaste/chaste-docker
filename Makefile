@@ -14,9 +14,9 @@ TEST_OUTPUT?="${HOME}/testoutput"
 TEST_SUITE?="Continuous"
 # SRC?=$(shell dirname `pwd`)
 
-all: dependencies build
+all: base build
 
-.PHONY: all build base fresh latest clean stats clone run bash mount test
+.PHONY: all build base release fresh latest master develop clean stats pull push run bash mount test info verbose
 
 build:
 	docker build -t $(CHASTE_IMAGE):$(TAG) \
@@ -69,11 +69,11 @@ push:
 
 run: build
 	docker run -it --init --rm -v $(CHASTE_DATA_VOLUME):$(CHASTE_DIR) \
-							   $(CHASTE_IMAGE):$(TAG) bash
+				$(CHASTE_IMAGE):$(TAG) bash
 
 bash: build
 	docker run -it --init --rm -v $(CHASTE_DATA_VOLUME):$(CHASTE_DIR) \
-							   $(CHASTE_IMAGE):$(TAG) bash
+				$(CHASTE_IMAGE):$(TAG) bash
 
 mount: build
 	docker run -it --init --rm -v $(CHASTE_DATA_VOLUME):$(CHASTE_DIR) \
@@ -83,7 +83,7 @@ mount: build
 
 test: build
 	docker run -it --init --rm --env CMAKE_BUILD_TYPE=Debug \
-							   $(CHASTE_IMAGE):$(TAG) test.sh $(TEST_SUITE)
+				$(CHASTE_IMAGE):$(TAG) test.sh $(TEST_SUITE)
 
 info:
 	lsb_release -a
@@ -91,4 +91,3 @@ info:
 
 verbose: info
 	docker system info
-
