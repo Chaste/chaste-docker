@@ -1,7 +1,6 @@
 # docker build -t chaste .
 # docker run -it --rm -v chaste_data:/home/chaste chaste
 
-# https://github.com/tianon/docker-brew-ubuntu-core/blob/404d80486fada09bff68a210b7eddf78f3235156/bionic/Dockerfile
 ARG BASE=eoan
 FROM ubuntu:${BASE} AS base
 LABEL maintainer="Ben Evans <ben.d.evans@gmail.com>"
@@ -19,18 +18,10 @@ RUN apt-get update && \
     apt-transport-https \
     ca-certificates \
     gnupg
-    # gnupg && \
-    # apt-get clean && \
-    # rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # Install the Chaste repo list and key
 # https://chaste.cs.ox.ac.uk/trac/wiki/InstallGuides/UbuntuPackage
 RUN echo "deb http://www.cs.ox.ac.uk/chaste/ubuntu ${BASE}/" >> /etc/apt/sources.list.d/chaste.list
-# COPY ${BASE} /etc/apt/sources.list.d/chaste.list
-# This is a workaround because COPY fails if the filename is changed
-# COPY scripts/set_source.sh set_source.sh 
-# RUN ./set_source.sh $BASE && rm set_source.sh
-# RUN cat /etc/apt/sources.list.d/chaste.list
 RUN apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 422C4D99
 
 # https://chaste.cs.ox.ac.uk/trac/wiki/InstallGuides/DependencyVersions
@@ -60,9 +51,7 @@ RUN apt-get update && \
     chaste-dependencies \
     git \
     valgrind \
-    # libpetsc-real3.11-dbg \
     "libpetsc-real*-dbg" \
-    # libfltk1.3 \
     hdf5-tools \
     cmake-curses-gui \
     libgoogle-perftools-dev \
@@ -87,11 +76,7 @@ RUN apt-get update && \
     rsync \
     mencoder \
     mplayer && \
-    # libvtk6.3-qt \
-    # openjdk-14-jdk \
     rm -rf /var/lib/apt/lists/*
-    # apt-get clean && \
-    # rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # Fix the CMake warnings
 # https://github.com/autowarefoundation/autoware/issues/795
