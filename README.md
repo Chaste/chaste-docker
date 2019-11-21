@@ -8,6 +8,8 @@ Chaste-docker
 
 [![Build Status](https://travis-ci.org/Chaste/chaste-docker.svg?branch=master)](https://travis-ci.org/Chaste/chaste-docker)
 [![Docker Pulls](https://img.shields.io/docker/pulls/chaste/chaste-docker.svg)](https://hub.docker.com/r/chaste/chaste-docker/)
+[![Release version](https://images.microbadger.com/badges/version/chaste/release.svg)](https://microbadger.com/images/chaste/release "Latest version of chaste/release")
+[![Release properties](https://images.microbadger.com/badges/image/chaste/release.svg)](https://microbadger.com/images/chaste/release "Image properties of the latest version of chaste/releas")
 
 ## TL;DR
 
