@@ -1,4 +1,5 @@
 # docker build -t chaste .
+# docker build --target base -t chaste/base .
 # docker run -it --rm -v chaste_data:/home/chaste chaste
 
 ARG BASE=eoan
@@ -54,6 +55,7 @@ RUN apt-get update && \
     "libpetsc-real*-dbg" \
     hdf5-tools \
     cmake-curses-gui \
+    scons \
     libgoogle-perftools-dev \
     doxygen \
     graphviz \
