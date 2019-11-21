@@ -52,7 +52,7 @@ If you're a Chaste developer and want to build your own image with a particular 
         ```
     2. Alternatively a specific branch or tag may be specified through the argument `--build-arg TAG=<branch/tag>` (with the same tag appended onto the docker image name for clarity) e.g.:
         ```
-        docker build -t chaste:2019.1 --build-arg TAG=release_2019.1 https://github.com/chaste/chaste-docker.git
+        docker build -t chaste:release_2019.1 --build-arg TAG=release_2019.1 https://github.com/chaste/chaste-docker.git
         ```
     3. Finally, if you want a bare container ready for you to clone and compile your own Chaste code, run this command omitting the `--build-arg TAG=<branch/tag>` (or explicitly using `--build-arg TAG=-` argument which will skip compiling Chaste within the image):
         ```
@@ -64,7 +64,7 @@ If you're a Chaste developer and want to build your own image with a particular 
     ```
     docker run -it --init --rm -v chaste_data:/home/chaste chaste
     ```
-    (Or run `docker run -it --init --rm -v chaste_data:/home/chaste chaste:2019.1` if you tagged your image name as above.)
+    (Or run `docker run -it --init --rm -v chaste_data:/home/chaste chaste:release_2019.1` if you tagged your image name as above.)
     The first time will take a little longer than usual as the volume has to be populated with data. For information on accessing the contents of this volume, see [below](#accessing-volume-data).
 
 Once the container has successfully launched, you should see a command prompt a bit like this:
