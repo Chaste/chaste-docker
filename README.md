@@ -38,7 +38,7 @@ If you're a Chaste user and want to get up and running with the latest release f
 ```
 docker run -it --init --rm -v chaste_data:/home/chaste chaste/release
 ```
-This should present you with a bash prompt within an isolated Docker container with all the dependencies and pre-compiled code you need to start building your own Chaste projects. If needed, you can also "tag" the image name to pull a particular release e.g. `chaste/release:2019.1` rather than the latest version. If you don't already have a project, just use the provided script `new_project.sh` to create a project template in `~/projects` as a starting point. Many tutorials for projects can be found here: https://chaste.cs.ox.ac.uk/trac/wiki/UserTutorials.
+This should present you with a bash prompt within an isolated Docker container with all the dependencies and pre-compiled code you need to start building your own Chaste projects. If needed, you can also "tag" the image name with `chaste/release:tagname` to pull a particular release e.g. `chaste/release:2019.1` rather than the latest version (see other options [here](https://hub.docker.com/repository/docker/chaste/release)). If you don't already have a project, just use the provided script `new_project.sh` to create a project template in `~/projects` as a starting point. Many tutorials for projects can be found here: https://chaste.cs.ox.ac.uk/trac/wiki/UserTutorials.
 
 Once you have a project ready to build, use the script `build_project.sh <TestMyProject> c` (replacing `<TestMyProject>` with the name of your project) and you will find the output in `~/testoutput` (the `c` argument is only necessary when new files are created). If you wish to mount your `projects` and `testoutput` directories from the host to make them more easily accessible (recommended), see the instructions and accompanying table on bind-mounting them [below](#mounting-host-directories).
 
@@ -54,7 +54,7 @@ If you're a Chaste developer and want to build your own image with a particular 
         ```
         docker build -t chaste:release_2019.1 --build-arg TAG=release_2019.1 https://github.com/chaste/chaste-docker.git
         ```
-    3. Finally, if you want a bare container ready for you to clone and compile your own Chaste code, run this command omitting the `--build-arg TAG=<branch/tag>` (or explicitly using `--build-arg TAG=-` argument which will skip compiling Chaste within the image):
+    3. Finally, if you want a bare container ready for you to clone and compile your own Chaste code, pull a `base` image with `docker pull chaste/base` (tagging with a specific Ubuntu distribution if desired e.g. `chaste/base:eoan`) Alternatively, build a fresh image by running the following command (omitting the `--build-arg TAG=<branch/tag>` argument above, or explicitly passing `--build-arg TAG=-`, which will skip compiling Chaste within the image):
         ```
         docker build -t chaste https://github.com/chaste/chaste-docker.git
         ```
