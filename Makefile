@@ -9,14 +9,14 @@ TAG?=2019.1
 CHASTE_DIR?="/home/chaste"
 DOCKER_FILE?=Dockerfile
 CHASTE_DATA_VOLUME?=chaste_data
-PROJECTS?="${HOME}/projects"
-TEST_OUTPUT?="${HOME}/testoutput"
+# PROJECTS?="${HOME}/projects"
+# TEST_OUTPUT?="${HOME}/testoutput"
 TEST_SUITE?="Continuous"
 # SRC?=$(shell dirname `pwd`)
 
 all: base build
 
-.PHONY: all build base release fresh latest master develop clean stats pull push run bash mount test info verbose
+.PHONY: all build base release fresh latest master develop clean stats pull push run test info verbose
 
 build:
 	docker build -t $(CHASTE_IMAGE):$(TAG) \
@@ -67,25 +67,23 @@ push:
 	docker push $(CHASTE_IMAGE):$(TAG)
 	docker push $(CHASTE_IMAGE):$(BASE)-$(TAG)
 
+MOUNTS = -v $(CHASTE_DATA_VOLUME):$(CHASTE_DIR)
+ifdef PROJECTS
+MOUNTS += -v $(PROJECTS):$(CHASTE_DIR)/projects
+endif
+ifdef TEST_OUTPUT
+MOUNTS += -v $(TEST_OUTPUT):$(CHASTE_DIR)/testoutput
+endif
+
 run: build
-	docker run -it --init --rm -v $(CHASTE_DATA_VOLUME):$(CHASTE_DIR) \
-				$(CHASTE_IMAGE):$(TAG) bash
-
-bash: build
-	docker run -it --init --rm -v $(CHASTE_DATA_VOLUME):$(CHASTE_DIR) \
-				$(CHASTE_IMAGE):$(TAG) bash
-
-mount: build
-	docker run -it --init --rm -v $(CHASTE_DATA_VOLUME):$(CHASTE_DIR) \
-							   -v $(PROJECTS):$(CHASTE_DIR)/projects \
-							   -v $(TEST_OUTPUT):$(CHASTE_DIR)/testoutput \
-							   $(CHASTE_IMAGE):$(TAG) bash
+	docker run -it --init --rm $(MOUNTS) $(CHASTE_IMAGE):$(TAG)
 
 test: build
 	docker run -it --init --rm --env CMAKE_BUILD_TYPE=Debug \
 				$(CHASTE_IMAGE):$(TAG) test.sh $(TEST_SUITE)
 
 info:
+	@echo "Mounts: $(MOUNTS)"
 	lsb_release -a
 	docker -v
 
