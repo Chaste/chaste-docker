@@ -78,12 +78,12 @@ RUN apt-get update && \
     mplayer && \
     rm -rf /var/lib/apt/lists/*
 
-# Fix the CMake warnings
-# https://github.com/autowarefoundation/autoware/issues/795
+# Fix CMake warnings: https://github.com/autowarefoundation/autoware/issues/795
 RUN update-alternatives --install /usr/bin/vtk vtk /usr/bin/vtk6 10
 # RUN update-alternatives --install /usr/bin/vtk vtk /usr/bin/vtk7 10
 # RUN ln -s /usr/bin/vtk6 /usr/bin/vtk
-RUN ln -s /usr/lib/python2.7/dist-packages/vtk/libvtkRenderingPythonTkWidgets.x86_64-linux-gnu.so /usr/lib/x86_64-linux-gnu/libvtkRenderingPythonTkWidgets.so
+RUN ln -s /usr/lib/python2.7/dist-packages/vtk/libvtkRenderingPythonTkWidgets.x86_64-linux-gnu.so \
+    /usr/lib/x86_64-linux-gnu/libvtkRenderingPythonTkWidgets.so
 
 # Install TextTest for regression testing (this requires pygtk)
 RUN pip install --upgrade pip
@@ -100,7 +100,7 @@ ENV CHASTE_DIR=${CHASTE_DIR}
 WORKDIR ${CHASTE_DIR}
 
 # Add scripts
-#COPY --chown=chaste:chaste scripts /home/chaste/scripts
+# COPY --chown=chaste:chaste scripts /home/chaste/scripts
 COPY scripts "${CHASTE_DIR}/scripts"
 RUN chown -R chaste:chaste scripts
 USER chaste
