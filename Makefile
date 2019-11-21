@@ -30,10 +30,6 @@ base:
 	docker build --build-arg BASE=$(BASE) --target base -t chaste/base:$(BASE) .
 	docker push chaste/base:$(BASE)
 
-push:
-	docker push $(CHASTE_IMAGE):$(TAG)
-	docker push $(CHASTE_IMAGE):$(BASE)_$(TAG)
-
 release: CHASTE_IMAGE=chaste/release
 release: build push
 
@@ -62,6 +58,7 @@ pull:
 
 push:
 	docker push $(CHASTE_IMAGE):$(TAG)
+	docker push $(CHASTE_IMAGE):$(BASE)-$(TAG)
 
 run: build
 	docker run -it --init --rm -v $(CHASTE_DATA_VOLUME):$(CHASTE_DIR) \
