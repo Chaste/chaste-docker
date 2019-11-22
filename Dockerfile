@@ -43,7 +43,7 @@ RUN apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 422C4D99
 # Xerces (libxerces-c-dev) 3.2.2+debian-1build
 # Amara (python-amara) 2.0.0
 # SUNDIALS CVODE (libsundials-dev) 3.1.2+dfsg-3build3
-# VTK (libvtk6-dev, libvtk6.3-qt, python-vtk6) 6.3
+# VTK (libvtk6-dev, python-vtk6) 6.3
 # Python (python-dev, python-pip, python-vtk6) 2.7.16-1
 
 # Install dependencies with recommended, applicable suggested and other useful packages
