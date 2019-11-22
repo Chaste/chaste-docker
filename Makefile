@@ -44,6 +44,7 @@ latest:
 				 --build-arg TAG=master \
 				 -f $(DOCKER_FILE) .
 
+develop: CHASTE_IMAGE=chaste/develop
 master develop:
 	docker build -t $(CHASTE_IMAGE):$@ \
 				 --build-arg BASE=$(BASE) \
