@@ -52,7 +52,11 @@ RUN apt-get update && \
     chaste-dependencies \
     git \
     valgrind \
-    "libpetsc-real*-dbg" \
+    "libpetsc*-dbg" \
+    # TODO: Change to `real` after bionic is dropped to reduce image size
+    # "libpetsc-real*-dbg" \
+    # ssh is needed to fix MPI errors on bionic: https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=882603
+    openssh-client \
     hdf5-tools \
     cmake-curses-gui \
     libgoogle-perftools-dev \
