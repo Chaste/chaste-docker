@@ -14,10 +14,25 @@ CHASTE_DATA_VOLUME?=chaste_data
 TEST_SUITE?="Continuous"
 # SRC?=$(shell dirname `pwd`)
 
-all: base build
+all: base release
 
 .PHONY: all build base release fresh latest master develop clean stats pull push run test info verbose
 
+# BUILD_ARGS = --build-arg BASE=$(BASE)
+# IMAGE_NAMES = -t $(CHASTE_IMAGE):$(TAG)
+# base release: TARGET = $@
+# release: BUILD_ARGS += --build-arg CHASTE_DIR=$(CHASTE_DIR) --build-arg TAG=$(GIT_TAG)
+# release: IMAGE_NAMES += -t $(CHASTE_IMAGE):$(BASE)-$(TAG)
+# base: BUILD_ARGS += --target $@
+# base: CHASTE_IMAGE = chaste/base
+# base: IMAGE_NAMES = $(CHASTE_IMAGE):$(BASE)
+# base release: build
+# 	for NAME in $(IMAGE_NAMES) ; do \
+# 		push $$(NAME) ; \
+# 	done
+# build:
+# 	docker build $(BUILD_ARGS) $(IMAGE_NAMES) -f $(DOCKER_FILE) .
+# 	# docker push $(IMAGE_NAMES)
 build:
 	docker build -t $(CHASTE_IMAGE):$(TAG) \
 				 -t $(CHASTE_IMAGE):$(BASE)-$(TAG) \
