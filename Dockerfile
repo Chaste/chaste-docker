@@ -55,7 +55,6 @@ RUN apt-get update && \
     "libpetsc-real*-dbg" \
     hdf5-tools \
     cmake-curses-gui \
-    scons \
     libgoogle-perftools-dev \
     doxygen \
     graphviz \
