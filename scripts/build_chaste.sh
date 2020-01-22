@@ -26,7 +26,7 @@ if [ $VERSION != '.' ]; then
     fi
     echo "Cloning Chaste from ${GIT_REMOTE}#${VERSION} into ${CHASTE_SOURCE_DIR}..."
     mkdir -p $CHASTE_SOURCE_DIR
-    git clone -b $VERSION $GIT_REMOTE $CHASTE_SOURCE_DIR
+    git clone --recursive -b $VERSION $GIT_REMOTE $CHASTE_SOURCE_DIR
 fi
 
 echo "Building Chaste $VERSION in $CHASTE_BUILD_DIR with $NCORES cores..."
