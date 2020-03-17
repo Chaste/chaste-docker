@@ -3,7 +3,7 @@
 {
 	"dockerFile": "Dockerfile",
 	"extensions": [],
-	"image": "chaste/chaste-docker:2019.1",
+	"image": "chaste/release:2019.1",
 	"workspaceFolder": "/home/chaste",
 	"workspaceMount": "src=chaste_data,dst=/home/chaste,type=volume,volume-driver=local"
 }
