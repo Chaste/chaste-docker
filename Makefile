@@ -98,6 +98,9 @@ test: build
 release: CHASTE_IMAGE=chaste/release
 release: build test push
 
+build-info: TEST_SUITE=TestChasteBuildInfo
+build-info: test
+
 info:
 	@echo "Mounts: $(MOUNTS)"
 	lsb_release -a
