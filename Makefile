@@ -9,6 +9,9 @@ TAG?=2019.1
 CHASTE_DIR?="/home/chaste"
 DOCKER_FILE?=Dockerfile
 CHASTE_DATA_VOLUME?=chaste_data
+CMAKE_BUILD_TYPE?="Release"
+Chaste_ERROR_ON_WARNING?="OFF"
+Chaste_UPDATE_PROVENANCE?="OFF"
 # PROJECTS?="${HOME}/projects"
 # TEST_OUTPUT?="${HOME}/testoutput"
 TEST_SUITE?="Continuous"
@@ -18,8 +21,8 @@ all: base release
 
 .PHONY: all build base release fresh latest master develop clean stats pull push run test info verbose
 
-# BUILD_ARGS = --build-arg BASE=$(BASE)
-# IMAGE_NAMES = -t $(CHASTE_IMAGE):$(TAG)
+# BUILD_ARGS := --build-arg BASE=$(BASE)
+# IMAGE_NAMES := -t $(CHASTE_IMAGE):$(TAG)
 # base release: TARGET = $@
 # release: BUILD_ARGS += --build-arg CHASTE_DIR=$(CHASTE_DIR) --build-arg TAG=$(GIT_TAG)
 # release: IMAGE_NAMES += -t $(CHASTE_IMAGE):$(BASE)-$(TAG)
@@ -33,31 +36,52 @@ all: base release
 # build:
 # 	docker build $(BUILD_ARGS) $(IMAGE_NAMES) -f $(DOCKER_FILE) .
 # 	# docker push $(IMAGE_NAMES)
+# build:
+# 	docker build -t $(CHASTE_IMAGE):$(TAG) \
+# 				 -t $(CHASTE_IMAGE):$(BASE)-$(TAG) \
+# 				 --build-arg BASE=$(BASE) \
+# 				 --build-arg CHASTE_DIR=$(CHASTE_DIR) \
+# 				 --build-arg TAG=$(GIT_TAG) \
+# 				 -f $(DOCKER_FILE) .
+
+# base:
+# 	docker build --build-arg BASE=$(BASE) -t chaste/base:$(BASE) .
+# 	docker push chaste/base:$(BASE)
+
+TARGET?=
+stub: TARGET = --target base
+base stub:
+	docker build --build-arg BASE=$(BASE) $(TARGET) -t chaste/$@:$(BASE) .
+	docker push chaste/$@:$(BASE)
+
+EXTRA_ARGS?=
 build:
 	docker build -t $(CHASTE_IMAGE):$(TAG) \
 				 -t $(CHASTE_IMAGE):$(BASE)-$(TAG) \
 				 --build-arg BASE=$(BASE) \
 				 --build-arg CHASTE_DIR=$(CHASTE_DIR) \
 				 --build-arg TAG=$(GIT_TAG) \
-				 -f $(DOCKER_FILE) .
+				 --build-arg CMAKE_BUILD_TYPE=$(CMAKE_BUILD_TYPE) \
+				 --build-arg Chaste_ERROR_ON_WARNING=$(Chaste_ERROR_ON_WARNING) \
+				 --build-arg Chaste_UPDATE_PROVENANCE=$(Chaste_UPDATE_PROVENANCE) \
+				 -f $(DOCKER_FILE) $(EXTRA_ARGS) .
 
-base:
-	docker build --build-arg BASE=$(BASE) --target base -t chaste/base:$(BASE) .
-	docker push chaste/base:$(BASE)
+fresh latest: EXTRA_ARGS += --no-cache
+latest: GIT_TAG=master
+fresh latest: build
+# fresh:
+# 	docker build --no-cache -t $(CHASTE_IMAGE):$(TAG) \
+# 				 --build-arg BASE=$(BASE) \
+# 				 --build-arg CHASTE_DIR=$(CHASTE_DIR) \
+# 				 --build-arg TAG=$(GIT_TAG) \
+# 				 -f $(DOCKER_FILE) .
 
-fresh:
-	docker build --no-cache -t $(CHASTE_IMAGE):$(TAG) \
-				 --build-arg BASE=$(BASE) \
-				 --build-arg CHASTE_DIR=$(CHASTE_DIR) \
-				 --build-arg TAG=$(GIT_TAG) \
-				 -f $(DOCKER_FILE) .
-
-latest:
-	docker build --no-cache -t $(CHASTE_IMAGE):$(TAG) \
-				 --build-arg BASE=$(BASE) \
-				 --build-arg CHASTE_DIR=$(CHASTE_DIR) \
-				 --build-arg TAG=master \
-				 -f $(DOCKER_FILE) .
+# latest:
+# 	docker build --no-cache -t $(CHASTE_IMAGE):$(TAG) \
+# 				 --build-arg BASE=$(BASE) \
+# 				 --build-arg CHASTE_DIR=$(CHASTE_DIR) \
+# 				 --build-arg TAG=master \
+# 				 -f $(DOCKER_FILE) .
 
 develop: CHASTE_IMAGE=chaste/develop
 master develop:
