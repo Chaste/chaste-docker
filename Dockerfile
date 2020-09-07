@@ -97,8 +97,7 @@ RUN apt-get update && \
 #     /usr/lib/x86_64-linux-gnu/libvtkRenderingPythonTkWidgets.so
 
 # Install TextTest for regression testing (this requires pygtk)
-RUN ln /usr/bin/pip3 /usr/bin/pip
-# RUN which pip3
+RUN ln -s /usr/bin/pip3 /usr/bin/pip
 RUN pip install --upgrade pip
 RUN pip install texttest
 ENV TEXTTEST_HOME /usr/local/bin/texttest
