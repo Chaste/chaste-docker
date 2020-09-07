@@ -103,6 +103,8 @@ RUN pip install --upgrade pip
 RUN pip install texttest
 ENV TEXTTEST_HOME /usr/local/bin/texttest
 
+RUN pip install chaste-codegen
+
 # Create user and working directory for Chaste files
 ENV USER "chaste"
 RUN useradd -ms /bin/bash chaste && echo "chaste:chaste" | chpasswd && adduser chaste sudo
