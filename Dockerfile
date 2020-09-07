@@ -79,7 +79,7 @@ RUN apt-get update && \
     libvtk7-dev \
     libvtk7.1-qt \
     cmake \
-    scons \
+    # scons \
     sudo \
     nano \
     curl \
