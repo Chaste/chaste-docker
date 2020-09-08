@@ -2,7 +2,7 @@
 # docker build --target base -t chaste/base .
 # docker run -it --rm -v chaste_data:/home/chaste chaste
 
-ARG BASE=eoan
+ARG BASE=bionic
 FROM ubuntu:${BASE} AS base
 LABEL maintainer="Ben Evans <ben.d.evans@gmail.com>"
 # Written by Benjamin D. Evans
