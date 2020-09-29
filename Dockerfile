@@ -75,6 +75,7 @@ RUN apt-get update && \
     python3-dev \
     python3-pip \
     python3-setuptools \
+    python3-venv \
     # python3-vtk7 \
     libvtk7-dev \
     libvtk7.1-qt \
