@@ -63,20 +63,15 @@ RUN apt-get update && \
     doxygen \
     graphviz \
     gnuplot \
-    # python-dev \
-    # python-pip \
-    # python-setuptools \
-    # Needed for /usr/lib/x86_64-linux-gnu/libvtkRenderingPythonTkWidgets.so
-    # python3-vtk7 \
-    # Match any future version of Python VTK bindings
-    # 'python3-vtk[0-9]+' \
-    # python-vtk6 \
     # libvtk6-dev \
     python3-dev \
     python3-pip \
     python3-setuptools \
     python3-venv \
+    # Needed for /usr/lib/x86_64-linux-gnu/libvtkRenderingPythonTkWidgets.so
     # python3-vtk7 \
+    # Match any future version of Python VTK bindings
+    # 'python3-vtk[0-9]+' \
     libvtk7-dev \
     # libvtk7.1-qt \
     cmake \
