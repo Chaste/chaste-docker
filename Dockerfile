@@ -78,7 +78,7 @@ RUN apt-get update && \
     python3-venv \
     # python3-vtk7 \
     libvtk7-dev \
-    libvtk7.1-qt \
+    # libvtk7.1-qt \
     cmake \
     # scons \
     sudo \
