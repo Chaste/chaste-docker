@@ -91,8 +91,8 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/*
 
 # Fix CMake warnings: https://github.com/autowarefoundation/autoware/issues/795
-# RUN update-alternatives --install /usr/bin/vtk vtk /usr/bin/vtk6 10
-# RUN update-alternatives --install /usr/bin/vtk vtk /usr/bin/vtk7 10
+# RUN update-alternatives --install /usr/bin/vtk vtk /usr/bin/vtk6 6
+RUN update-alternatives --install /usr/bin/vtk vtk /usr/bin/vtk7 7
 # RUN ln -s /usr/bin/vtk6 /usr/bin/vtk
 # RUN ln -s /usr/lib/python2.7/dist-packages/vtk/libvtkRenderingPythonTkWidgets.x86_64-linux-gnu.so \
 #     /usr/lib/x86_64-linux-gnu/libvtkRenderingPythonTkWidgets.so
