@@ -153,7 +153,7 @@ To edit the Chaste code (in `~/src`), nano is installed in the image for conveni
 Testing
 -------
 
-To check Chaste compiled correctly you may wish to [run the continuous test pack](https://chaste.cs.ox.ac.uk/trac/wiki/ChasteGuides/CmakeFirstRun#Testingstep):
+To check Chaste compiled correctly you may wish to [run the continuous test pack](https://chaste.cs.ox.ac.uk/trac/wiki/ChasteGuides/CmakeFirstRun#Testingstep) from the `CHASTE_BUILD_DIR` directory:
 ```
 ctest -j$(nproc) -L Continuous
 ```
