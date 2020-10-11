@@ -159,6 +159,12 @@ ctest -j$(nproc) -L Continuous
 ```
 The script `test.sh` (in `/home/chaste/scripts`) is provided in the users's path for convenience.
 
+The following test can be run separately to quickly check the build environment and installed dependencies available to chaste:
+```
+ctest --verbose -R TestChasteBuildInfo$
+```
+For more information on testing see: https://chaste.cs.ox.ac.uk/trac/wiki/ChasteGuides/CmakeBuildGuide. 
+
 Software
 --------
 
