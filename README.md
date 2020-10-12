@@ -114,7 +114,7 @@ Any changes made in the home folder (`/home/chaste`) will persist between restar
 Mounting host directories
 -------------------------
 
-Any host directory (specified with an absolute path) may be mounted in the container e.g. the `testoutput` directory. Navigate to the folder on the host which contains these directories e.g. `C:\Users\$USERNAME\chaste` (Windows) or `~/chaste` (Linux/macOS). The next command depends upon which OS (and shell) you are using:
+Any host directory (specified with an absolute path e.g. `/path/to/testoutput`) may be mounted in the container e.g. the `testoutput` directory. Alternatively, navigate to the folder on the host which contains these directories e.g. `C:\Users\$USERNAME\chaste` (Windows) or `~/chaste` (Linux/macOS) and use `$(pwd)/testoutput` instead as shown below. The image name (final argument) is assumed to be `chaste` rather than e.g. `chaste/develop` or `chaste/release:2019.1` for simplicity. The exact form of the command depends upon which OS (and shell) you are using:
 
 | Operating System         | Command                                                       |
 | ------------------------ | ------------------------------------------------------------- |
