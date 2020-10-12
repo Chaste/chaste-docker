@@ -105,6 +105,7 @@ Corresponding environment variables are also set as follows:
 - `CHASTE_PROJECTS_DIR="${CHASTE_DIR}/src/projects"`
 - `CHASTE_SOURCE_DIR="${CHASTE_DIR}/src"`
 - `CHASTE_TEST_OUTPUT="${CHASTE_DIR}/testoutput"`
+
 If required, the `CHASTE_DIR` path can be changed at buildtime with a build arguemnt e.g. `--build-arg CHASTE_DIR=/path/to/alternative` which will then set the other directories relative to that path. 
 
 Any changes made in the home folder (`/home/chaste`) will persist between restarting containers as it is designated as a `VOLUME`. Additionally, specific folders may be mounted over any of these subfolders, for example, to gain access to the test outputs for visualising in ParaView or for mounting a different version of the Chaste source code. In general, data should be left in a (named) volume, as file I/O performance will be best that way. However, bind mounting host directories can be convenient e.g. for access to output files and so is explained next.
