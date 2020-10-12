@@ -63,17 +63,11 @@ RUN apt-get update && \
     doxygen \
     graphviz \
     gnuplot \
-    # libvtk6-dev \
     python3-dev \
     python3-pip \
     python3-setuptools \
     python3-venv \
-    # Needed for /usr/lib/x86_64-linux-gnu/libvtkRenderingPythonTkWidgets.so
-    # python3-vtk7 \
-    # Match any future version of Python VTK bindings
-    # 'python3-vtk[0-9]+' \
     libvtk7-dev \
-    # libvtk7.1-qt \
     cmake \
     scons \
     sudo \
@@ -86,11 +80,8 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/*
 
 # Fix CMake warnings: https://github.com/autowarefoundation/autoware/issues/795
-# RUN update-alternatives --install /usr/bin/vtk vtk /usr/bin/vtk6 6
 RUN update-alternatives --install /usr/bin/vtk vtk /usr/bin/vtk7 7
 # RUN ln -s /usr/bin/vtk6 /usr/bin/vtk
-# RUN ln -s /usr/lib/python2.7/dist-packages/vtk/libvtkRenderingPythonTkWidgets.x86_64-linux-gnu.so \
-#     /usr/lib/x86_64-linux-gnu/libvtkRenderingPythonTkWidgets.so
 
 # Install TextTest for regression testing (this requires pygtk)
 RUN ln -s /usr/bin/pip3 /usr/bin/pip
