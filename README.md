@@ -238,13 +238,6 @@ screen ~/Library/Containers/com.docker.docker/Data/com.docker.driver.amd64-linux
 TODO
 ----
 
-* [x] Migrate to Python 3 (which allows migration to VTK7)
-    - python3-dev
-    - python3-pip
-    - python3-vtk7
-    - libvtk7.1
-    - libvtk7-dev
-    - libvtk7.1-qt4
 * [ ] Add [`.vscode` and `.devcontainer`](https://github.com/microsoft/vscode-remote-try-cpp) (for `launch.json`, [`devcontainer.json`](https://code.visualstudio.com/docs/remote/containers), etc.) to [automatically configure VS Code](https://code.visualstudio.com/docs/remote/containers-advanced).
 * [x] Make cmake build options flexible for developers vs. users.
 * [ ] Modify scripts to [parse arguments flexibly](https://sookocheff.com/post/bash/parsing-bash-script-arguments-with-shopts/)
@@ -252,6 +245,6 @@ TODO
 * [ ] Add commands to run.sh to [launch a second terminal](https://stackoverflow.com/questions/7910211/is-there-a-way-to-open-a-series-of-new-terminal-window-and-run-commands-in-a-si) with `docker stats`:
 * [ ] [Dockerfile best practices](https://docs.docker.com/engine/userguide/eng-image/dockerfile_best-practices/)
 * [x] Use [multi-stage builds](https://docs.docker.com/engine/userguide/eng-image/multistage-build/) for building apps.
-* [ ] Split into base and release images
+* [x] Split into base and release images
 * [ ] Use [tmpfs mounts](https://docs.docker.com/storage/tmpfs/#use-a-tmpfs-mount-in-a-container) to store temporary data in RAM for extra speed.
 * [ ] Add support for singularity #4
