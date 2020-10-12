@@ -27,24 +27,24 @@ RUN apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 422C4D99
 
 # https://chaste.cs.ox.ac.uk/trac/wiki/InstallGuides/DependencyVersions
 # Package: chaste-dependencies
-# Version: 2019.10.31
+# Version: 2020.10.05
 # Architecture: all
-# Depends: cmake | scons, g++, libopenmpi-dev, petsc-dev, libhdf5-openmpi-dev, xsdcxx, libboost-serialization-dev, libboost-filesystem-dev, libboost-program-options-dev, libparmetis-dev, libmetis-dev, libxerces-c-dev, libsundials-dev | libsundials-serial-dev, libvtk7-dev | libvtk6-dev | libvtk5-dev, python-lxml, python-amara, python-rdflib, libproj-dev
-# Recommends: git, valgrind, libpetsc-real3.11-dbg | libpetsc-real3.10-dbg | libpetsc-real3.9-dbg | libpetsc3.7.7-dbg | libpetsc3.6.2-dbg, libfltk1.1, hdf5-tools, cmake-curses-gui
-# Suggests: libgoogle-perftools-dev, doxygen, graphviz, eclipse-cdt, eclipse-egit, libsvn-java, subversion, git-svn, gnuplot, paraview
+# Depends: cmake | scons, g++, libopenmpi-dev, petsc-dev, libhdf5-openmpi-dev, xsdcxx, libboost-serialization-dev, libboost-filesystem-dev, libboost-program-options-dev, libparmetis-dev, libmetis-dev, libxerces-c-dev, libsundials-dev, libvtk7-dev | libvtk6-dev, python3, python3-venv
+# Recommends: git, valgrind, libpetsc-real3.12-dbg, libfltk1.1, hdf5-tools, cmake-curses-gui
+# Suggests: libgoogle-perftools-dev, doxygen, graphviz, subversion, git-svn, gnuplot, paraview
 
-# CMake (cmake) 3.13.4-1build1
-# GCC (g++) g++: 9.2.1-9ubuntu2
-# PETSc (libpetsc-real3.11-dbg) 3.11.3+dfsg1-2
-# Boost (libboost-serialization-dev, libboost-filesystem-dev, libboost-program-options-dev) 1.67
+# 12/10/2020
+# CMake (cmake) 3.16.3-1ubuntu1
+# GCC (g++) g++: 4:9.3.0-1ubuntu2
+# PETSc (libpetsc-real3.12-dbg) 3.12.4+dfsg1-1
+# Boost (libboost-serialization-dev, libboost-filesystem-dev, libboost-program-options-dev) 1.71.0.0ubuntu2
 # parMETIS (libparmetis-dev) 4.0.3-5build1
-# HDF5 (libhdf5-openmpi-dev, hdf5-tools) 1.10.4+repack-10
-# XSD (xsdcxx) 4.0.0-8
-# Xerces (libxerces-c-dev) 3.2.2+debian-1build
-# Amara (python-amara) 2.0.0
-# SUNDIALS CVODE (libsundials-dev) 3.1.2+dfsg-3build3
-# VTK (libvtk6-dev, python-vtk6) 6.3
-# Python (python-dev, python-pip, python-vtk6) 2.7.16-1
+# HDF5 (libhdf5-openmpi-dev, hdf5-tools) 1.10.4+repack-11ubuntu1
+# XSD (xsdcxx) 4.0.0-8build1
+# Xerces (libxerces-c-dev) 3.2.2+debian-1build3
+# SUNDIALS CVODE (libsundials-dev) 3.1.2+dfsg-3ubuntu2
+# VTK (libvtk7-dev) 7.1.1+dfsg2-2ubuntu1
+# Python (python-dev, python-pip) 3.8.2-0ubuntu2
 
 # Install dependencies with recommended, applicable suggested and other useful packages
 RUN apt-get update && \
