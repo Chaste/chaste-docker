@@ -223,25 +223,10 @@ screen ~/Library/Containers/com.docker.docker/Data/com.docker.driver.amd64-linux
 ```
 - <a name=FN2>[2]</a>: If you are using PowerShell, you can enable tab completion by installing the PowerShell module [`posh-docker`](https://docs.docker.com/docker-for-windows/#set-up-tab-completion-in-powershell). Similarly, for tab completion of git commands in PowerShell, install [`posh-git`](https://git-scm.com/book/uz/v2/Appendix-A%3A-Git-in-Other-Environments-Git-in-Powershell).
 
-Benchmarks
-----------
-
-Running the continuous test pack (`test.sh`):
-
-| OS                  | src in Volume | src on host | Difference |
-| ------------------- | -------------:| -----------:|:---------- |
-| Linux [[1]](#BM1)   |               |             |            |
-| macOS [[2]](#BM2)   |               |             |            |
-| Windows [[3]](#BM3) | 19m21.260s    | 6m48.780s   | -64.8%     |
-
-- <a name=BM1>[1]</a>: Ubuntu 18.04 LTS;
-- <a name=BM2>[2]</a>: macOS 10.13.5; Intel i7 @ 3.1GHz; 8GB (of 16GB) RAM. Docker: 18.03.1-ce-mac65 (24312)
-- <a name=BM3>[3]</a>: Windows 10; Intel i7 6700 CPU @ 3.40GHz; 8GB (of 64GB) RAM. Docker: 18.03.1-ce-win65 (17513)
-
 TODO
 ----
 
-* [ ] Migrate to Python 3 (which allows migration to VTK7)
+* [x] Migrate to Python 3 (which allows migration to VTK7)
     - python3-dev
     - python3-pip
     - python3-vtk7
