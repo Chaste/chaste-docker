@@ -50,22 +50,23 @@ RUN apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 422C4D99
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
     chaste-dependencies \
+    cmake \
+    scons \
+    libvtk7-dev \
+    python3-dev \
+    python3-venv \
+    python3-pip \
+    python3-setuptools \
     git \
     valgrind \
     "libpetsc-real*-dbg" \
+    # libfltk1.1 \
     hdf5-tools \
     cmake-curses-gui \
     libgoogle-perftools-dev \
     doxygen \
     graphviz \
     gnuplot \
-    python3-dev \
-    python3-pip \
-    python3-setuptools \
-    python3-venv \
-    libvtk7-dev \
-    cmake \
-    scons \
     sudo \
     nano \
     curl \
