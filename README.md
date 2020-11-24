@@ -232,6 +232,8 @@ docker volume rm <volume_name>
 
 For more information on cleaning up Docker, see [this tutorial](https://www.digitalocean.com/community/tutorials/how-to-remove-docker-images-containers-and-volumes).
 
+> :information_source:  Pro tip! To write your own Dockerfiles, see [Nüst et al. 2020](https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1008316) for best practices. 
+
 For more general troubleshooting, opening a terminal and running `docker events` then launching the container in another terminal will provide logging information of the events happening behind the scenes.
 
 Notes
