@@ -107,8 +107,6 @@ WORKDIR ${CHASTE_DIR}
 
 # Add scripts
 COPY --chown=chaste:chaste scripts "${CHASTE_DIR}/scripts"
-# COPY scripts "${CHASTE_DIR}/scripts"
-# RUN chown -R chaste:chaste scripts
 USER chaste
 ENV PATH "${CHASTE_DIR}/scripts:${PATH}"
 
