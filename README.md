@@ -14,6 +14,9 @@
 2. `docker run -it --init --rm -v chaste_data:/home/chaste chaste/release`
 3. GL HF! ;)
 
+> :information_source:  To easily share data between the Docker container and the host e.g. the `testoutput` directory, a bind-mount argument can be added to the command: `-v /host/path/to/testoutput:/home/chaste/testoutput`. See the instructions on [mounting host directories](#mounting-host-directories) for further details.
+
+## Introduction
 [Docker](https://docs.docker.com/) is a lightweight virtualisation technology allowing applications with all of their dependencies to be quickly and easily run in a platform-independent manner. This project provides an image containing [Chaste](http://www.cs.ox.ac.uk/chaste/) (and some additional scripts for convenience) which can be launched with a single command, to provide a portable, homogeneous computational environment (across several operating systems and countless hardware configurations) for the simulation of cancer, heart and soft tissue.
 
 [![Docker schematic](https://docs.docker.com/engine/images/architecture.svg)](https://docs.docker.com/)
@@ -30,7 +33,7 @@ Install [Docker](https://www.docker.com/community-edition#/download) and configu
 If you use [macOS](https://docs.docker.com/docker-for-mac/install/) you may need to [configure the preferences](https://docs.docker.com/docker-for-mac/#preferences) to increase the available RAM and share any additional areas of the hard disk.
 For [Windows](https://docs.docker.com/docker-for-windows/install/#download-docker-for-windows) you may be prompted to install Hyper-V, in which case do so. Next [configure the preferences](https://docs.docker.com/docker-for-windows/#docker-settings) to increase RAM and select which local drives should be available to containers (e.g. the `C:` drive). On Windows, it is also recommended that you [install git](https://www.atlassian.com/git/tutorials/install-git#windows) for tracking changes in your projects and to enable you to build the Docker image directly from GitHub if required. It is recommend to [use PowerShell on Windows](https://docs.microsoft.com/en-us/powershell/scripting/setup/installing-windows-powershell) as a more powerful alternative to the Command Prompt. Optionally, PowerShell can be further enhanced with the modules [`posh-docker`](https://docs.docker.com/docker-for-windows/#set-up-tab-completion-in-powershell) and [`posh-git`](https://git-scm.com/book/uz/v2/Appendix-A%3A-Git-in-Other-Environments-Git-in-Powershell) which enable tab completion for docker and git commands respectively.
 
-*N.B. If you don't increase the amount of available RAM from the default 2GB then compilation will fail with strange errors!*
+> :warning:  If you don't increase the amount of available RAM from the default 2GB then compilation will fail with strange errors!
 
 ### Users
 If you're a Chaste user and want to get up and running with the latest release fully compiled and ready to go, after installing and configuring Docker simply run:
@@ -96,6 +99,15 @@ These folders contain the following types of data:
 - `src`: the Chaste source code
 - `testoutput`: the output folder for the project testing framework (set with `$CHASTE_TEST_OUTPUT`)
 
+Corresponding environment variables are also set as follows:
+- `CHASTE_DIR="/home/chaste"`
+- `CHASTE_BUILD_DIR="${CHASTE_DIR}/lib"`
+- `CHASTE_PROJECTS_DIR="${CHASTE_DIR}/src/projects"`
+- `CHASTE_SOURCE_DIR="${CHASTE_DIR}/src"`
+- `CHASTE_TEST_OUTPUT="${CHASTE_DIR}/testoutput"`
+
+If required, the `CHASTE_DIR` path can be changed at buildtime with a build arguemnt e.g. `--build-arg CHASTE_DIR=/path/to/alternative` which will then set the other directories relative to that path. 
+
 Any changes made in the home folder (`/home/chaste`) will persist between restarting containers as it is designated as a `VOLUME`. Additionally, specific folders may be mounted over any of these subfolders, for example, to gain access to the test outputs for visualising in ParaView or for mounting a different version of the Chaste source code. In general, data should be left in a (named) volume, as file I/O performance will be best that way. However, bind mounting host directories can be convenient e.g. for access to output files and so is explained next.
 
 *N.B. Docker containers are ephemeral by design and no changes will be saved after exiting (except to files in volumes or folders bind mounted from the host). The contents of the container's home directory (including the Chaste source code and binaries) are stored in a Docker [`VOLUME`](https://docs.docker.com/storage/volumes/) and so will persist between container instances. However if you reset Docker, all volumes and their contained data will be lost, so be sure to regularly push your projects to a remote git repository!*
@@ -103,7 +115,7 @@ Any changes made in the home folder (`/home/chaste`) will persist between restar
 Mounting host directories
 -------------------------
 
-Any host directory (specified with an absolute path) may be mounted in the container e.g. the `testoutput` directory. Navigate to the folder on the host which contains these directories e.g. `C:\Users\$USERNAME\chaste` (Windows) or `~/chaste` (Linux/macOS). The next command depends upon which OS (and shell) you are using:
+Any host directory (specified with an absolute path e.g. `/path/to/testoutput`) may be mounted in the container e.g. the `testoutput` directory. Alternatively, navigate to the folder on the host which contains these directories e.g. `C:\Users\$USERNAME\chaste` (Windows) or `~/chaste` (Linux/macOS) and use `$(pwd)/testoutput` instead as shown below. The image name (final argument) is assumed to be `chaste` rather than e.g. `chaste/develop` or `chaste/release:2019.1` for simplicity. The exact form of the command depends upon which OS (and shell) you are using:
 
 | Operating System         | Command                                                       |
 | ------------------------ | ------------------------------------------------------------- |
@@ -153,11 +165,17 @@ To edit the Chaste code (in `~/src`), nano is installed in the image for conveni
 Testing
 -------
 
-To check Chaste compiled correctly you may wish to [run the continuous test pack](https://chaste.cs.ox.ac.uk/trac/wiki/ChasteGuides/CmakeFirstRun#Testingstep):
+To check Chaste compiled correctly you may wish to [run the continuous test pack](https://chaste.cs.ox.ac.uk/trac/wiki/ChasteGuides/CmakeFirstRun#Testingstep) from the `CHASTE_BUILD_DIR` directory:
 ```
 ctest -j$(nproc) -L Continuous
 ```
 The script `test.sh` (in `/home/chaste/scripts`) is provided in the users's path for convenience.
+
+The following test can be run separately to quickly check the build environment and installed dependencies available to chaste:
+```
+ctest --verbose -R TestChasteBuildInfo$
+```
+For more information on testing see: https://chaste.cs.ox.ac.uk/trac/wiki/ChasteGuides/CmakeBuildGuide. 
 
 Software
 --------
@@ -199,7 +217,7 @@ docker system prune -a
 
 This will give you a clean slate from which to restart the building process described above.
 
-If you have deleted or otherwise corrupted the persistent data in the `chaste_data` volume, the command can be used with the `--volumes` flag. Warning - this will completely reset any changes to data in the image home directory along with any other Docker images on your system (except where other host folders have been bind-mounted). Commit and push any changes made to the Chaste source code or projects and save any important test outputs before running the command with this flag. If you are unsure, do not use this flag - instead list the volumes on your system with `docker volume ls` and then use the following command to delete a specific volume once you are happy that no important data remains within it:
+If you have deleted or otherwise corrupted the persistent data in the `chaste_data` volume, the command can be used with the `--volumes` flag. :warning:  Warning! :warning:  this will completely reset any changes to data in the image home directory along with any other Docker images on your system (except where other host folders have been bind-mounted). Commit and push any changes made to the Chaste source code or projects and save any important test outputs before running the command with this flag. If you are unsure, do not use this flag - instead list the volumes on your system with `docker volume ls` and then use the following command to delete a specific volume once you are happy that no important data remains within it:
 ```
 docker volume rm <volume_name>
 ```
@@ -217,31 +235,9 @@ screen ~/Library/Containers/com.docker.docker/Data/com.docker.driver.amd64-linux
 ```
 - <a name=FN2>[2]</a>: If you are using PowerShell, you can enable tab completion by installing the PowerShell module [`posh-docker`](https://docs.docker.com/docker-for-windows/#set-up-tab-completion-in-powershell). Similarly, for tab completion of git commands in PowerShell, install [`posh-git`](https://git-scm.com/book/uz/v2/Appendix-A%3A-Git-in-Other-Environments-Git-in-Powershell).
 
-Benchmarks
-----------
-
-Running the continuous test pack (`test.sh`):
-
-| OS                  | src in Volume | src on host | Difference |
-| ------------------- | -------------:| -----------:|:---------- |
-| Linux [[1]](#BM1)   |               |             |            |
-| macOS [[2]](#BM2)   |               |             |            |
-| Windows [[3]](#BM3) | 19m21.260s    | 6m48.780s   | -64.8%     |
-
-- <a name=BM1>[1]</a>: Ubuntu 18.04 LTS;
-- <a name=BM2>[2]</a>: macOS 10.13.5; Intel i7 @ 3.1GHz; 8GB (of 16GB) RAM. Docker: 18.03.1-ce-mac65 (24312)
-- <a name=BM3>[3]</a>: Windows 10; Intel i7 6700 CPU @ 3.40GHz; 8GB (of 64GB) RAM. Docker: 18.03.1-ce-win65 (17513)
-
 TODO
 ----
 
-* [ ] Migrate to Python 3 (which allows migration to VTK7)
-    - python3-dev
-    - python3-pip
-    - python3-vtk7
-    - libvtk7.1
-    - libvtk7-dev
-    - libvtk7.1-qt4
 * [ ] Add [`.vscode` and `.devcontainer`](https://github.com/microsoft/vscode-remote-try-cpp) (for `launch.json`, [`devcontainer.json`](https://code.visualstudio.com/docs/remote/containers), etc.) to [automatically configure VS Code](https://code.visualstudio.com/docs/remote/containers-advanced).
 * [x] Make cmake build options flexible for developers vs. users.
 * [ ] Modify scripts to [parse arguments flexibly](https://sookocheff.com/post/bash/parsing-bash-script-arguments-with-shopts/)
@@ -249,6 +245,7 @@ TODO
 * [ ] Add commands to run.sh to [launch a second terminal](https://stackoverflow.com/questions/7910211/is-there-a-way-to-open-a-series-of-new-terminal-window-and-run-commands-in-a-si) with `docker stats`:
 * [ ] [Dockerfile best practices](https://docs.docker.com/engine/userguide/eng-image/dockerfile_best-practices/)
 * [x] Use [multi-stage builds](https://docs.docker.com/engine/userguide/eng-image/multistage-build/) for building apps.
-* [ ] Split into base and release images
+* [x] Split into base and release images
 * [ ] Use [tmpfs mounts](https://docs.docker.com/storage/tmpfs/#use-a-tmpfs-mount-in-a-container) to store temporary data in RAM for extra speed.
 * [ ] Add support for singularity #4
+* [ ] Automate `base` and `release` builds on [Docker Hub](https://docs.docker.com/docker-hub/builds/advanced/) and/or [GitHub Actions](https://github.com/marketplace/actions/build-and-push-docker-images) or [GitHub Packages](https://docs.github.com/en/free-pro-team@latest/packages/getting-started-with-github-container-registry).
