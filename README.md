@@ -19,9 +19,17 @@
 ## Introduction
 [Docker](https://docs.docker.com/) is a lightweight virtualisation technology allowing applications with all of their dependencies to be quickly and easily run in a platform-independent manner. This project provides an image containing [Chaste](http://www.cs.ox.ac.uk/chaste/) (and some additional scripts for convenience) which can be launched with a single command, to provide a portable, homogeneous computational environment (across several operating systems and countless hardware configurations) for the simulation of cancer, heart and soft tissue.
 
+Docker lets you build and run a computational environment from a plaintext `Dockerfile`. This is analogous to compiling an executable files from source code (equivalent to using `docker build` to produce an image from a `Dockerfile`) and then executing it as a running program (akin to using `docker run` to run a container). This is illustrated in the figure below from [Nüst et al. 2020](https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1008316).
+
+[![Docker analogy](https://raw.githubusercontent.com/nuest/ten-simple-rules-dockerfiles/master/figures/analogy.png)](https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1008316)
+
+*Docker container analogy*
+
+More generally, Docker also has an image registry which stores prebuilt images. Users may upload images from their own computer (with `docker push`) and download those from others (e.g. with `docker pull`). The wider Docker ecosystem is illustrated below. 
+
 [![Docker schematic](https://docs.docker.com/engine/images/architecture.svg)](https://docs.docker.com/)
 
-*Docker container schematic*
+*Docker ecosystem schematic*
 
 Some slides from a workshop introducing Docker and how to use this Chaste image can be found [here](https://docs.google.com/presentation/d/1nrK95awEO_g0-g4W656EFgFD0c-GPSkntt-uXYVQ590/edit?usp=sharing).
 
