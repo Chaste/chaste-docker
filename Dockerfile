@@ -1,11 +1,18 @@
 # docker build -t chaste .
-# docker build --target base -t chaste/base .
+# docker build --target base -t chaste/base .  # Alternative: build base image
 # docker run -it --rm -v chaste_data:/home/chaste chaste
 
 ARG BASE=focal
 FROM ubuntu:${BASE} AS base
-LABEL maintainer="Ben Evans <ben.d.evans@gmail.com>"
-# Written by Benjamin D. Evans
+LABEL maintainer="Ben Evans <ben.d.evans@gmail.com>" \
+    author.orcid="https://orcid.org/0000-0002-1734-6070" \
+    image.publication="https://doi.org/10.21105/joss.01848" \
+    org.opencontainers.image.authors="Benjamin D. Evans" \
+    org.opencontainers.image.url="https://github.com/Chaste/chaste-docker" \
+    org.opencontainers.image.licenses="MIT" \
+    org.opencontainers.image.title="Chaste Docker Image" \
+    org.opencontainers.image.description="Chaste: Cancer, Heart and Soft Tissue Environment" \
+    org.opencontainers.image.documentation="http://www.cs.ox.ac.uk/chaste/"
 
 USER root
 ARG DEBIAN_FRONTEND=noninteractive
