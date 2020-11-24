@@ -21,7 +21,7 @@
 
 Docker lets you build and run a computational environment from a plaintext `Dockerfile`. This is analogous to compiling an executable files from source code (equivalent to using `docker build` to produce an image from a `Dockerfile`) and then executing it as a running program (akin to using `docker run` to run a container). This is illustrated in the figure below from [Nüst et al. 2020](https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1008316).
 
-<img alt="Docker analogy" src="https://raw.githubusercontent.com/nuest/ten-simple-rules-dockerfiles/master/figures/analogy.svg" width="60%">
+<img alt="Docker analogy" src="https://raw.githubusercontent.com/nuest/ten-simple-rules-dockerfiles/master/figures/analogy.png" width="60%">
 
 *Docker container analogy*
 
