@@ -25,7 +25,7 @@ Docker lets you build and run a computational environment from a plaintext `Dock
 
 *Docker container analogy*
 
-More generally, Docker also has an image registry which stores prebuilt images. Users may upload images from their own computer (with `docker push`) and download those from others (e.g. with `docker pull`). The wider Docker ecosystem is illustrated below. 
+More generally, Docker also has an image registry which stores prebuilt images: https://hub.docker.com/. Users may upload images from their own computer (with `docker push`) and download those from others (e.g. with `docker pull`) including official dockerised applications (e.g. [Python](https://hub.docker.com/_/python) and [WordPress](https://hub.docker.com/_/wordpress)) as well as base images (e.g. [Ubuntu](https://hub.docker.com/_/ubuntu) and [Alpine](https://hub.docker.com/_/alpine)) to build upon for creating your own images. The wider Docker ecosystem is illustrated below. 
 
 [![Docker schematic](https://docs.docker.com/engine/images/architecture.svg)](https://docs.docker.com/)
 
