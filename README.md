@@ -131,7 +131,7 @@ Any host directory (specified with an absolute path e.g. `/path/to/testoutput`) 
 | Windows (PowerShell [[2]](#FN2)) | `docker run -it --init --rm -v chaste_data:/home/chaste -v ${PWD}/testoutput:/home/chaste/testoutput chaste` |
 | Windows (Command Prompt) | `docker run -it --init --rm -v chaste_data:/home/chaste -v %cd%/testoutput:/home/chaste/testoutput chaste`     |
 
-> :information_source:  On macOS and Windows (but *not* Linux), reading and writing files in bind mounts from the host have a greater overhead than for files in Docker volumes. This may slow down simulations where there is a lot of File I/O in those folders (e.g. `testoutput`), so bind mounts should be used sparingly in such scenarios. An alternative would be to leave the files in a volume and use `docker cp` to copy them out at the end of the simulation. 
+> :information_source:  On macOS and Windows (but *not* Linux), reading and writing files in bind mounts from the host have a greater overhead than for files in Docker volumes. This may slow down simulations where there is a lot of File I/O in those folders (e.g. `testoutput`), so bind mounts should be used sparingly in such scenarios. A faster alternative would be to leave the files in a volume and use `docker cp` to copy them out at the end of the simulation. 
 
 Accessing volume data
 ---------------------
