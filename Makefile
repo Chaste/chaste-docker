@@ -36,17 +36,6 @@ all: base release
 # build:
 # 	docker build $(BUILD_ARGS) $(IMAGE_NAMES) -f $(DOCKER_FILE) .
 # 	# docker push $(IMAGE_NAMES)
-# build:
-# 	docker build -t $(CHASTE_IMAGE):$(TAG) \
-# 				 -t $(CHASTE_IMAGE):$(BASE)-$(TAG) \
-# 				 --build-arg BASE=$(BASE) \
-# 				 --build-arg CHASTE_DIR=$(CHASTE_DIR) \
-# 				 --build-arg TAG=$(GIT_TAG) \
-# 				 -f $(DOCKER_FILE) .
-
-# base:
-# 	docker build --build-arg BASE=$(BASE) -t chaste/base:$(BASE) .
-# 	docker push chaste/base:$(BASE)
 
 TARGET?=
 stub: TARGET = --target base
@@ -69,19 +58,6 @@ build:
 fresh latest: EXTRA_ARGS += --no-cache
 latest: GIT_TAG=master
 fresh latest: build
-# fresh:
-# 	docker build --no-cache -t $(CHASTE_IMAGE):$(TAG) \
-# 				 --build-arg BASE=$(BASE) \
-# 				 --build-arg CHASTE_DIR=$(CHASTE_DIR) \
-# 				 --build-arg TAG=$(GIT_TAG) \
-# 				 -f $(DOCKER_FILE) .
-
-# latest:
-# 	docker build --no-cache -t $(CHASTE_IMAGE):$(TAG) \
-# 				 --build-arg BASE=$(BASE) \
-# 				 --build-arg CHASTE_DIR=$(CHASTE_DIR) \
-# 				 --build-arg TAG=master \
-# 				 -f $(DOCKER_FILE) .
 
 develop: CHASTE_IMAGE=chaste/develop
 master develop:
