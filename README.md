@@ -88,7 +88,7 @@ In here you can build and test your projects without interfering with the rest o
 Container directory structure
 -----------------------------
 
-Once launched, the container will launch in the `chaste` user's home directory at `/home/chaste` with the following structure:
+Once launched, the container will start in the `chaste` user's home directory at `/home/chaste` with the following structure:
 
 ```bash
 .
