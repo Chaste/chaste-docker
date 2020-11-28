@@ -2,7 +2,7 @@ help:
 	@cat Makefile
 
 CHASTE_IMAGE?=chaste/release
-BASE?=eoan
+BASE?=focal
 GIT_TAG?=release_2019.1
 # GIT_TAG?=$(git describe --abbrev=0)
 TAG?=2019.1
