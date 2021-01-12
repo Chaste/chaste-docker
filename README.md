@@ -250,6 +250,7 @@ screen ~/Library/Containers/com.docker.docker/Data/com.docker.driver.amd64-linux
 TODO
 ----
 
+* [ ] Add a layer for automatically building statically linked binaries for small containers or to be copied out and run natively
 * [ ] Add [`.vscode` and `.devcontainer`](https://github.com/microsoft/vscode-remote-try-cpp) (for `launch.json`, [`devcontainer.json`](https://code.visualstudio.com/docs/remote/containers), etc.) to [automatically configure VS Code](https://code.visualstudio.com/docs/remote/containers-advanced).
 * [x] Make cmake build options flexible for developers vs. users.
 * [ ] Modify scripts to [parse arguments flexibly](https://sookocheff.com/post/bash/parsing-bash-script-arguments-with-shopts/)
