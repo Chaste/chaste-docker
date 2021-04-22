@@ -38,9 +38,16 @@ all: base release
 # 	# docker push $(IMAGE_NAMES)
 
 TARGET?=
-stub: TARGET = --target base
+#stub: TARGET = --target base
+# Do not declare volume for base (or stub - deprecated) so that subsequent layers may modify the contents of /home/chaste
+# NOTE: When a container is started which creates a new volume, the contents of the mount point is copied to the volume
+base stub: TARGET = --target base
 base stub:
-	docker build --build-arg BASE=$(BASE) $(TARGET) -t chaste/$@:$(BASE) .
+	docker build -t chaste/$@:$(BASE) \
+				--build-arg BASE=$(BASE) \
+				--build-arg CHASTE_DIR=$(CHASTE_DIR) \
+				$(TARGET) \
+				-f $(DOCKER_FILE) .
 	docker push chaste/$@:$(BASE)
 
 EXTRA_ARGS?=
@@ -59,12 +66,18 @@ fresh latest: EXTRA_ARGS += --no-cache
 latest: GIT_TAG=master
 fresh latest: build
 
-develop: CHASTE_IMAGE=chaste/develop
+#develop: CHASTE_IMAGE=chaste/develop
+#	docker build -t $(CHASTE_IMAGE):$@ \
+
+master develop: CMAKE_BUILD_TYPE="Debug" Chaste_ERROR_ON_WARNING="ON" Chaste_UPDATE_PROVENANCE="OFF"
 master develop:
-	docker build -t $(CHASTE_IMAGE):$@ \
+	docker build -t chaste/$@ \
 				 --build-arg BASE=$(BASE) \
 				 --build-arg CHASTE_DIR=$(CHASTE_DIR) \
 				 --build-arg TAG=$@ \
+                                 --build-arg CMAKE_BUILD_TYPE=$(CMAKE_BUILD_TYPE) \
+                                 --build-arg Chaste_ERROR_ON_WARNING=$(Chaste_ERROR_ON_WARNING) \
+                                 --build-arg Chaste_UPDATE_PROVENANCE=$(Chaste_UPDATE_PROVENANCE) \
 				 -f $(DOCKER_FILE) .
 
 clean:
