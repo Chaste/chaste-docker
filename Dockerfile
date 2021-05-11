@@ -88,7 +88,7 @@ RUN update-alternatives --install /usr/bin/vtk vtk /usr/bin/vtk7 7
 # RUN ln -s /usr/bin/vtk6 /usr/bin/vtk
 
 # Install TextTest for regression testing (this requires pygtk)
-RUN ln -s /usr/bin/pip3 /usr/bin/pip
+RUN update-alternatives --install /usr/bin/pip pip /usr/bin/pip3 1
 RUN pip install --upgrade pip
 RUN pip install texttest
 ENV TEXTTEST_HOME /usr/local/bin/texttest
