@@ -202,7 +202,7 @@ Note that packages installed this way will not persist after the container is de
 Troubleshooting
 ---------------
 
-Firstly, make sure you have given Docker at least 4GB RAM, especially if you compiling Chaste from source.
+Firstly, make sure you have given Docker at least 4GB RAM, especially if you're compiling Chaste from source.
 
 If you get a message beginning: `Unexpected end of /proc/mounts line ...`, this can be safely ignored!
 
