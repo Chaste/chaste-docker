@@ -10,7 +10,7 @@
 
 ## TL;DR
 
-1. [Install Docker](https://docs.docker.com/install/#supported-platforms)
+1. [Install Docker](https://docs.docker.com/install/#supported-platforms) and allocate it at least 4GB RAM
 2. `docker run -it --init --rm -v chaste_data:/home/chaste chaste/release`
 3. GL HF! ;)
 
@@ -41,7 +41,7 @@ Install [Docker](https://www.docker.com/community-edition#/download) and configu
 If you use [macOS](https://docs.docker.com/docker-for-mac/install/) you may need to [configure the preferences](https://docs.docker.com/docker-for-mac/#preferences) to increase the available RAM and share any additional areas of the hard disk.
 For [Windows](https://docs.docker.com/docker-for-windows/install/#download-docker-for-windows) you may be prompted to install Hyper-V, in which case do so. Next [configure the preferences](https://docs.docker.com/docker-for-windows/#docker-settings) to increase RAM and select which local drives should be available to containers (e.g. the `C:` drive). On Windows, it is also recommended that you [install git](https://www.atlassian.com/git/tutorials/install-git#windows) for tracking changes in your projects and to enable you to build the Docker image directly from GitHub if required. It is recommend to [use PowerShell on Windows](https://docs.microsoft.com/en-us/powershell/scripting/setup/installing-windows-powershell) as a more powerful alternative to the Command Prompt. Optionally, PowerShell can be further enhanced with the modules [`posh-docker`](https://docs.docker.com/docker-for-windows/#set-up-tab-completion-in-powershell) and [`posh-git`](https://git-scm.com/book/uz/v2/Appendix-A%3A-Git-in-Other-Environments-Git-in-Powershell) which enable tab completion for docker and git commands respectively. Docker command completion can also be configured for [macOS](https://docs.docker.com/docker-for-mac/#install-shell-completion). 
 
-> :warning:  If you don't increase the amount of available RAM from the default 2GB then compilation will fail with strange errors!
+> :warning:  Increase the amount of RAM available to Docker to $\geqslant$ 4GB or compilation will fail with strange errors!
 
 ### Users
 If you're a Chaste user and want to get up and running with the latest release fully compiled and ready to go, after installing and configuring Docker simply run:
