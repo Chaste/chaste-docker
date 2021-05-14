@@ -1,7 +1,7 @@
 [![Chaste logo](https://chaste.cs.ox.ac.uk/logos/chaste-266x60.jpg "Chaste")](http://www.cs.ox.ac.uk/chaste/)
 [![Docker logo](https://www.docker.com/sites/default/files/horizontal.png)](https://docs.docker.com/)
 
-*Docker images for Chaste*
+[*Docker images for Chaste*](https://github.com/Chaste/chaste-docker)
 
 [![Build Status](https://travis-ci.org/Chaste/chaste-docker.svg?branch=master)](https://travis-ci.org/Chaste/chaste-docker)
 [![Docker Pulls](https://img.shields.io/docker/pulls/chaste/release)](https://hub.docker.com/r/chaste/release/)
