@@ -251,6 +251,49 @@ Troubleshooting
 
 * For more general troubleshooting, opening a terminal and running `docker events` then launching the container in another terminal will provide logging information of the events happening behind the scenes.
 
+Citation
+--------
+
+If you found this work helpful, please cite the following publication.
+
+Cooper et al., (2020). Chaste: Cancer, Heart and Soft Tissue Environment. Journal of Open Source Software, 5(47), 1848. https://doi.org/10.21105/joss.01848
+
+```
+@article{Chaste_2020,
+	doi = {10.21105/joss.01848},
+	url = {https://joss.theoj.org/papers/10.21105/joss.01848},
+	year = {2020},
+	publisher = {The Open Journal},
+	volume = {5},
+	number = {47},
+	pages = {1848},
+	author = {Fergus R. Cooper and Ruth E. Baker and Miguel O. Bernabeu and Rafel Bordas and Louise Bowler and Alfonso Bueno-Orovio and Helen M. Byrne and Valentina Carapella and Louie Cardone-Noott and Jonathan Cooper and Sara Dutta and Benjamin D. Evans and Alexander G. Fletcher and James A. Grogan and Wenxian Guo and Daniel G. Harvey and Maurice Hendrix and David Kay and Jochen Kursawe and Philip K. Maini and Beth McMillan and Gary R. Mirams and James M. Osborne and Pras Pathmanathan and Joe M. Pitt-Francis and Martin Robinson and Blanca Rodriguez and Raymond J. Spiteri and David J. Gavaghan},
+	title = {Chaste: Cancer, Heart and Soft Tissue Environment},
+	journal = {Journal of Open Source Software}
+}
+```
+
+Additionally, if you found the "Ten Simple Rules ..." paper helpful for general advice or writing your own `Dockerfile`, please consider citing that too. 
+
+Nüst D, Sochat V, Marwick B, Eglen SJ, Head T, Hirst T, and Evans, BD. (2020) Ten simple rules for writing Dockerfiles for reproducible data science. PLoS Comput Biol 16(11): e1008316. https://doi.org/10.1371/journal.pcbi.1008316
+
+```
+@article{TSR_Dockerfiles_2020,
+	author = {Daniel N{\"u}st and Vanessa Sochat and Ben Marwick and Stephen J. Eglen and Tim Head and Tony Hirst and Benjamin D. Evans},
+	title = {Ten Simple Rules for Writing Dockerfiles for Reproducible Data Science},
+	journal = {PLOS Computational Biology},
+	publisher = {Public Library of Science},
+	year = {2020},
+	month = {11},
+	volume = {16},
+	pages = {1-24},
+	number = {11},
+	abstract = {Computational science has been greatly improved by the use of containers for packaging software and data dependencies. In a scholarly context, the main drivers for using these containers are transparency and support of reproducibility; in turn, a workflow’s reproducibility can be greatly affected by the choices that are made with respect to building containers. In many cases, the build process for the container’s image is created from instructions provided in a Dockerfile format. In support of this approach, we present a set of rules to help researchers write understandable Dockerfiles for typical data science workflows. By following the rules in this article, researchers can create containers suitable for sharing with fellow scientists, for including in scholarly communication such as education or scientific papers, and for effective and sustainable personal workflows.},
+	doi = {10.1371/journal.pcbi.1008316},
+	url = {https://doi.org/10.1371/journal.pcbi.1008316},
+}
+```
+
 Notes
 -----
 
