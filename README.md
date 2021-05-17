@@ -199,6 +199,21 @@ Replacing `<PackageName>` as appropriate. Enter the password: `chaste` when prom
 
 Note that packages installed this way will not persist after the container is deleted (because the relevant files are not stored in `/home/chaste`). This can be avoided by omitting the `--rm` flag from the `docker run` command and using `docker start <container_name>` to relaunch a previously used container. If there is a package you think would be a particularly useful permanent addition to the Docker image, then email your suggestion to me or submit a pull request.
 
+Writing your own Dockerfile
+---------------------------
+
+<img alt="Ten Simple Rules for Writing Dockerfiles for Reproducible Research - Summary" src="https://raw.githubusercontent.com/nuest/ten-simple-rules-dockerfiles/master/figures/summary.png" width="25%" align="right">
+
+For more advanced use cases, you can also include your own software, scripts and configuration by writing your own `Dockerfile`. To inherit the base configuration with the necessary dependencies and configuration for Chaste already set up, begin your `Dockerfile` with:
+```
+FROM chaste/base
+```
+or e.g. `chaste/base:focal` to specify a particular base image other than the `latest`. 
+
+A full guide to writing a `Dockerfile` is beyond the scope of this project, however for more information, see the Docker [domumentation](https://docs.docker.com/develop/develop-images/dockerfile_best-practices/) and [reference](https://docs.docker.com/engine/reference/builder/). There is also a handy list of Ten Simple Rules to help you get started! 
+
+> :information_source:  Pro tip! To write your own `Dockerfile`s, see [Nüst et al. 2020](https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1008316) for best practices. 
+
 Troubleshooting
 ---------------
 
