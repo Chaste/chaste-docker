@@ -202,41 +202,39 @@ Note that packages installed this way will not persist after the container is de
 Troubleshooting
 ---------------
 
-Firstly, make sure you have given Docker at least 4GB RAM, especially if you're compiling Chaste from source.
+* Firstly, make sure you have given Docker at least 4GB RAM, especially if you are compiling Chaste from source.
 
-If you get a message beginning: `Unexpected end of /proc/mounts line ...`, this can be safely ignored!
+* If you get a message beginning: `Unexpected end of /proc/mounts line ...`, this can be safely ignored!
 
-If you ran a container before and explicitly gave it a name (e.g. using `--name chaste` as an argument to `docker run`) but it now refuses to launch with an error message like below, it's because you need to remove the existing (stopped) container before one can be recreated with the same name.
+* If you ran a container before and explicitly gave it a name (e.g. using `--name chaste` as an argument to `docker run`) but it now refuses to launch with an error message like below, it's because you need to remove the existing (stopped) container before one can be recreated with the same name.
 
-```
-docker: Error response from daemon: Conflict. The container name "/chaste" is already in use by container "1711bce2674e399b6084c6d452857377f6ed4dd8ee3aa19460de00fac7b86bc7". You have to remove (or rename) that container to be able to reuse that name.
-```
+    ```
+    docker: Error response from daemon: Conflict. The container name "/chaste" is already in use by container "1711bce2674e399b6084c6d452857377f6ed4dd8ee3aa19460de00fac7b86bc7". You have to remove (or rename) that container to be able to reuse that name.
+    ```
 
-To remove the container, simply run the following command then rerun the `docker run ...` command to launch the container (N.B. This will not delete the data stored in the `chaste_data` volume):
+    To remove the container, simply run the following command then rerun the `docker run ...` command to launch the container (N.B. This will not delete the data stored in the `chaste_data` volume):
 
-```
-docker rm chaste
-```
+    ```
+    docker rm chaste
+    ```
 
-N.B. You can find out the names of existing containers (and their status) with the command: `docker ps -a`.
+    N.B. You can find out the names of existing containers (and their status) with the command: `docker ps -a`.
 
-If building the image from scratch, occasionally problems can occur if a dependency fails to download and install correctly. If such an issue occurs, try resetting your Docker environment (i.e. remove all containers, images and their intermediate layers) with the following command:
-```
-docker system prune -a
-```
+* If building the image from scratch, occasionally problems can occur if a dependency fails to download and install correctly. If such an issue occurs, try resetting your Docker environment (i.e. remove all containers, images and their intermediate layers) with the following command:
+    ```
+    docker system prune -a
+    ```
 
-This will give you a clean slate from which to restart the building process described above.
+    This will give you a clean slate from which to restart the building process described above.
 
-If you have deleted or otherwise corrupted the persistent data in the `chaste_data` volume, the command can be used with the `--volumes` flag. :warning:  Warning! :warning:  this will completely reset any changes to data in the image home directory along with any other Docker images on your system (except where other host folders have been bind-mounted). Commit and push any changes made to the Chaste source code or projects and save any important test outputs before running the command with this flag. If you are unsure, do not use this flag - instead list the volumes on your system with `docker volume ls` and then use the following command to delete a specific volume once you are happy that no important data remains within it:
-```
-docker volume rm <volume_name>
-```
+* If you have deleted or otherwise corrupted the persistent data in the `chaste_data` volume, the command can be used with the `--volumes` flag. :warning:  Warning! :warning:  this will completely reset any changes to data in the image home directory along with any other Docker images on your system (except where other host folders have been bind-mounted). Commit and push any changes made to the Chaste source code or projects and save any important test outputs before running the command with this flag. If you are unsure, do not use this flag - instead list the volumes on your system with `docker volume ls` and then use the following command to delete a specific volume once you are happy that no important data remains within it:
+    ```
+    docker volume rm <volume_name>
+    ```
 
-For more information on cleaning up Docker, see [this tutorial](https://www.digitalocean.com/community/tutorials/how-to-remove-docker-images-containers-and-volumes).
+    For more information on cleaning up Docker, see [this tutorial](https://www.digitalocean.com/community/tutorials/how-to-remove-docker-images-containers-and-volumes).
 
-> :information_source:  Pro tip! To write your own Dockerfiles, see [Nüst et al. 2020](https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1008316) for best practices. 
-
-For more general troubleshooting, opening a terminal and running `docker events` then launching the container in another terminal will provide logging information of the events happening behind the scenes.
+* For more general troubleshooting, opening a terminal and running `docker events` then launching the container in another terminal will provide logging information of the events happening behind the scenes.
 
 Notes
 -----
