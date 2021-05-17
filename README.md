@@ -258,6 +258,8 @@ If you found this work helpful, please cite the following publication.
 
 Cooper et al., (2020). Chaste: Cancer, Heart and Soft Tissue Environment. Journal of Open Source Software, 5(47), 1848. https://doi.org/10.21105/joss.01848
 
+[![DOI](https://joss.theoj.org/papers/10.21105/joss.01848/status.svg)](https://doi.org/10.21105/joss.01848)
+
 ```
 @article{Chaste_2020,
     title = {Chaste: Cancer, Heart and Soft Tissue Environment},
@@ -277,6 +279,8 @@ Cooper et al., (2020). Chaste: Cancer, Heart and Soft Tissue Environment. Journa
 Additionally, if you found the "Ten Simple Rules ..." paper helpful for general advice or writing your own `Dockerfile`, please consider citing that too. 
 
 Nüst D, Sochat V, Marwick B, Eglen SJ, Head T, Hirst T, and Evans, BD. (2020) Ten simple rules for writing Dockerfiles for reproducible data science. PLoS Comput Biol 16(11): e1008316. https://doi.org/10.1371/journal.pcbi.1008316
+
+[![DOI](https://img.shields.io/badge/DOI-10.1371%2Fjournal.pcbi.1008316-yellow)](https://doi.org/10.1371/journal.pcbi.1008316)
 
 ```
 @article{TSR_Dockerfiles_2020,
