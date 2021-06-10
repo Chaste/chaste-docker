@@ -27,19 +27,20 @@ if [ $VERSION != '.' ]; then
 fi
 
 echo "Building Chaste $VERSION in $CHASTE_BUILD_DIR with $NCORES cores..."
-if [ $VERSION = 'develop' ]; then
-    cmake -DCMAKE_BUILD_TYPE:STRING=Debug \
-          -DChaste_ERROR_ON_WARNING:BOOL=ON \
-          -DChaste_UPDATE_PROVENANCE:BOOL=OFF \
-          -H$CHASTE_SOURCE_DIR \
-          -B$CHASTE_BUILD_DIR
-else
+if [ $VERSION = 'master' ] || [ $VERSION = 'release' ]; then
     cmake -DCMAKE_BUILD_TYPE:STRING=Release \
           -DChaste_ERROR_ON_WARNING:BOOL=OFF \
           -DChaste_UPDATE_PROVENANCE:BOOL=ON \
           -H$CHASTE_SOURCE_DIR \
           -B$CHASTE_BUILD_DIR
+else # if [ $VERSION = 'develop' ]; then
+    cmake -DCMAKE_BUILD_TYPE:STRING=Debug \
+          -DChaste_ERROR_ON_WARNING:BOOL=ON \
+          -DChaste_UPDATE_PROVENANCE:BOOL=OFF \
+          -H$CHASTE_SOURCE_DIR \
+          -B$CHASTE_BUILD_DIR
 fi
+
 make --no-print-directory -j$NCORES -C $CHASTE_BUILD_DIR # -f $CHASTE_BUILD_DIR/Makefile
 echo "Done!"
 echo "New projects may be initialised with the provided script new_project.sh"
