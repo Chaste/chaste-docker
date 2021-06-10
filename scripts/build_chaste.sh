@@ -3,12 +3,13 @@ set -e
 
 VERSION=${1:-master}
 GIT_REMOTE=${2:-https://github.com/Chaste/Chaste.git}
-#               https://chaste.cs.ox.ac.uk/git/chaste.git
 NCORES=${3:-$(nproc)}
+
 if [ $VERSION = '-' ]; then
     echo "Skipping build!"
     exit 0
 fi
+
 if [ -z "$CHASTE_DIR" ]; then
     export CHASTE_DIR="/home/chaste"
 fi
@@ -20,10 +21,6 @@ if [ -z "$CHASTE_BUILD_DIR" ]; then
 fi
 
 if [ $VERSION != '.' ]; then
-    if [ $VERSION = 'master' ] || [ $VERSION = 'develop' ]; then
-        # Override GIT_REMOTE to build from the upstream server
-        GIT_REMOTE=https://chaste.cs.ox.ac.uk/git/chaste.git
-    fi
     echo "Cloning Chaste from ${GIT_REMOTE}#${VERSION} into ${CHASTE_SOURCE_DIR}..."
     mkdir -p $CHASTE_SOURCE_DIR
     git clone --recursive -b $VERSION $GIT_REMOTE $CHASTE_SOURCE_DIR
