@@ -3,7 +3,6 @@
 
 [*Docker images for Chaste*](https://github.com/Chaste/chaste-docker)
 
-[![Build Status](https://travis-ci.org/Chaste/chaste-docker.svg?branch=master)](https://travis-ci.org/Chaste/chaste-docker)
 [![Docker Pulls](https://img.shields.io/docker/pulls/chaste/release)](https://hub.docker.com/r/chaste/release/)
 [![MIT License](https://img.shields.io/badge/license-MIT-green)](https://raw.githubusercontent.com/Chaste/chaste-docker/master/LICENSE.txt)
 
@@ -321,3 +320,4 @@ TODO
 * [ ] Use [tmpfs mounts](https://docs.docker.com/storage/tmpfs/#use-a-tmpfs-mount-in-a-container) to store temporary data in RAM for extra speed.
 * [ ] Add support for singularity #4
 * [ ] Automate `base` and `release` builds on [Docker Hub](https://docs.docker.com/docker-hub/builds/advanced/) and/or [GitHub Actions](https://github.com/marketplace/actions/build-and-push-docker-images) or [GitHub Packages](https://docs.github.com/en/free-pro-team@latest/packages/getting-started-with-github-container-registry).
+* [ ] [![Build Status](https://travis-ci.org/Chaste/chaste-docker.svg?branch=master)](https://travis-ci.org/Chaste/chaste-docker) Migrate Travis-CI from .org to .com
