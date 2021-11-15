@@ -66,6 +66,8 @@ RUN apt-get update && \
     python3-setuptools \
     git \
     valgrind \
+    # ssh is needed to fix MPI errors on bionic: https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=882603
+    openssh-client \
     "libpetsc-real*-dbg" \
     # libfltk1.1 \
     hdf5-tools \
