@@ -6,6 +6,24 @@
 [![Docker Pulls](https://img.shields.io/docker/pulls/chaste/release)](https://hub.docker.com/r/chaste/release/)
 [![MIT License](https://img.shields.io/badge/license-MIT-green)](https://raw.githubusercontent.com/Chaste/chaste-docker/master/LICENSE.txt)
 
+- [TL;DR](#tldr)
+- [Introduction](#introduction)
+- [Quickstart](#quickstart)
+  - [Prerequisites](#prerequisites)
+  - [Users](#users)
+  - [Developers](#developers)
+- [Container directory structure](#container-directory-structure)
+- [Mounting host directories](#mounting-host-directories)
+- [Accessing volume data](#accessing-volume-data)
+  - [From the host](#from-the-host)
+  - [Within the container](#within-the-container)
+- [Testing](#testing)
+- [Software](#software)
+- [Writing your own Dockerfile](#writing-your-own-dockerfile)
+- [Troubleshooting](#troubleshooting)
+- [Citation](#citation)
+- [Notes](#notes)
+
 ## TL;DR
 
 1. [Install Docker](https://docs.docker.com/install/#supported-platforms) and allocate it at least 4GB RAM
@@ -305,7 +323,7 @@ screen ~/Library/Containers/com.docker.docker/Data/com.docker.driver.amd64-linux
 ```
 - <a name=FN2>[2]</a>: If you are using PowerShell, you can enable tab completion by installing the PowerShell module [`posh-docker`](https://docs.docker.com/docker-for-windows/#set-up-tab-completion-in-powershell). Similarly, for tab completion of git commands in PowerShell, install [`posh-git`](https://git-scm.com/book/uz/v2/Appendix-A%3A-Git-in-Other-Environments-Git-in-Powershell).
 
-TODO
+TODO <!-- omit in toc -->
 ----
 
 * [ ] Add a layer for automatically building statically linked binaries for small containers or to be copied out and run natively
