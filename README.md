@@ -8,15 +8,15 @@
 
 - [TL;DR](#tldr)
 - [Introduction](#introduction)
-- [Quickstart](#quickstart)
+- [Getting started](#getting-started)
   - [Prerequisites](#prerequisites)
   - [Users](#users)
   - [Developers](#developers)
 - [Container directory structure](#container-directory-structure)
-- [Mounting host directories](#mounting-host-directories)
-- [Accessing volume data](#accessing-volume-data)
-  - [From the host](#from-the-host)
-  - [Within the container](#within-the-container)
+- [Sharing data between the host and container](#sharing-data-between-the-host-and-container)
+  - [Bind mounts](#bind-mounts)
+  - [Copying data in and out](#copying-data-in-and-out)
+- [Developing code within the container](#developing-code-within-the-container)
 - [Testing](#testing)
 - [Software](#software)
 - [Writing your own Dockerfile](#writing-your-own-dockerfile)
@@ -136,33 +136,47 @@ Any changes made in the home folder (`/home/chaste`) will persist between restar
 
 > :warning:  Docker containers are ephemeral by design and no changes will be saved after exiting (except to files in volumes or folders bind mounted from the host). The contents of the container's home directory (including the Chaste source code and binaries) are stored in a Docker [`VOLUME`](https://docs.docker.com/storage/volumes/) and so will persist between container instances. However if you reset Docker, all volumes and their contained data will be lost, so be sure to regularly push your projects to a remote git repository!
 
-Mounting host directories
--------------------------
+Sharing data between the host and container
+-------------------------------------------
 
-Any host directory (specified with an absolute path e.g. `/path/to/testoutput`) may be mounted in the container e.g. the `testoutput` directory. Alternatively, navigate to the folder on the host which contains these directories e.g. `C:\Users\$USERNAME\chaste` (Windows) or `~/chaste` (Linux/macOS) and use `$(pwd)/testoutput` instead as shown below. The image name (final argument) is assumed to be `chaste` rather than e.g. `chaste/develop` or `chaste/release:2021.1` for simplicity. The exact form of the command depends upon which OS (and shell) you are using:
+This image is set up to store the Chaste source code, compiled libraries and scripts in a [Docker volume](https://docs.docker.com/storage/volumes/) as this is the [recommended mechanism](https://docs.docker.com/storage/) for data persistence and yields the best File I/O performance across multiple platforms.
 
-| Operating System         | Command                                                       |
-| ------------------------ | ------------------------------------------------------------- |
-| Linux & macOS (*nix)     | `docker run -it --init --rm -v chaste_data:/home/chaste -v $(pwd)/testoutput:/home/chaste/testoutput chaste` |
-| Windows (PowerShell [[2]](#FN2)) | `docker run -it --init --rm -v chaste_data:/home/chaste -v ${PWD}/testoutput:/home/chaste/testoutput chaste` |
-| Windows (Command Prompt) | `docker run -it --init --rm -v chaste_data:/home/chaste -v %cd%/testoutput:/home/chaste/testoutput chaste`     |
-
-> :information_source:  On macOS and Windows (but *not* Linux), reading and writing files in bind mounts from the host have a greater overhead than for files in Docker volumes. This may slow down simulations where there is a lot of File I/O in those folders (e.g. `testoutput`), so bind mounts should be used sparingly in such scenarios. A faster alternative would be to leave the files in a volume and use `docker cp` to copy them out at the end of the simulation. 
-
-Accessing volume data
----------------------
-
-This image is set up to store the Chaste source code (along with compiled libraries and scripts) in a [Docker volume](https://docs.docker.com/storage/volumes/) as this is the [recommended mechanism](https://docs.docker.com/storage/) for data persistence and yields the best File I/O performance across multiple platforms.
+One drawback of this type of mount is that the contents are more difficult to access from the host. However, to gain direct access to e.g. the `testoutput` of the container from the host, or share datasets on the host with the container, a bind mount can be used (even overlaying a directory within the volume if needed).
 
 [![Docker mount options](https://docs.docker.com/storage/images/types-of-mounts-volume.png)](https://docs.docker.com/storage/)
 
-*Docker mount options*
+*Docker mount options schematic from the [Docker documentation](https://docs.docker.com/storage/)*
 
-One drawback of this type of mount is that the contents are more difficult to access from the host. While most users will not need direct access to the contents of the volume, it can be convenient for searching and editing the Chaste source files with your favourite code editor. Some possible solutions are provided below.
+### Bind mounts
 
-### From the host
+Any host directory (specified with an absolute path e.g. `/path/to/testoutput`) may be mounted in the container e.g. the `testoutput` directory. Alternatively, navigate to the folder on the host which contains these directories e.g. `C:\Users\$USERNAME\chaste` (Windows) or `~/chaste` (Linux/macOS) and use `$(pwd)/testoutput` instead as shown below. In the following examples, the image name (final argument) is assumed to be `chaste/release` rather than e.g. `chaste/develop` or `chaste/release:2021.1` for simplicity. The exact form of the command depends upon which OS (and shell) you are using:
 
-We recommend using [VS Code](https://code.visualstudio.com/download) with the "[remote development](https://code.visualstudio.com/docs/remote/remote-overview)" plugin which allows the files within a container to be directly accessed and edited as if they were on the host system. Simply start the container with the command given then in VS Code select "Remote-Containers: Attach to Running Container..." then choose the chaste-docker container (which will have a random name unless you launch it by adding `--name <name>` to the run command). Finally open the folder `/home/chaste` with the built-in file browser and you will be able to assess the files and directories described above. 
+| Operating System         | Command                                                       |
+| ------------------------ | ------------------------------------------------------------- |
+| Linux & macOS (*nix)     | `docker run -it --init --rm -v chaste_data:/home/chaste -v $(pwd)/testoutput:/home/chaste/testoutput chaste/release` |
+| Windows (PowerShell [[2]](#FN2)) | `docker run -it --init --rm -v chaste_data:/home/chaste -v ${PWD}/testoutput:/home/chaste/testoutput chaste/release` |
+| Windows (Command Prompt) | `docker run -it --init --rm -v chaste_data:/home/chaste -v %cd%/testoutput:/home/chaste/testoutput chaste/release`     |
+
+### Copying data in and out
+
+On macOS and Windows (but *not* Linux), reading and writing files in bind mounts from the host have a greater overhead than for files in Docker volumes. This may slow down simulations where there is a lot of File I/O in those folders (e.g. `testoutput`), so bind mounts should be used sparingly in such scenarios. A faster alternative would be to leave the files in a volume and use [`docker cp`](https://docs.docker.com/engine/reference/commandline/cp/) to copy them out at the end of the simulation (or copy modified files back in). 
+
+For example use the following commands to copy the whole `src` folder, where the container has been labelled `chaste` i.e. `docker run --name chaste ...`:
+```
+docker cp chaste:/home/chaste/src .
+< Make changes to the source files here >
+docker cp src/. chaste:/home/chaste/src
+```
+
+Developing code within the container
+------------------------------------
+
+We recommend using [VS Code](https://code.visualstudio.com/download) with the "[remote development](https://code.visualstudio.com/docs/remote/remote-overview)" plugin which allows the files within a container to be directly accessed and edited and seaeched as if they were on the host system while preserving the performance benefits of keeping the files within the volume. 
+
+1. Start the container from a terminal with the command given
+2. In VS Code select "`Remote-Containers: Attach to Running Container...`"
+3. Choose the chaste-docker container (which will have a random name unless you launch it by adding `--name <name>` to the run command)
+4. With VS Code's built-in file browser open the folder `/home/chaste` and you will be able to access the files and directories described above. 
 
 <details><summary>Alternative approaches [click to expand]</summary><p> 
 
@@ -173,20 +187,12 @@ ln -s /var/lib/docker/volumes/chaste_data/_data chaste_data
 
 The situation is less straightforward for Windows and macOS [[1]](#FN1) hosts due to the intermediary Linux virtual machine (Moby based on Alpine Linux) in which images, containers and volumes are stored.
 
-1. For more extensive changes, files may be copied out of the volume, edited on the host, then copied back in with [`docker cp`](https://docs.docker.com/engine/reference/commandline/cp/). For example use the following commands to copy the whole folder, where the container has been labelled `chaste` with the `docker run` argument `--name chaste`:
-    ```
-    docker cp chaste:/home/chaste/src .
-    < Make changes to the source files here >
-    docker cp src/. chaste:/home/chaste/src
-    ```
+1. While it is better to leave the code within the volume for better performance you may wish to use another [bind mount](https://docs.docker.com/storage/bind-mounts/) to overlay the volume's `~/src` folder with a host directory containing the Chaste source code e.g. `-v /path/to/chaste_code:/home/chaste/src`. Chaste may then need to be recompiled within the container with `build_chaste.sh <branch/tag>` or if you already have the code in the mounted host folder, cloning can be skipped before recompiling with `build_chaste.sh .`. This will make the same source files directly accessible on both the host and within the Docker container, avoiding the need to copy files back and forth or use VS Code. This may result in slower I/O than when stored in a Docker volume, however this problem may be ameliorated on [macOS](https://docs.docker.com/storage/bind-mounts/#configure-mount-consistency-for-macos) with the [`delegated` option](https://docs.docker.com/docker-for-mac/osxfs-caching/#examples) e.g. `--mount type=bind,source="$(pwd)"/chaste_code,destination=/home/chaste/src,consistency=delegated`.
 
-2. For more sustained Chaste development, you may wish to use another [bind mount](https://docs.docker.com/storage/bind-mounts/) to overlay the volume's `~/src` folder with a host directory containing the Chaste source code e.g. `-v /path/to/chaste_code:/home/chaste/src`. Chaste may then need to be recompiled within the container with `build_chaste.sh <branch/tag>` or if you already have the code in the mounted host folder, cloning can be skipped before recompiling with `build_chaste.sh .`. This will make the same source files easily accessible on both the host and within the Docker container, avoiding the need to copy files back and forth. This may result in slower I/O than when stored in a Docker volume, however this problem may be ameliorated on [macOS](https://docs.docker.com/storage/bind-mounts/#configure-mount-consistency-for-macos) with the [`delegated` option](https://docs.docker.com/docker-for-mac/osxfs-caching/#examples) e.g. `--mount type=bind,source="$(pwd)"/chaste_code,destination=/home/chaste/src,consistency=delegated`.
-
-3. Alternatively, use the utility `docker-sync`: http://docker-sync.io/. This works on OSX, Windows, Linux (where it maps on to a native mount) and FreeBSD.
+2. Alternatively, use the utility `docker-sync`: http://docker-sync.io/. This works on OSX, Windows, Linux (where it maps on to a native mount) and FreeBSD.
 </p></details>
 
-### Within the container
-To edit the Chaste code (in `~/src`), nano is installed in the image for convenience when small tweaks need to be made, along with `git` for pushing the changes.
+> :information_source:  For small edits to the code from the terminal, `nano` is installed in the image for convenience, along with `git` for pushing the changes.
 
 Testing
 -------
