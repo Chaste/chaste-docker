@@ -49,8 +49,8 @@ More generally, Docker also has an image registry which stores prebuilt images: 
 
 Some slides from a workshop introducing Docker and how to use this Chaste image can be found [here](https://docs.google.com/presentation/d/1nrK95awEO_g0-g4W656EFgFD0c-GPSkntt-uXYVQ590/edit?usp=sharing).
 
-Quickstart
-----------
+Getting started
+---------------
 
 ### Prerequisites
 Install [Docker](https://www.docker.com/community-edition#/download) and configure it to have at least 4GB of RAM and as many cores as you have (more than four cores will need more RAM). On [Linux](https://docs.docker.com/install/#docker-ce) all available RAM and processing cores are shared by default.
