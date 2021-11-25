@@ -161,7 +161,7 @@ Any host directory (specified with an absolute path e.g. `/path/to/testoutput`) 
 
 On macOS and Windows (but *not* Linux), reading and writing files in bind mounts from the host have a greater overhead than for files in Docker volumes. This may slow down simulations where there is a lot of File I/O in those folders (e.g. `testoutput`), so bind mounts should be used sparingly in such scenarios. A faster alternative would be to leave the files in a volume and use [`docker cp`](https://docs.docker.com/engine/reference/commandline/cp/) to copy them out at the end of the simulation (or copy modified files back in). 
 
-For example use the following commands to copy the whole `src` folder, where the container has been labelled `chaste` i.e. `docker run --name chaste ...`:
+For example, use the following commands to copy the whole `src` folder, where the container has been labelled `chaste` e.g. with a command beginning: `docker run --name chaste ...`:
 ```
 docker cp chaste:/home/chaste/src .
 < Make changes to the source files here >
@@ -176,7 +176,7 @@ We recommend using [VS Code](https://code.visualstudio.com/download) with the "[
 1. Start the container from a terminal with the command given
 2. In VS Code select "`Remote-Containers: Attach to Running Container...`"
 3. Choose the chaste-docker container (which will have a random name unless you launch it by adding `--name <name>` to the run command)
-4. With VS Code's built-in file browser open the folder `/home/chaste` and you will be able to access the files and directories described above. 
+4. Open the folder `/home/chaste` with VS Code's built-in file browser and you will be able to access the files and directories described above. 
 
 <details><summary>Alternative approaches [click to expand]</summary><p> 
 
