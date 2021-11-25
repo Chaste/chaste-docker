@@ -32,7 +32,7 @@
 2. `docker run -it --init --rm -v chaste_data:/home/chaste chaste/release`
 3. GL HF! ;)
 
-> :information_source:  To easily share data between the Docker container and the host e.g. the `testoutput` directory, a bind-mount argument can be added to the command: `-v /host/path/to/testoutput:/home/chaste/testoutput`. See the instructions on [mounting host directories](#mounting-host-directories) for further details.
+> :information_source:  To easily share data between the Docker container and the host e.g. the `testoutput` directory, a bind-mount argument can be added to the command: `-v /host/path/to/testoutput:/home/chaste/testoutput`. See the instructions on [bind mounts](#bind-mounts) for further details.
 
 ## Introduction
 [Docker](https://docs.docker.com/) is a lightweight virtualisation technology allowing applications with all of their dependencies to be quickly and easily run in a platform-independent manner. This project provides an image containing [Chaste](http://www.cs.ox.ac.uk/chaste/) (and some additional scripts for convenience) which can be launched with a single command, to provide a portable, homogeneous computational environment (across several operating systems and countless hardware configurations) for the simulation of cancer, heart and soft tissue.
@@ -93,7 +93,7 @@ If you're a Chaste developer and want to build your own image with a particular 
     docker run -it --init --rm -v chaste_data:/home/chaste chaste
     ```
     (Or run `docker run -it --init --rm -v chaste_data:/home/chaste chaste:2021.1` if you tagged your image name as above.)
-    The first time will take a little longer than usual as the volume has to be populated with data. For information on accessing the contents of this volume, see [below](#accessing-volume-data).
+    The first time will take a little longer than usual as the volume has to be populated with data. For information on accessing the contents of this volume, see [below](#sharing-data-between-the-host-and-container).
 
 Once the container has successfully launched, you should see a command prompt a bit like this:
 
