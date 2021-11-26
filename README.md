@@ -30,7 +30,9 @@
 
 1. [Install Docker](https://docs.docker.com/install/#supported-platforms) and allocate it at least 4GB RAM
 2. `docker run -it --init --rm -v chaste_data:/home/chaste chaste/release`
-3. GL HF! ;)
+3. This is your terminal on [Chaste](http://www.cs.ox.ac.uk/chaste/): 
+`chaste@301291afbedf:~$` 
+GL HF! ;)
 
 > :information_source:  To easily share data between the Docker container and the host e.g. the `testoutput` directory, a bind-mount argument can be added to the command: `-v /host/path/to/testoutput:/home/chaste/testoutput`. See the instructions on [bind mounts](#bind-mounts) for further details.
 
