@@ -164,10 +164,10 @@ Any host directory (specified with an absolute path e.g. `/path/to/testoutput`) 
 On macOS and Windows (but *not* Linux), reading and writing files in bind mounts from the host have a greater overhead than for files in Docker volumes. This may slow down simulations where there is a lot of File I/O in those folders (e.g. `testoutput`), so bind mounts should be used sparingly in such scenarios. A faster alternative would be to leave the files in a volume and use [`docker cp`](https://docs.docker.com/engine/reference/commandline/cp/) to copy them out at the end of the simulation (or copy modified files back in). 
 
 For example, use the following commands to copy the whole `src` folder, where the container has been labelled `chaste` e.g. with a command beginning: `docker run --name chaste ...`:
-```
-docker cp chaste:/home/chaste/src .
-< Make changes to the source files here >
-docker cp src/. chaste:/home/chaste/src
+```bash
+docker cp chaste:/home/chaste/src .  # copy out
+# Make changes to the source files here
+docker cp src/. chaste:/home/chaste/src  # copy in
 ```
 
 Developing code within the container
