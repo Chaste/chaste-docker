@@ -3,6 +3,7 @@ name: Docker Multi-Arch Base Image CI
 on:
   push:
     branches: [ "master" ]
+    tags: "v*"
   pull_request:
     branches: [ "master" ]
 
@@ -12,6 +13,22 @@ jobs:
     steps:
     - name: Checkout repository
       uses: actions/checkout@v3
+      # https://github.com/actions/checkout/
+    - name: Docker meta
+      id: meta
+      uses: docker/metadata-action@v4
+      # https://github.com/docker/metadata-action
+      with:
+        images: |
+          chaste/base
+        tags: |
+          type=schedule
+          type=ref,event=branch
+          type=ref,event=pr
+          type=semver,pattern={{version}}
+          type=semver,pattern={{major}}.{{minor}}
+          type=semver,pattern={{major}}
+          type=sha
     - name: Set up QEMU
       uses: docker/setup-qemu-action@v2
       # https://github.com/docker/setup-qemu-action
@@ -22,13 +39,16 @@ jobs:
       # https://github.com/docker/setup-buildx-action
     - name: Login to DockerHub
       uses: docker/login-action@v2
+      # https://github.com/docker/login-action
       with:
         username: ${{ secrets.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_TOKEN }}
     - name: Build and push the Docker image
       uses: docker/build-push-action@v4
+      # https://github.com/docker/build-push-action
       with:
         context: .
         platforms: 'amd64,arm64'
         push: true
-        tags: chaste/base:test
+        tags: ${{ steps.meta.outputs.tags }}
+        labels: ${{ steps.meta.outputs.labels }}
