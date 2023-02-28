@@ -100,7 +100,7 @@ RUN pip install texttest
 ENV TEXTTEST_HOME /usr/local/bin/texttest
 
 # Installed by CMake
-# RUN pip install chaste-codegen
+RUN pip install chaste-codegen
 
 # Create user and working directory for Chaste files
 ENV USER "chaste"
