@@ -75,6 +75,7 @@ RUN apt-get update && \
     # ssh is needed to fix MPI errors on bionic: https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=882603
     openssh-client \
     "libpetsc-real*-dbg" \
+    # FLTK is a lightweight GUI toolkit that works with X11
     # libfltk1.1 \
     hdf5-tools \
     cmake-curses-gui \
@@ -88,7 +89,7 @@ RUN apt-get update && \
 
 # Fix CMake warnings: https://github.com/autowarefoundation/autoware/issues/795
 RUN update-alternatives --install /usr/bin/vtk vtk /usr/bin/vtk7 7
-# RUN ln -s /usr/bin/vtk6 /usr/bin/vtk
+# RUN ln -s /usr/bin/vtk7 /usr/bin/vtk
 
 # Update system to use Python3 by default
 RUN update-alternatives --install /usr/bin/python python /usr/bin/python3 1
