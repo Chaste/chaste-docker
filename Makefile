@@ -3,6 +3,7 @@ help:
 
 CHASTE_IMAGE?=chaste/release
 BASE?=focal
+PLATFORM?="linux/amd64,linux/arm64/v8"
 TAG?=2021.1
 GIT_TAG?="${TAG}"
 # GIT_TAG?=$(git describe --abbrev=0)
@@ -41,26 +42,33 @@ TARGET?=
 #stub: TARGET = --target base
 # Do not declare volume for base (or stub - deprecated) so that subsequent layers may modify the contents of /home/chaste
 # NOTE: When a container is started which creates a new volume, the contents of the mount point is copied to the volume
+# NOTE: To build for multiple architectures, it may first be necessary to run:
+# docker buildx create --use
 base stub: TARGET = --target base
 base stub:
-	docker build -t chaste/$@:$(BASE) \
-				--build-arg BASE=$(BASE) \
-				--build-arg CHASTE_DIR=$(CHASTE_DIR) \
-				$(TARGET) \
-				-f $(DOCKER_FILE) .
-	docker push chaste/$@:$(BASE)
+	docker buildx build --push --platform $(PLATFORM) \
+		-t chaste/$@:$(BASE) \
+		--build-arg BASE=$(BASE) \
+		--build-arg CHASTE_DIR=$(CHASTE_DIR) \
+		$(TARGET) \
+		-f $(DOCKER_FILE) .
+# docker push chaste/$@:$(BASE)
+
 
 EXTRA_ARGS?=
 build:
-	docker build -t $(CHASTE_IMAGE):$(TAG) \
-				 -t $(CHASTE_IMAGE):$(BASE)-$(TAG) \
-				 --build-arg BASE=$(BASE) \
-				 --build-arg CHASTE_DIR=$(CHASTE_DIR) \
-				 --build-arg TAG=$(GIT_TAG) \
-				 --build-arg CMAKE_BUILD_TYPE=$(CMAKE_BUILD_TYPE) \
-				 --build-arg Chaste_ERROR_ON_WARNING=$(Chaste_ERROR_ON_WARNING) \
-				 --build-arg Chaste_UPDATE_PROVENANCE=$(Chaste_UPDATE_PROVENANCE) \
-				 -f $(DOCKER_FILE) $(EXTRA_ARGS) .
+	docker buildx build --platform $(PLATFORM) \
+		-t $(CHASTE_IMAGE):$(TAG) \
+		-t $(CHASTE_IMAGE):$(BASE)-$(TAG) \
+		--build-arg BASE=$(BASE) \
+		--build-arg CHASTE_DIR=$(CHASTE_DIR) \
+		--build-arg TAG=$(GIT_TAG) \
+		--build-arg CMAKE_BUILD_TYPE=$(CMAKE_BUILD_TYPE) \
+		--build-arg Chaste_ERROR_ON_WARNING=$(Chaste_ERROR_ON_WARNING) \
+		--build-arg Chaste_UPDATE_PROVENANCE=$(Chaste_UPDATE_PROVENANCE) \
+		-f $(DOCKER_FILE) $(EXTRA_ARGS) .
+# Do not push so that a release build can be tested first
+# docker build -t $(CHASTE_IMAGE):$(TAG) \
 
 fresh latest: EXTRA_ARGS += --no-cache
 latest: GIT_TAG=master
@@ -73,14 +81,15 @@ master develop: CMAKE_BUILD_TYPE="Debug"
 master develop: Chaste_ERROR_ON_WARNING="ON"
 master develop: Chaste_UPDATE_PROVENANCE="OFF"
 master develop:
-	docker build -t chaste/$@ \
-				 --build-arg BASE=$(BASE) \
-				 --build-arg CHASTE_DIR=$(CHASTE_DIR) \
-				 --build-arg TAG=$@ \
-                                 --build-arg CMAKE_BUILD_TYPE=$(CMAKE_BUILD_TYPE) \
-                                 --build-arg Chaste_ERROR_ON_WARNING=$(Chaste_ERROR_ON_WARNING) \
-                                 --build-arg Chaste_UPDATE_PROVENANCE=$(Chaste_UPDATE_PROVENANCE) \
-				 -f $(DOCKER_FILE) .
+	docker buildx build --push --platform $(PLATFORM) -o type=image \
+		-t chaste/$@ \
+		--build-arg BASE=$(BASE) \
+		--build-arg CHASTE_DIR=$(CHASTE_DIR) \
+		--build-arg TAG=$@ \
+		--build-arg CMAKE_BUILD_TYPE=$(CMAKE_BUILD_TYPE) \
+		--build-arg Chaste_ERROR_ON_WARNING=$(Chaste_ERROR_ON_WARNING) \
+		--build-arg Chaste_UPDATE_PROVENANCE=$(Chaste_UPDATE_PROVENANCE) \
+		-f $(DOCKER_FILE) .
 
 clean:
 	docker system prune
