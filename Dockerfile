@@ -20,12 +20,18 @@ ARG DEBIAN_FRONTEND=noninteractive
 # https://github.com/moby/moby/issues/34482
 ARG BASE
 
+# Install system dependencies
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
     apt-utils \
     apt-transport-https \
     ca-certificates \
-    gnupg
+    curl \
+    gnupg \
+    nano \
+    rsync \
+    sudo \
+    wget
 
 # Install the Chaste repo list and key
 # https://chaste.cs.ox.ac.uk/trac/wiki/InstallGuides/UbuntuPackage
@@ -76,11 +82,6 @@ RUN apt-get update && \
     doxygen \
     graphviz \
     gnuplot \
-    sudo \
-    nano \
-    curl \
-    wget \
-    rsync \
     mencoder \
     mplayer && \
     rm -rf /var/lib/apt/lists/*
