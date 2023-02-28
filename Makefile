@@ -69,7 +69,9 @@ fresh latest: build
 #develop: CHASTE_IMAGE=chaste/develop
 #	docker build -t $(CHASTE_IMAGE):$@ \
 
-master develop: CMAKE_BUILD_TYPE="Debug" Chaste_ERROR_ON_WARNING="ON" Chaste_UPDATE_PROVENANCE="OFF"
+master develop: CMAKE_BUILD_TYPE="Debug"
+master develop: Chaste_ERROR_ON_WARNING="ON"
+master develop: Chaste_UPDATE_PROVENANCE="OFF"
 master develop:
 	docker build -t chaste/$@ \
 				 --build-arg BASE=$(BASE) \
