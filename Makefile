@@ -2,7 +2,7 @@ help:
 	@cat Makefile
 
 CHASTE_IMAGE?=chaste/release
-BASE?=focal
+BASE?=jammy
 PLATFORM?="linux/amd64,linux/arm64/v8"
 TAG?=2021.1
 GIT_TAG?="${TAG}"
