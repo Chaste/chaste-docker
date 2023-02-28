@@ -111,6 +111,8 @@ ARG CHASTE_DIR="/home/chaste"
 ENV CHASTE_DIR=${CHASTE_DIR}
 WORKDIR ${CHASTE_DIR}
 
+RUN apt-cache show chaste-dependencies > chaste-dependencies.txt
+
 # Add scripts
 COPY --chown=chaste:chaste scripts "${CHASTE_DIR}/scripts"
 USER chaste
