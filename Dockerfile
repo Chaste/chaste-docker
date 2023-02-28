@@ -72,6 +72,7 @@ RUN apt-get update && \
     python3-setuptools \
     git \
     valgrind \
+    ### libffi-dev \
     "libpetsc-real*-dbg" \
     # FLTK is a lightweight GUI toolkit that works with X11
     # libfltk1.1 \
