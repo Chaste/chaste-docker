@@ -59,6 +59,8 @@ RUN apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 422C4D99
 # VTK (libvtk7-dev) 7.1.1+dfsg2-2ubuntu1
 # Python (python-dev, python-pip) 3.8.2-0ubuntu2
 
+# TODO: https://github.com/cli/cli/blob/trunk/docs/install_linux.md
+
 # Install dependencies with recommended, applicable suggested and other useful packages
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
@@ -147,10 +149,16 @@ FROM base
 
 # Build Chaste: TAG can be a branch or release ('-' skips by default)
 ARG TAG=-
-ENV BRANCH=$TAG
-RUN build_chaste.sh $BRANCH
+ENV BRANCH=${TAG}
+RUN build_chaste.sh ${BRANCH}
 # RUN ln -s "${CHASTE_TEST_OUTPUT}" "${CHASTE_SOURCE_DIR}/testoutput"
 
-# Automatically mount the home directory in a volume to persist changes made there
-# N.B. After declaring the volume, changes to the contents during build will not persist.
+# Automatically mount the home directory in a volume to persist changes made there.
+# NOTE: After declaring the volume, changes to the contents during build will not persist.
 VOLUME "${CHASTE_DIR}"
+
+# Optionally run a test suite before finalising the image.
+# NOTE: These test outputs will not appear in the volume. 
+ARG TEST_SUITE=-
+ENV TEST_SUITE=${TEST_SUITE}
+RUN test.sh ${TEST_SUITE}
