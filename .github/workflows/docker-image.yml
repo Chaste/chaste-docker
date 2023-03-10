@@ -21,6 +21,7 @@ jobs:
       with:
         images: |
           chaste/base
+        flavor: latest=true
         tags: |
           type=schedule
           type=ref,event=branch
