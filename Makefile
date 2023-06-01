@@ -20,7 +20,7 @@ TEST_SUITE?="Continuous"
 
 all: base release
 
-.PHONY: all build base release fresh latest master develop clean stats pull push run test info verbose
+.PHONY: all build base release fresh latest main develop clean stats pull push run test info verbose
 
 # BUILD_ARGS := --build-arg BASE=$(BASE)
 # IMAGE_NAMES := -t $(CHASTE_IMAGE):$(TAG)
@@ -71,16 +71,16 @@ build:
 # docker build -t $(CHASTE_IMAGE):$(TAG) \
 
 fresh latest: EXTRA_ARGS += --no-cache
-latest: GIT_TAG=master
+latest: GIT_TAG=main
 fresh latest: build
 
 #develop: CHASTE_IMAGE=chaste/develop
 #	docker build -t $(CHASTE_IMAGE):$@ \
 
-master develop: CMAKE_BUILD_TYPE="Debug"
-master develop: Chaste_ERROR_ON_WARNING="ON"
-master develop: Chaste_UPDATE_PROVENANCE="OFF"
-master develop:
+main develop: CMAKE_BUILD_TYPE="Debug"
+main develop: Chaste_ERROR_ON_WARNING="ON"
+main develop: Chaste_UPDATE_PROVENANCE="OFF"
+main develop:
 	docker buildx build --push --platform $(PLATFORM) -o type=image \
 		-t chaste/$@ \
 		--build-arg BASE=$(BASE) \
