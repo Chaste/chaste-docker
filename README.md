@@ -175,7 +175,7 @@ docker cp src/. chaste:/home/chaste/src  # copy in
 Developing code within the container
 ------------------------------------
 
-We recommend using [VS Code](https://code.visualstudio.com/download) with the "[remote development](https://code.visualstudio.com/docs/remote/remote-overview)" plugin which allows the files within a container to be directly accessed and edited and seaeched as if they were on the host system while preserving the performance benefits of keeping the files within the volume. 
+We recommend using [VS Code](https://code.visualstudio.com/download) with the "[remote development](https://code.visualstudio.com/docs/remote/remote-overview)" plugin which allows the files within a container to be directly accessed and edited and searched as if they were on the host system while preserving the performance benefits of keeping the files within the volume. 
 
 1. Start the container from a terminal with the command given
 2. In VS Code select "`Remote-Containers: Attach to Running Container...`"
