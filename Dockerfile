@@ -62,7 +62,11 @@ RUN apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 422C4D99
 # VTK (libvtk7-dev) 7.1.1+dfsg2-2ubuntu1
 # Python (python-dev, python-pip) 3.8.2-0ubuntu2
 
-# TODO: https://github.com/cli/cli/blob/trunk/docs/install_linux.md
+# Add signing key to install GitHub CLI
+# https://github.com/cli/cli/blob/trunk/docs/install_linux.md
+RUN curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg \
+    && chmod go+r /usr/share/keyrings/githubcli-archive-keyring.gpg \
+    && echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | tee /etc/apt/sources.list.d/github-cli.list > /dev/null
 
 # Install dependencies with recommended, applicable suggested and other useful packages
 RUN apt-get update && \
@@ -75,6 +79,7 @@ RUN apt-get update && \
     python3-venv \
     python3-pip \
     python3-setuptools \
+    gh \
     git \
     valgrind \
     # ssh is needed to fix MPI errors on bionic: https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=882603
