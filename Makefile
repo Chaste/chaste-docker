@@ -4,8 +4,8 @@ help:
 CHASTE_IMAGE?=chaste/release
 BASE?=focal
 PLATFORM?="linux/amd64,linux/arm64/v8"
-TAG?=2021.1
-GIT_TAG?="${TAG}"
+GIT_TAG?=2021.1
+# GIT_TAG?="${TAG}"
 # GIT_TAG?=$(git describe --abbrev=0)
 CHASTE_DIR?="/home/chaste"
 DOCKER_FILE?=Dockerfile
@@ -23,10 +23,10 @@ all: base release
 .PHONY: all build base release fresh latest main develop clean stats pull push run test info verbose
 
 # BUILD_ARGS := --build-arg BASE=$(BASE)
-# IMAGE_NAMES := -t $(CHASTE_IMAGE):$(TAG)
+# IMAGE_NAMES := -t $(CHASTE_IMAGE):$(GIT_TAG)
 # base release: TARGET = $@
-# release: BUILD_ARGS += --build-arg CHASTE_DIR=$(CHASTE_DIR) --build-arg TAG=$(GIT_TAG)
-# release: IMAGE_NAMES += -t $(CHASTE_IMAGE):$(BASE)-$(TAG)
+# release: BUILD_ARGS += --build-arg CHASTE_DIR=$(CHASTE_DIR) --build-arg GIT_TAG=$(GIT_TAG)
+# release: IMAGE_NAMES += -t $(CHASTE_IMAGE):$(BASE)-$(GIT_TAG)
 # base: BUILD_ARGS += --target $@
 # base: CHASTE_IMAGE = chaste/base
 # base: IMAGE_NAMES = $(CHASTE_IMAGE):$(BASE)
@@ -58,17 +58,17 @@ base stub:
 EXTRA_ARGS?=
 build:
 	docker buildx build --platform $(PLATFORM) \
-		-t $(CHASTE_IMAGE):$(TAG) \
-		-t $(CHASTE_IMAGE):$(BASE)-$(TAG) \
+		-t $(CHASTE_IMAGE):$(GIT_TAG) \
+		-t $(CHASTE_IMAGE):$(BASE)-$(GIT_TAG) \
 		--build-arg BASE=$(BASE) \
 		--build-arg CHASTE_DIR=$(CHASTE_DIR) \
-		--build-arg TAG=$(GIT_TAG) \
+		--build-arg GIT_TAG=$(GIT_TAG) \
 		--build-arg CMAKE_BUILD_TYPE=$(CMAKE_BUILD_TYPE) \
 		--build-arg Chaste_ERROR_ON_WARNING=$(Chaste_ERROR_ON_WARNING) \
 		--build-arg Chaste_UPDATE_PROVENANCE=$(Chaste_UPDATE_PROVENANCE) \
 		-f $(DOCKER_FILE) $(EXTRA_ARGS) .
 # Do not push so that a release build can be tested first
-# docker build -t $(CHASTE_IMAGE):$(TAG) \
+# docker build -t $(CHASTE_IMAGE):$(GIT_TAG) \
 
 fresh latest: EXTRA_ARGS += --no-cache
 latest: GIT_TAG=main
@@ -85,7 +85,7 @@ main develop:
 		-t chaste/$@ \
 		--build-arg BASE=$(BASE) \
 		--build-arg CHASTE_DIR=$(CHASTE_DIR) \
-		--build-arg TAG=$@ \
+		--build-arg GIT_TAG=$@ \
 		--build-arg CMAKE_BUILD_TYPE=$(CMAKE_BUILD_TYPE) \
 		--build-arg Chaste_ERROR_ON_WARNING=$(Chaste_ERROR_ON_WARNING) \
 		--build-arg Chaste_UPDATE_PROVENANCE=$(Chaste_UPDATE_PROVENANCE) \
@@ -98,11 +98,11 @@ stats:
 	docker stats
 
 pull:
-	docker pull $(CHASTE_IMAGE):$(TAG)
+	docker pull $(CHASTE_IMAGE):$(GIT_TAG)
 
 push:
-	docker push $(CHASTE_IMAGE):$(TAG)
-	docker push $(CHASTE_IMAGE):$(BASE)-$(TAG)
+	docker push $(CHASTE_IMAGE):$(GIT_TAG)
+	docker push $(CHASTE_IMAGE):$(BASE)-$(GIT_TAG)
 
 MOUNTS = -v $(CHASTE_DATA_VOLUME):$(CHASTE_DIR)
 ifdef PROJECTS
@@ -113,11 +113,11 @@ MOUNTS += -v $(TEST_OUTPUT):$(CHASTE_DIR)/testoutput
 endif
 
 run: build
-	docker run -it --init --rm $(MOUNTS) $(CHASTE_IMAGE):$(TAG)
+	docker run -it --init --rm $(MOUNTS) $(CHASTE_IMAGE):$(GIT_TAG)
 
 test: build
 	docker run -it --init --rm --env CMAKE_BUILD_TYPE=Debug \
-				$(CHASTE_IMAGE):$(TAG) test.sh $(TEST_SUITE)
+				$(CHASTE_IMAGE):$(GIT_TAG) test.sh $(TEST_SUITE)
 
 release: CHASTE_IMAGE=chaste/release
 release: build test push

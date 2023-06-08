@@ -152,10 +152,10 @@ CMD ["bash"]
 
 FROM base
 
-# Build Chaste: TAG can be a branch or release ('-' skips by default)
-ARG TAG=-
-ENV BRANCH=${TAG}
-RUN build_chaste.sh ${BRANCH}
+# Build Chaste: GIT_TAG can be a branch or release ('-' skips by default)
+ARG GIT_TAG=-
+ENV GIT_TAG=${GIT_TAG}
+RUN build_chaste.sh ${GIT_TAG}
 # RUN ln -s "${CHASTE_TEST_OUTPUT}" "${CHASTE_SOURCE_DIR}/testoutput"
 
 # Automatically mount the home directory in a volume to persist changes made there.
