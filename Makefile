@@ -3,7 +3,6 @@ help:
 
 CHASTE_IMAGE?=chaste/release
 BASE?=focal
-PLATFORM?="linux/amd64,linux/arm64/v8"
 GIT_TAG?=2021.1
 # GIT_TAG?="${TAG}"
 # GIT_TAG?=$(git describe --abbrev=0)
@@ -19,8 +18,14 @@ TEST_SUITE?=-
 # SRC?=$(shell dirname `pwd`)
 EXTRA_BUILD_FLAGS?=
 
-# TODO: Refactor building for multiple architectures
 # https://github.com/pytorch/pytorch/blob/main/docker.Makefile
+MULTI_ARCH_BUILD?=true
+PLATFORM?="linux/amd64,linux/arm64/v8"
+ifeq ("$(MULTI_ARCH_BUILD)","true")
+BUILD = buildx build --push --platform $(PLATFORM) -o type=image
+else
+BUILD = build
+endif
 
 all: base release
 
@@ -50,18 +55,17 @@ TARGET?=
 # docker buildx create --use
 base stub: TARGET = --target base
 base stub:
-	docker buildx build --push --platform $(PLATFORM) \
+	docker $(BUILD) \
+		$(TARGET) \
 		-t chaste/$@:$(BASE) \
 		$(EXTRA_BUILD_FLAGS) \
 		--build-arg BASE=$(BASE) \
 		--build-arg CHASTE_DIR=$(CHASTE_DIR) \
-		$(TARGET) \
 		-f $(DOCKER_FILE) .
 # docker push chaste/$@:$(BASE)
 
-
 build:
-	docker buildx build --push --platform $(PLATFORM) \
+	docker $(BUILD) \
 		-t $(CHASTE_IMAGE):$(GIT_TAG) \
 		-t $(CHASTE_IMAGE):$(BASE)-$(GIT_TAG) \
 		$(EXTRA_BUILD_FLAGS) \
@@ -88,7 +92,7 @@ main develop: Chaste_ERROR_ON_WARNING="ON"
 main develop: Chaste_UPDATE_PROVENANCE="OFF"
 # main develop: TEST_SUITE?="Continuous"
 main develop:
-	docker buildx build --push --platform $(PLATFORM) -o type=image \
+	docker $(BUILD) \
 		-t chaste/$@ \
 		$(EXTRA_BUILD_FLAGS) \
 		--build-arg BASE=$(BASE) \
