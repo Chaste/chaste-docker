@@ -17,6 +17,7 @@ Chaste_UPDATE_PROVENANCE?="OFF"
 # TEST_OUTPUT?="${HOME}/testoutput"
 TEST_SUITE?=-
 # SRC?=$(shell dirname `pwd`)
+EXTRA_BUILD_FLAGS?=
 
 # TODO: Refactor building for multiple architectures
 # https://github.com/pytorch/pytorch/blob/main/docker.Makefile
@@ -51,6 +52,7 @@ base stub: TARGET = --target base
 base stub:
 	docker buildx build --push --platform $(PLATFORM) \
 		-t chaste/$@:$(BASE) \
+		$(EXTRA_BUILD_FLAGS) \
 		--build-arg BASE=$(BASE) \
 		--build-arg CHASTE_DIR=$(CHASTE_DIR) \
 		$(TARGET) \
@@ -63,6 +65,7 @@ build:
 	docker buildx build --push --platform $(PLATFORM) \
 		-t $(CHASTE_IMAGE):$(GIT_TAG) \
 		-t $(CHASTE_IMAGE):$(BASE)-$(GIT_TAG) \
+		$(EXTRA_BUILD_FLAGS) \
 		--build-arg BASE=$(BASE) \
 		--build-arg CHASTE_DIR=$(CHASTE_DIR) \
 		--build-arg GIT_TAG=$(GIT_TAG) \
@@ -88,6 +91,7 @@ main develop: Chaste_UPDATE_PROVENANCE="OFF"
 main develop:
 	docker buildx build --push --platform $(PLATFORM) -o type=image \
 		-t chaste/$@ \
+		$(EXTRA_BUILD_FLAGS) \
 		--build-arg BASE=$(BASE) \
 		--build-arg CHASTE_DIR=$(CHASTE_DIR) \
 		--build-arg GIT_TAG=$@ \
