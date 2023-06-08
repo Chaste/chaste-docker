@@ -4,7 +4,7 @@
 # docker build --target base -t chaste/base .  # Alternative: build base image
 # docker run -it --rm -v chaste_data:/home/chaste chaste
 
-ARG BASE=focal
+ARG BASE=jammy
 FROM ubuntu:${BASE} AS base
 LABEL maintainer="Ben Evans <ben.d.evans@gmail.com>" \
     author.orcid="https://orcid.org/0000-0002-1734-6070" \
@@ -37,8 +37,8 @@ RUN apt-get update && \
 
 # Install the Chaste repo list and key
 # https://chaste.cs.ox.ac.uk/trac/wiki/InstallGuides/UbuntuPackage
-RUN echo "deb http://www.cs.ox.ac.uk/chaste/ubuntu ${BASE}/" >> /etc/apt/sources.list.d/chaste.list
-RUN apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 422C4D99
+RUN echo "deb [signed-by=/usr/share/keyrings/chaste.asc] http://www.cs.ox.ac.uk/chaste/ubuntu ${BASE}/" >> /etc/apt/sources.list.d/chaste.list
+RUN wget -O /usr/share/keyrings/chaste.asc https://www.cs.ox.ac.uk/chaste/ubuntu/Chaste%20Team.asc
 
 # https://chaste.cs.ox.ac.uk/trac/wiki/InstallGuides/DependencyVersions
 # Package: chaste-dependencies
@@ -73,7 +73,6 @@ RUN apt-get update && \
     apt-get install -y --no-install-recommends \
     chaste-dependencies \
     cmake \
-    scons \
     libvtk7-dev \
     python3-dev \
     python3-venv \
@@ -82,8 +81,7 @@ RUN apt-get update && \
     gh \
     git \
     valgrind \
-    # ssh is needed to fix MPI errors on bionic: https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=882603
-    openssh-client \
+    ### libffi-dev \
     "libpetsc-real*-dbg" \
     # FLTK is a lightweight GUI toolkit that works with X11
     # libfltk1.1 \
