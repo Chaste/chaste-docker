@@ -1,3 +1,5 @@
+# syntax=docker/dockerfile:1
+
 # docker build -t chaste .
 # docker build --target base -t chaste/base .  # Alternative: build base image
 # docker run -it --rm -v chaste_data:/home/chaste chaste
@@ -45,6 +47,7 @@ RUN wget -O /usr/share/keyrings/chaste.asc https://www.cs.ox.ac.uk/chaste/ubuntu
 # Depends: cmake | scons, g++, libopenmpi-dev, petsc-dev, libhdf5-openmpi-dev, xsdcxx, libboost-serialization-dev, libboost-filesystem-dev, libboost-program-options-dev, libparmetis-dev, libmetis-dev, libxerces-c-dev, libsundials-dev, libvtk7-dev | libvtk6-dev, python3, python3-venv
 # Recommends: git, valgrind, libpetsc-real3.15-dbg | libpetsc-real3.14-dbg | libpetsc-real3.12-dbg, libfltk1.1, hdf5-tools, cmake-curses-gui
 # Suggests: libgoogle-perftools-dev, doxygen, graphviz, subversion, git-svn, gnuplot, paraview
+# NOTE: scons is deprecated and will be removed in the next release
 
 # 12/10/2020
 # CMake (cmake) 3.16.3-1ubuntu1
@@ -59,6 +62,12 @@ RUN wget -O /usr/share/keyrings/chaste.asc https://www.cs.ox.ac.uk/chaste/ubuntu
 # VTK (libvtk7-dev) 7.1.1+dfsg2-2ubuntu1
 # Python (python-dev, python-pip) 3.8.2-0ubuntu2
 
+# Add signing key to install GitHub CLI
+# https://github.com/cli/cli/blob/trunk/docs/install_linux.md
+RUN curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg \
+    && chmod go+r /usr/share/keyrings/githubcli-archive-keyring.gpg \
+    && echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | tee /etc/apt/sources.list.d/github-cli.list > /dev/null
+
 # Install dependencies with recommended, applicable suggested and other useful packages
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
@@ -69,6 +78,7 @@ RUN apt-get update && \
     python3-venv \
     python3-pip \
     python3-setuptools \
+    gh \
     git \
     valgrind \
     ### libffi-dev \
@@ -136,6 +146,8 @@ ENV PYTHONPATH="${CHASTE_BUILD_DIR}/python:$PYTHONPATH"
 RUN mkdir -p "${CHASTE_SOURCE_DIR}" "${CHASTE_BUILD_DIR}" "${CHASTE_TEST_OUTPUT}"
 RUN ln -s "${CHASTE_PROJECTS_DIR}" projects
 
+RUN git config --global --add safe.directory "${CHASTE_SOURCE_DIR}"
+
 RUN ctest --verbose -R TestChasteBuildInfo$
 
 CMD ["bash"]
@@ -143,12 +155,18 @@ CMD ["bash"]
 
 FROM base
 
-# Build Chaste: TAG can be a branch or release ('-' skips by default)
-ARG TAG=-
-ENV BRANCH=$TAG
-RUN build_chaste.sh $BRANCH
+# Build Chaste: GIT_TAG can be a branch or release ('-' skips by default)
+ARG GIT_TAG=-
+ENV GIT_TAG=${GIT_TAG}
+RUN build_chaste.sh ${GIT_TAG}
 # RUN ln -s "${CHASTE_TEST_OUTPUT}" "${CHASTE_SOURCE_DIR}/testoutput"
 
-# Automatically mount the home directory in a volume to persist changes made there
-# N.B. After declaring the volume, changes to the contents during build will not persist.
+# Automatically mount the home directory in a volume to persist changes made there.
+# NOTE: After declaring the volume, changes to the contents during build will not persist.
 VOLUME "${CHASTE_DIR}"
+
+# Optionally run a test suite before finalising the image.
+# NOTE: These test outputs will not appear in the volume. 
+ARG TEST_SUITE=-
+ENV TEST_SUITE=${TEST_SUITE}
+RUN test.sh ${TEST_SUITE}

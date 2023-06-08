@@ -1,7 +1,7 @@
 #!/bin/sh
 set -e
 
-VERSION=${1:-master}
+VERSION=${1:-main}
 GIT_REMOTE=${2:-https://github.com/Chaste/Chaste.git}
 NCORES=${3:-$(nproc)}
 
@@ -27,7 +27,7 @@ if [ $VERSION != '.' ]; then
 fi
 
 echo "Building Chaste $VERSION in $CHASTE_BUILD_DIR with $NCORES cores..."
-if [ $VERSION = 'master' ] || [ $VERSION = 'release' ]; then
+if [ $VERSION = 'main' ] || [ $VERSION = 'release' ]; then
     cmake -DCMAKE_BUILD_TYPE:STRING=Release \
           -DChaste_ERROR_ON_WARNING:BOOL=OFF \
           -DChaste_UPDATE_PROVENANCE:BOOL=ON \

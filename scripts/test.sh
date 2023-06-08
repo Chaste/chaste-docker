@@ -5,6 +5,11 @@ TEST_SUITE=${1:-"Continuous"}
 CMAKE_FLAG=${2:-"n"}
 NCORES=${3:-$(nproc)}
 
+if [ $TEST_SUITE = '-' ]; then
+    echo "Skipping tests!"
+    exit 0
+fi
+
 if [ -z "$CHASTE_DIR" ]; then
     export CHASTE_DIR="/home/chaste"
 fi

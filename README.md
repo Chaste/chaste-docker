@@ -78,13 +78,13 @@ If you're a Chaste developer and want to build your own image with a particular 
 1. Build the Chaste image:
     1. From the latest commit on Chaste's GitHub `develop` branch:
         ```
-        docker build -t chaste --build-arg TAG=develop https://github.com/chaste/chaste-docker.git
+        docker build -t chaste --build-arg GIT_TAG=develop https://github.com/chaste/chaste-docker.git
         ```
-    2. Alternatively a specific branch or tag may be specified through the argument `--build-arg TAG=<branch|tag>` (with the same tag appended onto the docker image name for clarity) e.g.:
+    2. Alternatively a specific branch or tag may be specified through the argument `--build-arg GIT_TAG=<branch|tag>` (with the same tag appended onto the docker image name for clarity) e.g.:
         ```
-        docker build -t chaste:2021.1 --build-arg TAG=2021.1 https://github.com/chaste/chaste-docker.git
+        docker build -t chaste:2021.1 --build-arg GIT_TAG=2021.1 https://github.com/chaste/chaste-docker.git
         ```
-    3. Finally, if you want a bare container ready for you to clone and compile your own Chaste code, pull a `base` image with `docker pull chaste/base` (tagging with a specific Ubuntu distribution if desired e.g. `chaste/base:focal`) Alternatively, build a fresh image by running the following command (omitting the `--build-arg TAG=<branch|tag>` argument above, or explicitly passing `--build-arg TAG=-`, which will skip compiling Chaste within the image):
+    3. Finally, if you want a bare container ready for you to clone and compile your own Chaste code, pull a `base` image with `docker pull chaste/base` (tagging with a specific Ubuntu distribution if desired e.g. `chaste/base:focal`) Alternatively, build a fresh image by running the following command (omitting the `--build-arg GIT_TAG=<branch|tag>` argument above, or explicitly passing `--build-arg GIT_TAG=-`, which will skip compiling Chaste within the image):
         ```
         docker build -t chaste https://github.com/chaste/chaste-docker.git
         ```
@@ -175,7 +175,7 @@ docker cp src/. chaste:/home/chaste/src  # copy in
 Developing code within the container
 ------------------------------------
 
-We recommend using [VS Code](https://code.visualstudio.com/download) with the "[remote development](https://code.visualstudio.com/docs/remote/remote-overview)" plugin which allows the files within a container to be directly accessed and edited and seaeched as if they were on the host system while preserving the performance benefits of keeping the files within the volume. 
+We recommend using [VS Code](https://code.visualstudio.com/download) with the "[remote development](https://code.visualstudio.com/docs/remote/remote-overview)" plugin which allows the files within a container to be directly accessed and edited and searched as if they were on the host system while preserving the performance benefits of keeping the files within the volume. 
 
 1. Start the container from a terminal with the command given
 2. In VS Code select "`Remote-Containers: Attach to Running Container...`"

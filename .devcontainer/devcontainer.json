@@ -27,8 +27,13 @@
 	// "settings":  { "workbench.colorTheme": "Quiet Light" },
 
 	// Uncomment the next line to run commands after the container is created - for example installing git.
+	"onCreateCommand": "git config --global --add safe.directory ${containerWorkspaceFolder}",
 	// "postCreateCommand": "apt-get update && apt-get install -y git",
 
-	// Add the IDs of any extensions you want installed in the array below.
-	"extensions": []
+	// Configure tool-specific properties.
+	"customizations": {
+		"vscode": {
+			"extensions": []
+		}
+	}
 }
