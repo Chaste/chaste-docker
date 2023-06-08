@@ -1,3 +1,5 @@
+# syntax=docker/dockerfile:1
+
 # docker build -t chaste .
 # docker build --target base -t chaste/base .  # Alternative: build base image
 # docker run -it --rm -v chaste_data:/home/chaste chaste
