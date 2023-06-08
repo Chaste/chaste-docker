@@ -60,7 +60,6 @@ base stub:
 # docker push chaste/$@:$(BASE)
 
 
-EXTRA_ARGS?=
 build:
 	docker buildx build --push --platform $(PLATFORM) \
 		-t $(CHASTE_IMAGE):$(GIT_TAG) \
@@ -73,11 +72,11 @@ build:
 		--build-arg Chaste_ERROR_ON_WARNING=$(Chaste_ERROR_ON_WARNING) \
 		--build-arg Chaste_UPDATE_PROVENANCE=$(Chaste_UPDATE_PROVENANCE) \
 		--build-arg TEST_SUITE=$(TEST_SUITE) \
-		-f $(DOCKER_FILE) $(EXTRA_ARGS) .
+		-f $(DOCKER_FILE) .
 # Do not push so that a release build can be tested first
 # docker build -t $(CHASTE_IMAGE):$(GIT_TAG) \
 
-fresh latest: EXTRA_ARGS += --no-cache
+fresh latest: EXTRA_BUILD_FLAGS += --no-cache
 latest: GIT_TAG=main
 fresh latest: build
 
