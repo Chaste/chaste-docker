@@ -15,7 +15,7 @@ Chaste_ERROR_ON_WARNING?="OFF"
 Chaste_UPDATE_PROVENANCE?="OFF"
 # PROJECTS?="${HOME}/projects"
 # TEST_OUTPUT?="${HOME}/testoutput"
-TEST_SUITE?="Continuous"
+TEST_SUITE?=-
 # SRC?=$(shell dirname `pwd`)
 
 all: base release
@@ -57,7 +57,7 @@ base stub:
 
 EXTRA_ARGS?=
 build:
-	docker buildx build --platform $(PLATFORM) \
+	docker buildx build --push --platform $(PLATFORM) \
 		-t $(CHASTE_IMAGE):$(GIT_TAG) \
 		-t $(CHASTE_IMAGE):$(BASE)-$(GIT_TAG) \
 		--build-arg BASE=$(BASE) \
@@ -66,6 +66,7 @@ build:
 		--build-arg CMAKE_BUILD_TYPE=$(CMAKE_BUILD_TYPE) \
 		--build-arg Chaste_ERROR_ON_WARNING=$(Chaste_ERROR_ON_WARNING) \
 		--build-arg Chaste_UPDATE_PROVENANCE=$(Chaste_UPDATE_PROVENANCE) \
+		--build-arg TEST_SUITE=$(TEST_SUITE) \
 		-f $(DOCKER_FILE) $(EXTRA_ARGS) .
 # Do not push so that a release build can be tested first
 # docker build -t $(CHASTE_IMAGE):$(GIT_TAG) \
@@ -80,6 +81,7 @@ fresh latest: build
 main develop: CMAKE_BUILD_TYPE="Debug"
 main develop: Chaste_ERROR_ON_WARNING="ON"
 main develop: Chaste_UPDATE_PROVENANCE="OFF"
+# main develop: TEST_SUITE?="Continuous"
 main develop:
 	docker buildx build --push --platform $(PLATFORM) -o type=image \
 		-t chaste/$@ \
@@ -89,6 +91,7 @@ main develop:
 		--build-arg CMAKE_BUILD_TYPE=$(CMAKE_BUILD_TYPE) \
 		--build-arg Chaste_ERROR_ON_WARNING=$(Chaste_ERROR_ON_WARNING) \
 		--build-arg Chaste_UPDATE_PROVENANCE=$(Chaste_UPDATE_PROVENANCE) \
+		--build-arg TEST_SUITE=$(TEST_SUITE) \
 		-f $(DOCKER_FILE) .
 
 clean:
@@ -120,7 +123,9 @@ test: build
 				$(CHASTE_IMAGE):$(GIT_TAG) test.sh $(TEST_SUITE)
 
 release: CHASTE_IMAGE=chaste/release
-release: build test push
+release: TEST_SUITE?="Continuous"
+release: build
+# release: build test push
 
 build-info: TEST_SUITE=TestChasteBuildInfo
 build-info: test
