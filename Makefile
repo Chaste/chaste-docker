@@ -48,8 +48,7 @@ all: base release
 # 	# docker push $(IMAGE_NAMES)
 
 TARGET?=
-#stub: TARGET = --target base
-# Do not declare volume for base (or stub - deprecated) so that subsequent layers may modify the contents of /home/chaste
+# Do not declare volume for base so that subsequent layers may modify the contents of /home/chaste
 # NOTE: When a container is started which creates a new volume, the contents of the mount point is copied to the volume
 # NOTE: To build for multiple architectures, it may first be necessary to run:
 # docker buildx create --use
@@ -83,9 +82,6 @@ build:
 fresh latest: EXTRA_BUILD_FLAGS += --no-cache
 latest: GIT_TAG=main
 fresh latest: build
-
-#develop: CHASTE_IMAGE=chaste/develop
-#	docker build -t $(CHASTE_IMAGE):$@ \
 
 main develop: CMAKE_BUILD_TYPE="Debug"
 main develop: Chaste_ERROR_ON_WARNING="ON"
