@@ -18,6 +18,9 @@ Chaste_UPDATE_PROVENANCE?="OFF"
 TEST_SUITE?=-
 # SRC?=$(shell dirname `pwd`)
 
+# TODO: Refactor building for multiple architectures
+# https://github.com/pytorch/pytorch/blob/main/docker.Makefile
+
 all: base release
 
 .PHONY: all build base release fresh latest main develop clean stats pull push run test info verbose
