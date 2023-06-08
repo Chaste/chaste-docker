@@ -141,6 +141,8 @@ ENV PYTHONPATH="${CHASTE_BUILD_DIR}/python:$PYTHONPATH"
 RUN mkdir -p "${CHASTE_SOURCE_DIR}" "${CHASTE_BUILD_DIR}" "${CHASTE_TEST_OUTPUT}"
 RUN ln -s "${CHASTE_PROJECTS_DIR}" projects
 
+RUN git config --global --add safe.directory "${CHASTE_SOURCE_DIR}"
+
 RUN ctest --verbose -R TestChasteBuildInfo$
 
 CMD ["bash"]
