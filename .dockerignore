@@ -7,7 +7,7 @@ Makefile
 .DS_Store
 README.md
 LICENSE.txt
-Notes.md
+notes.md
 benchmark.md
 env.*
 .travis.yml
