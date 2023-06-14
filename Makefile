@@ -20,16 +20,18 @@ EXTRA_BUILD_FLAGS?=
 
 # https://github.com/pytorch/pytorch/blob/main/docker.Makefile
 MULTI_ARCH_BUILD?=true
+LOGIN?=true
 PLATFORM?="linux/amd64,linux/arm64/v8"
 ifeq ("$(MULTI_ARCH_BUILD)","true")
 BUILD = buildx build --push --platform $(PLATFORM) -o type=image
+LOGIN=true
 else
 BUILD = build
 endif
 
 all: base release
 
-.PHONY: all build base release fresh latest main develop clean setup stats pull push run test info verbose
+.PHONY: all build base release fresh latest login main develop clean setup stats pull push run test info verbose
 
 # BUILD_ARGS := --build-arg BASE=$(BASE)
 # IMAGE_NAMES := -t $(CHASTE_IMAGE):$(GIT_TAG)
@@ -51,11 +53,17 @@ setup:
 	docker run --privileged --rm tonistiigi/binfmt --install all
 	docker buildx create --name $(BUILDX_ENV) --driver docker-container --bootstrap --use
 
+login:
+	docker login
+
 TARGET?=
 # Do not declare volume for base so that subsequent layers may modify the contents of /home/chaste
 # NOTE: When a container is started which creates a new volume, the contents of the mount point is copied to the volume
 # NOTE: To build for multiple architectures, it may first be necessary to run:
 # docker buildx create --use
+ifeq("$(LOGIN)","true")
+base stub: login
+endif
 base stub: TARGET = --target base
 base stub:
 	docker $(BUILD) \
@@ -67,6 +75,9 @@ base stub:
 		-f $(DOCKER_FILE) .
 # docker push chaste/$@:$(BASE)
 
+ifeq("$(LOGIN)","true")
+build: login
+endif
 build:
 	docker $(BUILD) \
 		-t $(CHASTE_IMAGE):$(GIT_TAG) \
@@ -87,6 +98,9 @@ fresh latest: EXTRA_BUILD_FLAGS += --no-cache
 latest: GIT_TAG=main
 fresh latest: build
 
+ifeq("$(LOGIN)","true")
+main develop: login
+endif
 main develop: CMAKE_BUILD_TYPE="Debug"
 main develop: Chaste_ERROR_ON_WARNING="ON"
 main develop: Chaste_UPDATE_PROVENANCE="OFF"
@@ -132,6 +146,9 @@ test: build
 	docker run -it --init --rm --env CMAKE_BUILD_TYPE=Debug \
 				$(CHASTE_IMAGE):$(GIT_TAG) test.sh $(TEST_SUITE)
 
+ifeq("$(LOGIN)","true")
+release: login
+endif
 release: CHASTE_IMAGE=chaste/release
 release: TEST_SUITE?="Continuous"
 release: build
