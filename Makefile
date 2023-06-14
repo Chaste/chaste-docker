@@ -29,7 +29,7 @@ endif
 
 all: base release
 
-.PHONY: all build base release fresh latest main develop clean stats pull push run test info verbose
+.PHONY: all build base release fresh latest main develop clean setup stats pull push run test info verbose
 
 # BUILD_ARGS := --build-arg BASE=$(BASE)
 # IMAGE_NAMES := -t $(CHASTE_IMAGE):$(GIT_TAG)
@@ -46,6 +46,10 @@ all: base release
 # build:
 # 	docker build $(BUILD_ARGS) $(IMAGE_NAMES) -f $(DOCKER_FILE) .
 # 	# docker push $(IMAGE_NAMES)
+BUILDX_ENV?=multiarch
+setup:
+	docker run --privileged --rm tonistiigi/binfmt --install all
+	docker buildx create --name $(BUILDX_ENV) --driver docker-container --bootstrap --use
 
 TARGET?=
 # Do not declare volume for base so that subsequent layers may modify the contents of /home/chaste
