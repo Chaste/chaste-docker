@@ -19,12 +19,12 @@ TEST_SUITE?=-
 EXTRA_BUILD_FLAGS?=
 
 # https://github.com/pytorch/pytorch/blob/main/docker.Makefile
+PUSH?=false
 MULTI_ARCH_BUILD?=true
-LOGIN?=true
 PLATFORM?="linux/amd64,linux/arm64/v8"
 ifeq ("$(MULTI_ARCH_BUILD)","true")
+PUSH = true
 BUILD = buildx build --push --platform $(PLATFORM) -o type=image
-LOGIN=true
 else
 BUILD = build
 endif
@@ -61,7 +61,7 @@ TARGET?=
 # NOTE: When a container is started which creates a new volume, the contents of the mount point is copied to the volume
 # NOTE: To build for multiple architectures, it may first be necessary to run:
 # docker buildx create --use
-ifeq ("$(LOGIN)","true")
+ifeq ("$(PUSH)","true")
 base stub: login
 endif
 base stub: TARGET = --target base
@@ -75,7 +75,7 @@ base stub:
 		-f $(DOCKER_FILE) .
 # docker push chaste/$@:$(BASE)
 
-ifeq ("$(LOGIN)","true")
+ifeq ("$(PUSH)","true")
 build: login
 endif
 build:
@@ -98,7 +98,7 @@ fresh latest: EXTRA_BUILD_FLAGS += --no-cache
 latest: GIT_TAG=main
 fresh latest: build
 
-ifeq ("$(LOGIN)","true")
+ifeq ("$(PUSH)","true")
 main develop: login
 endif
 main develop: CMAKE_BUILD_TYPE="Debug"
@@ -146,7 +146,7 @@ test: build
 	docker run -it --init --rm --env CMAKE_BUILD_TYPE=Debug \
 				$(CHASTE_IMAGE):$(GIT_TAG) test.sh $(TEST_SUITE)
 
-ifeq ("$(LOGIN)","true")
+ifeq ("$(PUSH)","true")
 release: login
 endif
 release: CHASTE_IMAGE=chaste/release
