@@ -37,8 +37,8 @@ RUN apt-get update && \
 
 # Install the Chaste repo list and key
 # https://chaste.github.io/docs/installguides/ubuntu-package/
-RUN echo "deb [signed-by=/usr/share/keyrings/chaste.asc] https://chaste.github.io/ubuntu ${BASE}/" >> /etc/apt/sources.list.d/chaste.list
-RUN sudo wget -O /usr/share/keyrings/chaste.asc https://chaste.github.io/chaste.asc
+RUN sudo wget -O /usr/share/keyrings/chaste.asc https://chaste.github.io/chaste.asc \
+    && echo "deb [signed-by=/usr/share/keyrings/chaste.asc] https://chaste.github.io/ubuntu ${BASE}/" >> /etc/apt/sources.list.d/chaste.list
 
 # https://github.com/Chaste/dependency-modules/wiki
 # Package: chaste-dependencies
