@@ -49,19 +49,6 @@ RUN sudo wget -O /usr/share/keyrings/chaste.asc https://chaste.github.io/chaste.
 # Suggests: libgoogle-perftools-dev, doxygen, graphviz, subversion, git-svn, gnuplot, paraview
 # NOTE: scons is deprecated and will be removed in the next release
 
-# 12/10/2020
-# CMake (cmake) 3.16.3-1ubuntu1
-# GCC (g++) g++: 4:9.3.0-1ubuntu2
-# PETSc (libpetsc-real3.12-dbg) 3.12.4+dfsg1-1
-# Boost (libboost-serialization-dev, libboost-filesystem-dev, libboost-program-options-dev) 1.71.0.0ubuntu2
-# parMETIS (libparmetis-dev) 4.0.3-5build1
-# HDF5 (libhdf5-openmpi-dev, hdf5-tools) 1.10.4+repack-11ubuntu1
-# XSD (xsdcxx) 4.0.0-8build1
-# Xerces (libxerces-c-dev) 3.2.2+debian-1build3
-# SUNDIALS CVODE (libsundials-dev) 3.1.2+dfsg-3ubuntu2
-# VTK (libvtk7-dev) 7.1.1+dfsg2-2ubuntu1
-# Python (python-dev, python-pip) 3.8.2-0ubuntu2
-
 # Add signing key to install GitHub CLI
 # https://github.com/cli/cli/blob/trunk/docs/install_linux.md
 RUN curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg \
@@ -97,7 +84,6 @@ RUN apt-get update && \
 
 # Fix CMake warnings: https://github.com/autowarefoundation/autoware/issues/795
 RUN update-alternatives --install /usr/bin/vtk vtk /usr/bin/vtk7 7
-# RUN ln -s /usr/bin/vtk7 /usr/bin/vtk
 
 # Update system to use Python3 by default
 RUN update-alternatives --install /usr/bin/python python /usr/bin/python3 1
@@ -159,7 +145,6 @@ FROM base
 ARG GIT_TAG=-
 ENV GIT_TAG=${GIT_TAG}
 RUN build_chaste.sh ${GIT_TAG}
-# RUN ln -s "${CHASTE_TEST_OUTPUT}" "${CHASTE_SOURCE_DIR}/testoutput"
 
 # Automatically mount the home directory in a volume to persist changes made there.
 # NOTE: After declaring the volume, changes to the contents during build will not persist.
