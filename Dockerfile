@@ -14,7 +14,7 @@ LABEL maintainer="Ben Evans <ben.d.evans@gmail.com>" \
     org.opencontainers.image.licenses="MIT" \
     org.opencontainers.image.title="Chaste Docker Image" \
     org.opencontainers.image.description="Chaste: Cancer, Heart and Soft Tissue Environment" \
-    org.opencontainers.image.documentation="http://www.cs.ox.ac.uk/chaste/"
+    org.opencontainers.image.documentation="https://chaste.github.io/docs/installguides/docker/"
 
 USER root
 ARG DEBIAN_FRONTEND=noninteractive
@@ -36,11 +36,11 @@ RUN apt-get update && \
     wget
 
 # Install the Chaste repo list and key
-# https://chaste.cs.ox.ac.uk/trac/wiki/InstallGuides/UbuntuPackage
-RUN echo "deb [signed-by=/usr/share/keyrings/chaste.asc] http://www.cs.ox.ac.uk/chaste/ubuntu ${BASE}/" >> /etc/apt/sources.list.d/chaste.list
-RUN wget -O /usr/share/keyrings/chaste.asc https://www.cs.ox.ac.uk/chaste/ubuntu/Chaste%20Team.asc
+# https://chaste.github.io/docs/installguides/ubuntu-package/
+RUN echo "deb [signed-by=/usr/share/keyrings/chaste.asc] https://chaste.github.io/ubuntu ${BASE}/" >> /etc/apt/sources.list.d/chaste.list
+RUN sudo wget -O /usr/share/keyrings/chaste.asc https://chaste.github.io/chaste.asc
 
-# https://chaste.cs.ox.ac.uk/trac/wiki/InstallGuides/DependencyVersions
+# https://github.com/Chaste/dependency-modules/wiki
 # Package: chaste-dependencies
 # Version: 2022.04.11
 # Architecture: all
