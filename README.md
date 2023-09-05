@@ -12,29 +12,28 @@
 - [Introduction](#introduction)
 - [Getting started](#getting-started)
   - [Prerequisites](#prerequisites)
-  - [Users](#users)
-  - [Developers](#developers)
+  - [\[Recommended\] Using a pre-built image](#recommended-using-a-pre-built-image)
+  - [\[Alternative\] Use the VS Code devcontainer](#alternative-use-the-vs-code-devcontainer)
 - [Container directory structure](#container-directory-structure)
 - [Sharing data between the host and container](#sharing-data-between-the-host-and-container)
   - [Bind mounts](#bind-mounts)
   - [Copying data in and out](#copying-data-in-and-out)
 - [Developing code within the container](#developing-code-within-the-container)
+- [Installing additional software](#installing-additional-software)
 - [Testing](#testing)
-- [Software](#software)
-- [Writing your own Dockerfile](#writing-your-own-dockerfile)
-- [Troubleshooting](#troubleshooting)
+- [Advanced usage](#advanced-usage)
+  - [Building your own image](#building-your-own-image)
+  - [Writing your own Dockerfile](#writing-your-own-dockerfile)
 - [Citation](#citation)
-- [Notes](#notes)
+- [Troubleshooting](#troubleshooting)
 
 ## TL;DR
 
-1. [Install Docker](https://docs.docker.com/install/#supported-platforms) and allocate it at least 4GB RAM
+1. [Install Docker](https://docs.docker.com/get-docker/) and allocate it at least 4GB RAM
 2. `docker run -it --init --rm -v chaste_data:/home/chaste chaste/release`
-3. This is your terminal on [Chaste](http://www.cs.ox.ac.uk/chaste/): 
+3. This is your terminal on [Chaste](https://chaste.github.io/): 
 `chaste@301291afbedf:~$` 
 GL HF! ;)
-
-> :information_source:  To easily share data between the Docker container and the host e.g. the `testoutput` directory, a bind-mount argument can be added to the command: `-v /host/path/to/testoutput:/home/chaste/testoutput`. See the instructions on [bind mounts](#bind-mounts) for further details.
 
 ## Introduction
 [Docker](https://docs.docker.com/) is a lightweight virtualisation technology allowing applications with all of their dependencies to be quickly and easily run in a platform-independent manner. This project provides an image containing [Chaste](http://www.cs.ox.ac.uk/chaste/) (and some additional scripts for convenience) which can be launched with a single command, to provide a portable, homogeneous computational environment (across several operating systems and countless hardware configurations) for the simulation of cancer, heart and soft tissue.
@@ -57,53 +56,53 @@ Getting started
 ---------------
 
 ### Prerequisites
-Install [Docker](https://www.docker.com/community-edition#/download) and configure it to have at least 4GB of RAM and as many cores as you have (more than four cores will need more RAM). On [Linux](https://docs.docker.com/install/#docker-ce) all available RAM and processing cores are shared by default.
-If you use [macOS](https://docs.docker.com/docker-for-mac/install/) you may need to [configure the preferences](https://docs.docker.com/docker-for-mac/#preferences) to increase the available RAM and share any additional areas of the hard disk.
-For [Windows](https://docs.docker.com/docker-for-windows/install/#download-docker-for-windows) you may be prompted to install Hyper-V, in which case do so. Next [configure the preferences](https://docs.docker.com/docker-for-windows/#docker-settings) to increase RAM and select which local drives should be available to containers (e.g. the `C:` drive). On Windows, it is also recommended that you [install git](https://www.atlassian.com/git/tutorials/install-git#windows) for tracking changes in your projects and to enable you to build the Docker image directly from GitHub if required. It is recommend to [use PowerShell on Windows](https://docs.microsoft.com/en-us/powershell/scripting/setup/installing-windows-powershell) as a more powerful alternative to the Command Prompt. Optionally, PowerShell can be further enhanced with the modules [`posh-docker`](https://docs.docker.com/docker-for-windows/#set-up-tab-completion-in-powershell) and [`posh-git`](https://git-scm.com/book/uz/v2/Appendix-A%3A-Git-in-Other-Environments-Git-in-Powershell) which enable tab completion for docker and git commands respectively. Docker command completion can also be configured for [macOS](https://docs.docker.com/docker-for-mac/#install-shell-completion). 
+Install [Docker](https://www.docker.com/products/docker-desktop/) and configure it to have at least 4GB of RAM and as many cores as you have (more than four cores will need more RAM). 
+
+| OS      | Instructrions                                                       |
+| ------------------------ | ------------------------------------------------------------- |
+| Linux   | Install [Docker for Linux](https://docs.docker.com/desktop/install/linux-install/). All available RAM and processing cores are shared by default. |
+| macOS   | 1. Install [Docker for mac](https://docs.docker.com/desktop/install/mac-install/). <br>2. [Configure the preferences](https://docs.docker.com/desktop/settings/mac/) to increase the available RAM and share any desired areas of the hard disk. |
+| Windows | 1. Install [Docker for Windows](https://docs.docker.com/desktop/install/windows-install/), installing WSL2 or Hyper-V, if prompted to do so. We recommend [PowerShell](https://learn.microsoft.com/en-us/powershell/scripting/install/installing-powershell-on-windows?view=powershell-7.3) as a more powerful alternative to the Command Prompt. <br>2. [Configure the preferences](https://docs.docker.com/desktop/settings/windows/) to increase RAM and select which local drives should be available to containers (e.g. the `C:` drive). <br>3. [Optional] [Install git on the host](https://www.atlassian.com/git/tutorials/install-git#windows) for tracking changes in your projects and to enable you to build the Docker image directly from GitHub if required. Installing [`posh-git`](https://git-scm.com/book/uz/v2/Appendix-A%3A-Git-in-Other-Environments-Git-in-Powershell) enables tab completion for git commands. |
 
 > :warning:  Allocate at least 4GB of RAM to Docker or compilation will fail with strange errors!
 
-### Users
-If you're a Chaste user and want to get up and running with the latest release fully compiled and ready to go, after installing and configuring Docker simply run:
-```
-docker run -it --init --rm -v chaste_data:/home/chaste chaste/release
-```
-This should present you with a bash prompt within an isolated Docker container with all the dependencies and pre-compiled code you need to start building your own Chaste projects. If needed, you can also tag the image name with `chaste/release:<tag>` to pull a particular release e.g. `chaste/release:2021.1` rather than the latest version (see other options [here](https://hub.docker.com/repository/docker/chaste/release)). If you don't already have a project, just use the provided script `new_project.sh` to create a project template in `~/projects` as a starting point. Many tutorials for projects can be found here: https://chaste.cs.ox.ac.uk/trac/wiki/UserTutorials.
-
-Once you have a project ready to build, use the script `build_project.sh <TestMyProject> c` (replacing `<TestMyProject>` with the name of your project) and you will find the output in `~/testoutput` (the `c` argument is only necessary when new files are created). If you wish to mount your `projects` and `testoutput` directories from the host to make them more easily accessible (recommended), see the instructions and accompanying table on bind-mounting them [below](#mounting-host-directories).
-
-### Developers
-If you're a Chaste developer and want to build your own image with a particular code branch, make sure you have Docker up and running then read on!
-
-1. Build the Chaste image:
-    1. From the latest commit on Chaste's GitHub `develop` branch:
-        ```
-        docker build -t chaste --build-arg GIT_TAG=develop https://github.com/chaste/chaste-docker.git
-        ```
-    2. Alternatively a specific branch or tag may be specified through the argument `--build-arg GIT_TAG=<branch|tag>` (with the same tag appended onto the docker image name for clarity) e.g.:
-        ```
-        docker build -t chaste:2021.1 --build-arg GIT_TAG=2021.1 https://github.com/chaste/chaste-docker.git
-        ```
-    3. Finally, if you want a bare container ready for you to clone and compile your own Chaste code, pull a `base` image with `docker pull chaste/base` (tagging with a specific Ubuntu distribution if desired e.g. `chaste/base:focal`) Alternatively, build a fresh image by running the following command (omitting the `--build-arg GIT_TAG=<branch|tag>` argument above, or explicitly passing `--build-arg GIT_TAG=-`, which will skip compiling Chaste within the image):
-        ```
-        docker build -t chaste https://github.com/chaste/chaste-docker.git
-        ```
-        (When the container is running you may then edit `build_chaste.sh` in the `scripts` directory to configure the process with your own options before executing it.)
-
-2. Launch the container:
+### [Recommended] Using a pre-built image
+1. If you want to get up and running with the latest release fully compiled and ready to go, after installing and configuring Docker simply run:
     ```
-    docker run -it --init --rm -v chaste_data:/home/chaste chaste
+    docker run --init -it --rm -v chaste_data:/home/chaste chaste/release
     ```
-    (Or run `docker run -it --init --rm -v chaste_data:/home/chaste chaste:2021.1` if you tagged your image name as above.)
-    The first time will take a little longer than usual as the volume has to be populated with data. For information on accessing the contents of this volume, see [below](#sharing-data-between-the-host-and-container).
+    If needed, you can also specify an [available tag](https://hub.docker.com/repository/docker/chaste/release/tags) in the image name in the form `chaste/release:<tag>` to pull a particular release (e.g. `chaste/release:2021.1`) rather than defaulting to the latest version. 
+2. Alternatively, if you want to use the latest development code from the `develop` branch, use this command to pull and run the latest `chaste/develop` image instead:
+    ```
+    docker run --init -it --rm -v chaste_data:/home/chaste chaste/develop
+    ```
 
-Once the container has successfully launched, you should see a command prompt a bit like this:
+Once the container has successfully launched, you should see a command prompt similar to this:
 
 ```
 chaste@301291afbedf:~$
 ```
 
-In here you can build and test your projects without interfering with the rest of your system. You may also find it useful to open another terminal and run `docker stats` so you can see system resource usage for your running containers. When you are finished with the container, simply type `exit` to close it. Any changes made in `/home/chaste` will persist when you relaunch a container, however if the container is deleted, everything else (e.g. installed packages, changes to system files) will be reset to how it was when the image was first used. 
+This is a bash prompt within an isolated Docker container (based on [ubuntu](https://hub.docker.com/_/ubuntu)) with all the dependencies and pre-compiled code you need to start building your own Chaste projects. In here you can build and test your projects without interfering with the rest of your system. 
+
+> :information_source:  To see system resource usage for your running containers, open another terminal and run `docker stats`. 
+
+If you don't already have a project, just use the provided script `new_project.sh` to create a project template in `~/projects` as a starting point. Many tutorials for projects can be found here: https://chaste.cs.ox.ac.uk/trac/wiki/UserTutorials.
+
+Once you have a project ready to build, use the script `build_project.sh <TestMyProject> c` (replacing `<TestMyProject>` with the name of your project) and you will find the output in `~/testoutput` (the `c` argument is only necessary when new files are created). 
+
+> :information_source:  To easily share data between the Docker container and the host e.g. the `testoutput` directory, a bind-mount argument can be added to the command: `-v /host/path/to/testoutput:/home/chaste/testoutput`. See the instructions on [bind mounts](#bind-mounts) for further details.
+
+When you are finished with the container, simply type `exit` or press `Ctrl+D` to close it (if necessary, pressing `Ctrl+C` first to stop any running processes). Any changes made in `/home/chaste` will persist when you relaunch a container, however if the container is deleted, everything else (e.g. installed packages, changes to system files) will be reset to how it was when the image was first used. 
+
+### [Alternative] Use the VS Code devcontainer
+If you use [VS Code](https://code.visualstudio.com/) and have installed Docker, you can simply clone the [Chaste code repository](https://github.com/Chaste/Chaste) and open it in VS Code (installing the [Remote Development extension pack](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.vscode-remote-extensionpack) if prompted to do so). Finally, when prompted by the extension, click `Reopen in Container`. This will seamlessly pull, run and mount the latest `chaste/develop` image for you. 
+
+> :information_source:  Note, this will mount the locally cloned copy of the Chaste code into the container, overlaying the copy already included in the image. While the pre-compiled binaries are built against the image's internal copy of the code, they will be relatively up-to-date, so will not take long to recompile against changes you make to the locally cloned code, bringing them back into synchrony. 
+
+Further details of the `devcontainer` can be found [here](https://github.com/Chaste/Chaste/tree/develop/.devcontainer). 
+
+For more advanced use cases, see [Building your own image](#building-your-own-image) below. 
 
 Container directory structure
 -----------------------------
@@ -134,11 +133,11 @@ Corresponding environment variables are also set as follows:
 - `CHASTE_SOURCE_DIR="${CHASTE_DIR}/src"`
 - `CHASTE_TEST_OUTPUT="${CHASTE_DIR}/testoutput"`
 
-If required, the `CHASTE_DIR` path can be changed at buildtime with a build arguemnt e.g. `--build-arg CHASTE_DIR=/path/to/alternative` which will then set the other directories relative to that path. 
+> :information_source:  If [building your own image](#building-your-own-image), the `CHASTE_DIR` path can be changed at buildtime with a build arguemnt e.g. `--build-arg CHASTE_DIR=/path/to/alternative` which will then set the other directories relative to that path. 
 
-Any changes made in the home folder (`/home/chaste`) will persist between restarting containers as it is designated as a `VOLUME`. Additionally, specific folders may be mounted over any of these subfolders, for example, to gain access to the test outputs for visualising in ParaView or for mounting a different version of the Chaste source code. In general, data should be left in a (named) volume, as file I/O performance will be best that way. However, bind mounting host directories can be convenient e.g. for access to output files and so is explained next.
+Any changes made in the home folder (`/home/chaste`) will persist between restarting containers as it is designated as a `VOLUME`. Additionally, specific folders may be mounted over any of these subfolders, for example, to gain access to the test outputs for visualising in [ParaView](https://www.paraview.org/) or for mounting a different version of the Chaste source code. In general, data should be left in a (named) volume, as file I/O performance will be best that way. However, bind mounting host directories can be convenient e.g. for access to output files and so is explained next.
 
-> :warning:  Docker containers are ephemeral by design and no changes will be saved after exiting (except to files in volumes or folders bind mounted from the host). The contents of the container's home directory (including the Chaste source code and binaries) are stored in a Docker [`VOLUME`](https://docs.docker.com/storage/volumes/) and so will persist between container instances. However if you reset Docker, all volumes and their contained data will be lost, so be sure to regularly push your projects to a remote git repository!
+> :warning:  Docker containers are ephemeral by design and no changes will be saved after exiting (except to files in volumes or folders bind-mounted from the host). The contents of the container's home directory (including the Chaste source code and binaries) are stored in a Docker [`VOLUME`](https://docs.docker.com/storage/volumes/) and so will persist between container instances. However if you reset Docker, all volumes and their contained data will be lost, so be sure to regularly push your projects to a remote git repository!
 
 Sharing data between the host and container
 -------------------------------------------
@@ -153,13 +152,10 @@ One drawback of this type of mount is that the contents are more difficult to ac
 
 ### Bind mounts
 
-Any host directory (specified with an absolute path e.g. `/path/to/testoutput`) may be mounted in the container e.g. the `testoutput` directory. Alternatively, navigate to the folder on the host which contains these directories e.g. `C:\Users\$USERNAME\chaste` (Windows) or `~/chaste` (Linux/macOS) and use `$(pwd)/testoutput` instead as shown below. In the following examples, the image name (final argument) is assumed to be `chaste/release` rather than e.g. `chaste/develop` or `chaste/release:2021.1` for simplicity. The exact form of the command depends upon which OS (and shell) you are using:
-
-| Operating System         | Command                                                       |
-| ------------------------ | ------------------------------------------------------------- |
-| Linux & macOS (*nix)     | `docker run -it --init --rm -v chaste_data:/home/chaste -v $(pwd)/testoutput:/home/chaste/testoutput chaste/release` |
-| Windows (PowerShell [[2]](#FN2)) | `docker run -it --init --rm -v chaste_data:/home/chaste -v ${PWD}/testoutput:/home/chaste/testoutput chaste/release` |
-| Windows (Command Prompt) | `docker run -it --init --rm -v chaste_data:/home/chaste -v %cd%/testoutput:/home/chaste/testoutput chaste/release`     |
+Any host directory (specified with an absolute path e.g. `/path/to/testoutput`) may be mounted in the container e.g. the `testoutput` directory. Alternatively, navigate to the folder on the host which contains these directories e.g. `C:\Users\$USERNAME\chaste` (Windows) or `~/chaste` (Linux/macOS) and use `$(pwd)/testoutput` instead as shown below. In the following examples, the image name (final argument) is assumed to be `chaste/release` rather than e.g. `chaste/develop` or `chaste/release:2021.1` for simplicity. 
+```
+docker run -it --init --rm -v chaste_data:/home/chaste -v "${PWD}"/testoutput:/home/chaste/testoutput chaste/release
+```
 
 ### Copying data in and out
 
@@ -175,7 +171,9 @@ docker cp src/. chaste:/home/chaste/src  # copy in
 Developing code within the container
 ------------------------------------
 
-We recommend using [VS Code](https://code.visualstudio.com/download) with the "[remote development](https://code.visualstudio.com/docs/remote/remote-overview)" plugin which allows the files within a container to be directly accessed and edited and searched as if they were on the host system while preserving the performance benefits of keeping the files within the volume. 
+We recommend using [VS Code](https://code.visualstudio.com/download) with the "[Remote Development](https://code.visualstudio.com/docs/remote/remote-overview)" extension which allows the files within a container to be directly accessed and edited and searched as if they were on the host system while preserving the performance benefits of keeping the files within the volume. 
+
+> :information_source:  These steps relate to the currently [recommended pre-built image method](#recommended-using-a-pre-built-image). If you are using the new [`devcontainer`](#alternative-use-the-vs-code-devcontainer) instructions, these steps are done automatically.
 
 1. Start the container from a terminal with the command given
 2. In VS Code select "`Remote-Containers: Attach to Running Container...`"
@@ -190,6 +188,18 @@ We recommend using [VS Code](https://code.visualstudio.com/download) with the "[
 </p></details>
 
 > :information_source:  For small edits to the code from the terminal, `nano` is installed in the image for convenience, along with `git` for pushing the changes.
+
+Installing additional software
+------------------------------
+
+If you want to use a package which is not installed within the image, you can install it with the command:
+
+```
+sudo apt-get update && sudo apt-get install <PackageName>
+```
+Replacing `<PackageName>` as appropriate. Enter the password: `chaste` when prompted to do so.
+
+Note that packages installed this way will not persist after the container is deleted (because the relevant files are not stored in `/home/chaste`). This can be avoided by omitting the `--rm` flag from the `docker run` command and using `docker start <container_name>` to relaunch a previously used container. If there is a package you think would be a particularly useful permanent addition to the Docker image, then email your suggestion to me or submit a pull request.
 
 Testing
 -------
@@ -206,20 +216,32 @@ ctest --verbose -R TestChasteBuildInfo$
 ```
 For more information on testing see: https://chaste.cs.ox.ac.uk/trac/wiki/ChasteGuides/CmakeBuildGuide. 
 
-Software
---------
+## Advanced usage
+### Building your own image
+If you're a more advanced developer and want to build your own image with a particular code branch, make sure you have Docker up and running then read on! In these examples, we tag the image `chaste:custom` for illustration but you are encouraged to give it a more descriptive name.
 
-If you want to use a package which is not installed within the image, you can install it with the command:
+1. Build the Chaste image:
+    1. From the latest commit on Chaste's GitHub `develop` branch:
+        ```
+        docker build -t chaste:custom --build-arg GIT_TAG=develop https://github.com/chaste/chaste-docker.git
+        ```
+    2. Alternatively a specific branch or tag may be specified through the argument `--build-arg GIT_TAG=<branch|tag>` (with the same tag appended onto the docker image name for clarity) e.g.:
+        ```
+        docker build -t chaste:custom --build-arg GIT_TAG=2021.1 https://github.com/chaste/chaste-docker.git
+        ```
+    3. Finally, if you want a bare container ready for you to clone and compile your own Chaste code, pull a `base` image with `docker pull chaste/base` (specifying an [available Ubuntu distribution](https://hub.docker.com/repository/docker/chaste/base/tags) if desired e.g. `chaste/base:focal`) Alternatively, build a fresh image by running the following command (omitting the `--build-arg GIT_TAG=<branch|tag>` argument above, or explicitly passing `--build-arg GIT_TAG=-`, which will skip compiling Chaste within the image):
+        ```
+        docker build -t chaste:custom https://github.com/chaste/chaste-docker.git
+        ```
+        (When the container is running you may then edit `build_chaste.sh` in the `scripts` directory to configure the process with your own options before executing it.)
 
-```
-sudo apt-get update && sudo apt-get install <PackageName>
-```
-Replacing `<PackageName>` as appropriate. Enter the password: `chaste` when prompted to do so.
+2. Launch the container:
+    ```
+    docker run --init -it --rm -v chaste_data:/home/chaste chaste:custom
+    ```
+    The first time will take a little longer than usual as the volume has to be populated with data. For information on accessing the contents of this volume, see the section on [sharing data](#sharing-data-between-the-host-and-container).
 
-Note that packages installed this way will not persist after the container is deleted (because the relevant files are not stored in `/home/chaste`). This can be avoided by omitting the `--rm` flag from the `docker run` command and using `docker start <container_name>` to relaunch a previously used container. If there is a package you think would be a particularly useful permanent addition to the Docker image, then email your suggestion to me or submit a pull request.
-
-Writing your own Dockerfile
----------------------------
+### Writing your own Dockerfile
 
 <img alt="Ten Simple Rules for Writing Dockerfiles for Reproducible Research - Summary" src="https://raw.githubusercontent.com/nuest/ten-simple-rules-dockerfiles/master/figures/summary.png" width="25%" align="right">
 
@@ -232,43 +254,6 @@ or e.g. `chaste/base:focal` to specify a particular base image other than the `l
 A full guide to writing a `Dockerfile` is beyond the scope of this project, however for more information, see the Docker [documentation](https://docs.docker.com/develop/develop-images/dockerfile_best-practices/) and [reference](https://docs.docker.com/engine/reference/builder/). There is also a handy list of Ten Simple Rules to help you get started! 
 
 > :information_source:  Pro tip! To write your own `Dockerfile`s, see [Nüst et al. 2020](https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1008316) for best practices. 
-
-Troubleshooting
----------------
-
-* Firstly, make sure you have given Docker at least 4GB RAM, especially if you are compiling Chaste from source.
-
-* If you get a message beginning: `Unexpected end of /proc/mounts line ...`, this can be safely ignored!
-
-* If you ran a container before and explicitly gave it a name (e.g. using `--name chaste` as an argument to `docker run`) but it now refuses to launch with an error message like below, it's because you need to remove the existing (stopped) container before one can be recreated with the same name.
-
-    ```
-    docker: Error response from daemon: Conflict. The container name "/chaste" is already in use by container "1711bce2674e399b6084c6d452857377f6ed4dd8ee3aa19460de00fac7b86bc7". You have to remove (or rename) that container to be able to reuse that name.
-    ```
-
-    To remove the container, simply run the following command then rerun the `docker run ...` command to launch the container (N.B. This will not delete the data stored in the `chaste_data` volume):
-
-    ```
-    docker rm chaste
-    ```
-
-    N.B. You can find out the names of existing containers (and their status) with the command: `docker ps -a`.
-
-* If building the image from scratch, occasionally problems can occur if a dependency fails to download and install correctly. If such an issue occurs, try resetting your Docker environment (i.e. remove all containers, images and their intermediate layers) with the following command:
-    ```
-    docker system prune -a
-    ```
-
-    This will give you a clean slate from which to restart the building process described above.
-
-* If you have deleted or otherwise corrupted the persistent data in the `chaste_data` volume, the command can be used with the `--volumes` flag. :warning:  Warning! :warning:  this will completely reset any changes to data in the image home directory along with any other Docker images on your system (except where other host folders have been bind-mounted). Commit and push any changes made to the Chaste source code or projects and save any important test outputs before running the command with this flag. If you are unsure, do not use this flag - instead list the volumes on your system with `docker volume ls` and then use the following command to delete a specific volume once you are happy that no important data remains within it:
-    ```
-    docker volume rm <volume_name>
-    ```
-
-    For more information on cleaning up Docker, see [this tutorial](https://www.digitalocean.com/community/tutorials/how-to-remove-docker-images-containers-and-volumes).
-
-* For more general troubleshooting, opening a terminal and running `docker events` then launching the container in another terminal will provide logging information of the events happening behind the scenes.
 
 Citation
 --------
@@ -316,3 +301,40 @@ Nüst D, Sochat V, Marwick B, Eglen SJ, Head T, Hirst T, and Evans, BD. (2020) T
     url = {https://doi.org/10.1371/journal.pcbi.1008316},
 }
 ```
+
+Troubleshooting
+---------------
+
+* Firstly, make sure you have given Docker at least 4GB RAM, especially if you are compiling Chaste from source.
+
+* If you get a message beginning: `Unexpected end of /proc/mounts line ...`, this can be safely ignored!
+
+* If you ran a container before and explicitly gave it a name (e.g. using `--name chaste` as an argument to `docker run`) but it now refuses to launch with an error message like below, it's because you need to remove the existing (stopped) container before one can be recreated with the same name.
+
+    ```
+    docker: Error response from daemon: Conflict. The container name "/chaste" is already in use by container "1711bce2674e399b6084c6d452857377f6ed4dd8ee3aa19460de00fac7b86bc7". You have to remove (or rename) that container to be able to reuse that name.
+    ```
+
+    To remove the container, simply run the following command then rerun the `docker run ...` command to launch the container (N.B. This will *not* delete the data stored in the `chaste_data` volume but other changes made within the container will be lost e.g. installed software):
+
+    ```
+    docker rm chaste
+    ```
+
+    N.B. You can find out the names of existing containers (and their status) with the command: `docker ps -a`.
+
+* If building the image from scratch, occasionally problems can occur if a dependency fails to download and install correctly. If such an issue occurs, try resetting your Docker environment (i.e. remove all containers, images and their intermediate layers) with the following command:
+    ```
+    docker system prune -a
+    ```
+
+    This will give you a clean slate from which to restart the building process described above.
+
+* If you have deleted or otherwise corrupted the persistent data in the `chaste_data` volume, the command can be used with the `--volumes` flag. :warning:  Warning! :warning:  this will completely reset any changes to data in the image home directory along with any other Docker images on your system (except where other host folders have been bind-mounted). Commit and push any changes made to the Chaste source code or projects and save any important test outputs before running the command with this flag. If you are unsure, do not use this flag - instead list the volumes on your system with `docker volume ls` and then use the following command to delete a specific volume once you are happy that no important data remains within it:
+    ```
+    docker volume rm <volume_name>
+    ```
+
+    For more information on cleaning up Docker, see [this tutorial](https://www.digitalocean.com/community/tutorials/how-to-remove-docker-images-containers-and-volumes).
+
+* For more general troubleshooting, opening a terminal and running `docker events` then launching the container in another terminal will provide logging information of the events happening behind the scenes.
