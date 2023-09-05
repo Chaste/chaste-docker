@@ -1,2 +1,2 @@
 #!/bin/sh
-docker run -it --rm -v chaste_data:/home/chaste -v "$(pwd)":/home/chaste/projects chaste
+docker run --init -it --rm -v chaste_data:/home/chaste -v "${PWD}":/home/chaste/projects chaste
