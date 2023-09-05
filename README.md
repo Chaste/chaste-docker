@@ -236,7 +236,7 @@ FROM chaste/base
 ```
 or e.g. `chaste/base:focal` to specify a particular base image other than the `latest`. 
 
-A full guide to writing a `Dockerfile` is beyond the scope of this project, however for more information, see the Docker [domumentation](https://docs.docker.com/develop/develop-images/dockerfile_best-practices/) and [reference](https://docs.docker.com/engine/reference/builder/). There is also a handy list of Ten Simple Rules to help you get started! 
+A full guide to writing a `Dockerfile` is beyond the scope of this project, however for more information, see the Docker [documentation](https://docs.docker.com/develop/develop-images/dockerfile_best-practices/) and [reference](https://docs.docker.com/engine/reference/builder/). There is also a handy list of Ten Simple Rules to help you get started! 
 
 > :information_source:  Pro tip! To write your own `Dockerfile`s, see [Nüst et al. 2020](https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1008316) for best practices. 
 
