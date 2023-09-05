@@ -15,6 +15,17 @@ References
 1. https://docs.docker.com/build/building/multi-platform/
 2. https://github.com/docker/buildx/issues/464
 
+On macOS and Windows [[1]](#FN1), a linux virtual machine (Moby based on Alpine Linux) acts as an intermediary in which images, containers and volumes are stored.
+
+Footnotes
+---------
+
+- <a name=FN1>[1]</a>: On macOS the Linux virtual machine which hosts the containers can be inspected with the command:
+```
+screen ~/Library/Containers/com.docker.docker/Data/com.docker.driver.amd64-linux/tty
+```
+- <a name=FN2>[2]</a>: If you are using PowerShell, you can enable tab completion by installing the PowerShell module [`posh-docker`](https://docs.docker.com/docker-for-windows/#set-up-tab-completion-in-powershell). Similarly, for tab completion of git commands in PowerShell, install [`posh-git`](https://git-scm.com/book/uz/v2/Appendix-A%3A-Git-in-Other-Environments-Git-in-Powershell).
+
 TODO <!-- omit in toc -->
 ----
 

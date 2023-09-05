@@ -184,13 +184,6 @@ We recommend using [VS Code](https://code.visualstudio.com/download) with the "[
 
 <details><summary>Alternative approaches [click to expand]</summary><p> 
 
-On a Linux host, the `chaste_data` volume contents may be directly accessed at `/var/lib/docker/volumes/chaste_data/_data`. A symlink can me made for easier access in the present working directory:
-```
-ln -s /var/lib/docker/volumes/chaste_data/_data chaste_data
-```
-
-The situation is less straightforward for Windows and macOS [[1]](#FN1) hosts due to the intermediary Linux virtual machine (Moby based on Alpine Linux) in which images, containers and volumes are stored.
-
 1. While it is better to leave the code within the volume for better performance you may wish to use another [bind mount](https://docs.docker.com/storage/bind-mounts/) to overlay the volume's `~/src` folder with a host directory containing the Chaste source code e.g. `-v /path/to/chaste_code:/home/chaste/src`. Chaste may then need to be recompiled within the container with `build_chaste.sh <branch/tag>` or if you already have the code in the mounted host folder, cloning can be skipped before recompiling with `build_chaste.sh .`. This will make the same source files directly accessible on both the host and within the Docker container, avoiding the need to copy files back and forth or use VS Code. This may result in slower I/O than when stored in a Docker volume, however this problem may be ameliorated on [macOS](https://docs.docker.com/storage/bind-mounts/#configure-mount-consistency-for-macos) with the [`delegated` option](https://docs.docker.com/docker-for-mac/osxfs-caching/#examples) e.g. `--mount type=bind,source="$(pwd)"/chaste_code,destination=/home/chaste/src,consistency=delegated`.
 
 2. Alternatively, use the utility `docker-sync`: http://docker-sync.io/. This works on OSX, Windows, Linux (where it maps on to a native mount) and FreeBSD.
@@ -323,12 +316,3 @@ Nüst D, Sochat V, Marwick B, Eglen SJ, Head T, Hirst T, and Evans, BD. (2020) T
     url = {https://doi.org/10.1371/journal.pcbi.1008316},
 }
 ```
-
-Notes
------
-
-- <a name=FN1>[1]</a>: On macOS the Linux virtual machine which hosts the containers can be inspected with the command:
-```
-screen ~/Library/Containers/com.docker.docker/Data/com.docker.driver.amd64-linux/tty
-```
-- <a name=FN2>[2]</a>: If you are using PowerShell, you can enable tab completion by installing the PowerShell module [`posh-docker`](https://docs.docker.com/docker-for-windows/#set-up-tab-completion-in-powershell). Similarly, for tab completion of git commands in PowerShell, install [`posh-git`](https://git-scm.com/book/uz/v2/Appendix-A%3A-Git-in-Other-Environments-Git-in-Powershell).
