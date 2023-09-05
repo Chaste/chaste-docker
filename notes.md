@@ -29,6 +29,8 @@ screen ~/Library/Containers/com.docker.docker/Data/com.docker.driver.amd64-linux
 TODO <!-- omit in toc -->
 ----
 
+* [ ] Change TL;DR and recommended instructions to use the [devcontainer](https://github.com/Chaste/Chaste/tree/develop/.devcontainer).
+* [ ] Update link in README to Workshop slides.
 * [ ] Add a layer for automatically building statically linked binaries for small containers or to be copied out and run natively
 * [ ] Add [`.vscode` and `.devcontainer`](https://github.com/microsoft/vscode-remote-try-cpp) (for `launch.json`, [`devcontainer.json`](https://code.visualstudio.com/docs/remote/containers), etc.) to [automatically configure VS Code](https://code.visualstudio.com/docs/remote/containers-advanced).
 * [ ] Modify scripts to [parse arguments flexibly](https://sookocheff.com/post/bash/parsing-bash-script-arguments-with-shopts/)
