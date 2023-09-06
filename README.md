@@ -58,8 +58,8 @@ Getting started
 ### Prerequisites
 Install [Docker](https://www.docker.com/products/docker-desktop/) and configure it to have at least 4GB of RAM and as many cores as you have (more than four cores will need more RAM). 
 
-| OS      | Instructrions                                                       |
-| ------------------------ | ------------------------------------------------------------- |
+| OS      | Instructions                                                     |
+| ------- | ----------------------------------------------------------------- |
 | Linux   | Install [Docker for Linux](https://docs.docker.com/desktop/install/linux-install/). All available RAM and processing cores are shared by default. |
 | macOS   | 1. Install [Docker for mac](https://docs.docker.com/desktop/install/mac-install/). <br>2. [Configure the preferences](https://docs.docker.com/desktop/settings/mac/) to increase the available RAM and share any desired areas of the hard disk. |
 | Windows | 1. Install [Docker for Windows](https://docs.docker.com/desktop/install/windows-install/), installing WSL2 or Hyper-V, if prompted to do so. We recommend [PowerShell](https://learn.microsoft.com/en-us/powershell/scripting/install/installing-powershell-on-windows?view=powershell-7.3) as a more powerful alternative to the Command Prompt. <br>2. [Configure the preferences](https://docs.docker.com/desktop/settings/windows/) to increase RAM and select which local drives should be available to containers (e.g. the `C:` drive). <br>3. [Optional] [Install git on the host](https://www.atlassian.com/git/tutorials/install-git#windows) for tracking changes in your projects and to enable you to build the Docker image directly from GitHub if required. Installing [`posh-git`](https://git-scm.com/book/uz/v2/Appendix-A%3A-Git-in-Other-Environments-Git-in-Powershell) enables tab completion for git commands. |
@@ -133,7 +133,7 @@ Corresponding environment variables are also set as follows:
 - `CHASTE_SOURCE_DIR="${CHASTE_DIR}/src"`
 - `CHASTE_TEST_OUTPUT="${CHASTE_DIR}/testoutput"`
 
-> :information_source:  If [building your own image](#building-your-own-image), the `CHASTE_DIR` path can be changed at buildtime with a build arguemnt e.g. `--build-arg CHASTE_DIR=/path/to/alternative` which will then set the other directories relative to that path. 
+> :information_source:  If [building your own image](#building-your-own-image), the `CHASTE_DIR` path can be changed at buildtime with a build argument e.g. `--build-arg CHASTE_DIR=/path/to/alternative` which will then set the other directories relative to that path. 
 
 Any changes made in the home folder (`/home/chaste`) will persist between restarting containers as it is designated as a `VOLUME`. Additionally, specific folders may be mounted over any of these subfolders, for example, to gain access to the test outputs for visualising in [ParaView](https://www.paraview.org/) or for mounting a different version of the Chaste source code. In general, data should be left in a (named) volume, as file I/O performance will be best that way. However, bind mounting host directories can be convenient e.g. for access to output files and so is explained next.
 
@@ -171,7 +171,7 @@ docker cp src/. chaste:/home/chaste/src  # copy in
 Developing code within the container
 ------------------------------------
 
-We recommend using [VS Code](https://code.visualstudio.com/download) with the "[Remote Development](https://code.visualstudio.com/docs/remote/remote-overview)" extension which allows the files within a container to be directly accessed and edited and searched as if they were on the host system while preserving the performance benefits of keeping the files within the volume. 
+We recommend using [VS Code](https://code.visualstudio.com/download) with the "[Remote Development](https://code.visualstudio.com/docs/remote/remote-overview)" extension which allows the files within a container to be directly accessed, edited and searched as if they were on the host system while preserving the performance benefits of keeping the files within the volume. 
 
 > :information_source:  These steps relate to the currently [recommended pre-built image method](#recommended-using-a-pre-built-image). If you are using the new [`devcontainer`](#alternative-use-the-vs-code-devcontainer) instructions, these steps are done automatically.
 
