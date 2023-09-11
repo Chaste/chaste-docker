@@ -80,6 +80,7 @@ build: login
 endif
 build:
 	docker $(BUILD) \
+		-t $(CHASTE_IMAGE) \
 		-t $(CHASTE_IMAGE):$(GIT_TAG) \
 		-t $(CHASTE_IMAGE):$(BASE)-$(GIT_TAG) \
 		$(EXTRA_BUILD_FLAGS) \
