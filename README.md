@@ -50,7 +50,7 @@ More generally, Docker also has an image registry which stores prebuilt images: 
 
 *Docker ecosystem schematic*
 
-Some slides from a workshop introducing Docker and how to use this Chaste image can be found [here](https://docs.google.com/presentation/d/1nrK95awEO_g0-g4W656EFgFD0c-GPSkntt-uXYVQ590/edit?usp=sharing).
+Some slides from a workshop introducing Docker and how to use this Chaste image can be found [here](https://docs.google.com/presentation/d/1UqpN_9Jwfl-c1I9UpDGaIgm2GVSWffwk9rGkFhaq5_U/edit?usp=sharing).
 
 Getting started
 ---------------
