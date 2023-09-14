@@ -18,7 +18,7 @@ if [ -z "$CHASTE_SOURCE_DIR" ]; then
     export CHASTE_SOURCE_DIR="${CHASTE_DIR}/src"
 fi
 if [ -z "$CHASTE_BUILD_DIR" ]; then
-    export CHASTE_BUILD_DIR="${CHASTE_DIR}/lib"
+    export CHASTE_BUILD_DIR="${CHASTE_DIR}/build"
 fi
 if [ -z "$CHASTE_TEST_OUTPUT" ]; then
     export CHASTE_TEST_OUTPUT="${CHASTE_DIR}/testoutput"

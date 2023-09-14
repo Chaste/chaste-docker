@@ -5,7 +5,7 @@ if [ -z "$CHASTE_DIR" ]; then
     export CHASTE_DIR="/home/chaste"
 fi
 if [ -z "$CHASTE_BUILD_DIR" ]; then
-    export CHASTE_BUILD_DIR="${CHASTE_DIR}/lib"
+    export CHASTE_BUILD_DIR="${CHASTE_DIR}/build"
 fi
 
 ( cd $CHASTE_BUILD_DIR && ctest --verbose -R TestChasteBuildInfo$ )

@@ -115,7 +115,7 @@ ENV PATH "${CHASTE_DIR}/scripts:${PATH}"
 # Set environment variables
 # RUN source /home/chaste/scripts/set_env_vars.sh
 ENV CHASTE_SOURCE_DIR="${CHASTE_DIR}/src" \
-    CHASTE_BUILD_DIR="${CHASTE_DIR}/lib" \
+    CHASTE_BUILD_DIR="${CHASTE_DIR}/build" \
     CHASTE_PROJECTS_DIR="${CHASTE_DIR}/src/projects" \
     CHASTE_TEST_OUTPUT="${CHASTE_DIR}/testoutput"
 # CMake environment variables
@@ -131,6 +131,8 @@ ENV PYTHONPATH="${CHASTE_BUILD_DIR}/python:$PYTHONPATH"
 # Create Chaste build, projects and output folders
 RUN mkdir -p "${CHASTE_SOURCE_DIR}" "${CHASTE_BUILD_DIR}" "${CHASTE_TEST_OUTPUT}"
 RUN ln -s "${CHASTE_PROJECTS_DIR}" projects
+# Transitionary symlink for build directory
+RUN ln -s "${CHASTE_BUILD_DIR}" lib
 
 # Fix git permissions issue CVE-2022-24765
 RUN git config --global --add safe.directory "${CHASTE_SOURCE_DIR}"

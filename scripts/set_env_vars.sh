@@ -22,7 +22,7 @@ fi
 echo "Chaste source directory: $CHASTE_SOURCE_DIR"
 
 if [ -z "$CHASTE_BUILD_DIR" ]; then
-    export CHASTE_BUILD_DIR="${CHASTE_DIR}/lib"
+    export CHASTE_BUILD_DIR="${CHASTE_DIR}/build"
 fi
 echo "Chaste build directory: $CHASTE_BUILD_DIR"
 

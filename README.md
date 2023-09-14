@@ -111,7 +111,7 @@ Once launched, the container will start in the `chaste` user's home directory at
 
 ```bash
 .
-|-- lib
+|-- build
 |-- projects -> /home/chaste/src/projects
 |-- scripts
 |-- src
@@ -120,7 +120,7 @@ Once launched, the container will start in the `chaste` user's home directory at
 
 These folders contain the following types of data:
 
-- `lib`: precompiled Chaste binaries and libraries
+- `build`: precompiled Chaste binaries and libraries
 - `projects`: a symlink to `/home/chaste/src/projects` for user projects
 - `scripts`: convenience scripts for creating, building and testing projects
 - `src`: the Chaste source code
@@ -128,7 +128,7 @@ These folders contain the following types of data:
 
 Corresponding environment variables are also set as follows:
 - `CHASTE_DIR="/home/chaste"`
-- `CHASTE_BUILD_DIR="${CHASTE_DIR}/lib"`
+- `CHASTE_BUILD_DIR="${CHASTE_DIR}/build"`
 - `CHASTE_PROJECTS_DIR="${CHASTE_DIR}/src/projects"`
 - `CHASTE_SOURCE_DIR="${CHASTE_DIR}/src"`
 - `CHASTE_TEST_OUTPUT="${CHASTE_DIR}/testoutput"`
