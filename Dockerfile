@@ -77,9 +77,9 @@ RUN apt-get update && \
     libgoogle-perftools-dev \
     doxygen \
     graphviz \
-    gnuplot \
-    mencoder \
-    mplayer && \
+    gnuplot && \
+    # mencoder \
+    # mplayer && \
     rm -rf /var/lib/apt/lists/*
 
 # Fix CMake warnings: https://github.com/autowarefoundation/autoware/issues/795
