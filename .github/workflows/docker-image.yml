@@ -25,7 +25,7 @@ jobs:
           chaste/base
         flavor: latest=true
         tags: |
-          type=schedule
+          type=schedule,pattern={{date 'YYYYMMDD'}}
           # type=ref,event=branch
           # type=ref,event=pr
           type=semver,pattern={{version}}
