@@ -15,6 +15,13 @@ References
 1. https://docs.docker.com/build/building/multi-platform/
 2. https://github.com/docker/buildx/issues/464
 
+To allocate resources for WSL2, create the file `.wslconfig` in the [`%UserProfile%` directory](https://learn.microsoft.com/en-us/windows/wsl/wsl-config#wslconfig). Allocate 4GB of RAM (or more if available) like this:
+```
+[wsl2]
+memory=4GB
+```
+Other [settings](https://learn.microsoft.com/en-us/windows/wsl/wsl-config#main-wsl-settings) can also be applied. 
+
 On macOS and Windows [[1]](#FN1), a linux virtual machine (Moby based on Alpine Linux) acts as an intermediary in which images, containers and volumes are stored.
 
 Footnotes
