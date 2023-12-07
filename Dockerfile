@@ -4,7 +4,7 @@
 # docker build --target base -t chaste/base .  # Alternative: build base image
 # docker run -it --rm -v chaste_data:/home/chaste chaste
 
-ARG BASE=jammy
+ARG BASE=noble
 FROM ubuntu:${BASE} AS base
 LABEL maintainer="Ben Evans <ben.d.evans@gmail.com>" \
     author.orcid="https://orcid.org/0000-0002-1734-6070" \
@@ -42,12 +42,11 @@ RUN sudo wget -O /usr/share/keyrings/chaste.asc https://chaste.github.io/chaste.
 
 # https://github.com/Chaste/dependency-modules/wiki
 # Package: chaste-dependencies
-# Version: 2022.04.11
+# Version: xxxx.xx.xx https://github.com/Chaste/Chaste/issues/198
 # Architecture: all
-# Depends: cmake | scons, g++, libopenmpi-dev, petsc-dev, libhdf5-openmpi-dev, xsdcxx, libboost-serialization-dev, libboost-filesystem-dev, libboost-program-options-dev, libparmetis-dev, libmetis-dev, libxerces-c-dev, libsundials-dev, libvtk7-dev | libvtk6-dev, python3, python3-venv
-# Recommends: git, valgrind, libpetsc-real3.15-dbg | libpetsc-real3.14-dbg | libpetsc-real3.12-dbg, libfltk1.1, hdf5-tools, cmake-curses-gui
-# Suggests: libgoogle-perftools-dev, doxygen, graphviz, subversion, git-svn, gnuplot, paraview
-# NOTE: scons is deprecated and will be removed in the next release
+# Depends: cmake, g++, libopenmpi-dev, petsc-dev, libhdf5-openmpi-dev, xsdcxx, libboost-serialization-dev, libboost-filesystem-dev, libboost-program-options-dev, libparmetis-dev, libmetis-dev, libxerces-c-dev, libsundials-dev, libvtk9-dev, python3, python3-venv
+# Recommends: git, valgrind, libpetsc-real3.18-dbg, hdf5-tools, cmake-curses-gui
+# Suggests: doxygen, graphviz, paraview
 
 # Add signing key to install GitHub CLI
 # https://github.com/cli/cli/blob/trunk/docs/install_linux.md
@@ -60,7 +59,7 @@ RUN apt-get update && \
     apt-get install -y --no-install-recommends \
     chaste-dependencies \
     cmake \
-    libvtk7-dev \
+    libvtk9-dev \
     python3-dev \
     python3-venv \
     python3-pip \
@@ -70,20 +69,14 @@ RUN apt-get update && \
     valgrind \
     ### libffi-dev \
     "libpetsc-real*-dbg" \
-    # FLTK is a lightweight GUI toolkit that works with X11
-    # libfltk1.1 \
     hdf5-tools \
     cmake-curses-gui \
-    libgoogle-perftools-dev \
     doxygen \
-    graphviz \
-    gnuplot && \
-    # mencoder \
-    # mplayer && \
+    graphviz && \
     rm -rf /var/lib/apt/lists/*
 
 # Fix CMake warnings: https://github.com/autowarefoundation/autoware/issues/795
-RUN update-alternatives --install /usr/bin/vtk vtk /usr/bin/vtk7 7
+RUN update-alternatives --install /usr/bin/vtk vtk /usr/bin/vtk9 9
 
 # Update system to use Python3 by default
 RUN update-alternatives --install /usr/bin/python python /usr/bin/python3 1
