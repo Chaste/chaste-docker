@@ -17,7 +17,11 @@ LABEL maintainer="Ben Evans <ben.d.evans@gmail.com>" \
     org.opencontainers.image.documentation="https://chaste.github.io/docs/installguides/docker/"
 
 USER root
+
 # ARG DEBIAN_FRONTEND=noninteractive
+ENV TZ="Europe/London"
+RUN apt-get update && DEBIAN_FRONTEND="noninteractive" apt-get -y install tzdata
+
 # Declare BASE in this build stage (the value is inherited from the global stage)
 # https://github.com/moby/moby/issues/34482
 ARG BASE
