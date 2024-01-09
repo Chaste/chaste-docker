@@ -17,7 +17,7 @@ LABEL maintainer="Ben Evans <ben.d.evans@gmail.com>" \
     org.opencontainers.image.documentation="https://chaste.github.io/docs/installguides/docker/"
 
 USER root
-ARG DEBIAN_FRONTEND=noninteractive
+# ARG DEBIAN_FRONTEND=noninteractive
 # Declare BASE in this build stage (the value is inherited from the global stage)
 # https://github.com/moby/moby/issues/34482
 ARG BASE
