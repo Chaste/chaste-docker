@@ -19,14 +19,9 @@ LABEL maintainer="Ben Evans <ben.d.evans@gmail.com>" \
 USER root
 
 # ARG DEBIAN_FRONTEND=noninteractive
+# Install system dependencies
 ENV TZ="Europe/London"
 RUN apt-get update && DEBIAN_FRONTEND="noninteractive" apt-get -y install tzdata
-
-# Declare BASE in this build stage (the value is inherited from the global stage)
-# https://github.com/moby/moby/issues/34482
-ARG BASE
-
-# Install system dependencies
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
     apt-utils \
@@ -38,6 +33,10 @@ RUN apt-get update && \
     rsync \
     sudo \
     wget
+
+# Declare BASE in this build stage (the value is inherited from the global stage)
+# https://github.com/moby/moby/issues/34482
+ARG BASE
 
 # Install the Chaste repo list and key
 # https://chaste.github.io/docs/installguides/ubuntu-package/
