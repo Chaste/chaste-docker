@@ -60,23 +60,25 @@ base stub:
 		-f $(DOCKER_FILE) .
 # docker push chaste/$@:$(BASE)
 
-ifeq ("$(PUSH)","true")
-build: login
-endif
-build:
-	docker $(BUILD) \
-		-t $(CHASTE_IMAGE) \
-		-t $(CHASTE_IMAGE):$(GIT_TAG) \
-		-t $(CHASTE_IMAGE):$(BASE)-$(GIT_TAG) \
-		$(EXTRA_BUILD_FLAGS) \
-		--build-arg BASE=$(BASE) \
+BUILD_ARGS = --build-arg BASE=$(BASE) \
 		--build-arg CHASTE_DIR=$(CHASTE_DIR) \
 		--build-arg GIT_TAG=$(GIT_TAG) \
 		--build-arg CMAKE_BUILD_TYPE=$(CMAKE_BUILD_TYPE) \
 		--build-arg Chaste_ERROR_ON_WARNING=$(Chaste_ERROR_ON_WARNING) \
 		--build-arg Chaste_UPDATE_PROVENANCE=$(Chaste_UPDATE_PROVENANCE) \
-		--build-arg TEST_SUITE=$(TEST_SUITE) \
-		-f $(DOCKER_FILE) .
+		--build-arg TEST_SUITE=$(TEST_SUITE)
+
+ifeq ("$(PUSH)","true")
+build: login
+endif
+build: DOCKER_TAGS = -t $(CHASTE_IMAGE) \
+		-t $(CHASTE_IMAGE):$(GIT_TAG) \
+		-t $(CHASTE_IMAGE):$(BASE)-$(GIT_TAG)
+build:
+	docker $(BUILD) \
+		$(DOCKER_TAGS) \
+		$(EXTRA_BUILD_FLAGS) \
+		$(BUILD_ARGS) -f $(DOCKER_FILE) .
 # Do not push so that a release build can be tested first
 # docker build -t $(CHASTE_IMAGE):$(GIT_TAG) \
 
@@ -90,19 +92,12 @@ endif
 main develop: CMAKE_BUILD_TYPE="Debug"
 main develop: Chaste_ERROR_ON_WARNING="ON"
 main develop: Chaste_UPDATE_PROVENANCE="OFF"
+main develop: GIT_TAG=$@
+main develop: DOCKER_TAGS = -t chaste/$@
 # main develop: TEST_SUITE?="Continuous"
-main develop:
-	docker $(BUILD) \
-		-t chaste/$@ \
-		$(EXTRA_BUILD_FLAGS) \
-		--build-arg BASE=$(BASE) \
-		--build-arg CHASTE_DIR=$(CHASTE_DIR) \
-		--build-arg GIT_TAG=$@ \
-		--build-arg CMAKE_BUILD_TYPE=$(CMAKE_BUILD_TYPE) \
-		--build-arg Chaste_ERROR_ON_WARNING=$(Chaste_ERROR_ON_WARNING) \
-		--build-arg Chaste_UPDATE_PROVENANCE=$(Chaste_UPDATE_PROVENANCE) \
-		--build-arg TEST_SUITE=$(TEST_SUITE) \
-		-f $(DOCKER_FILE) .
+main develop: build
+
+
 ifeq ("$(PUSH)","true")
 release: login
 endif
