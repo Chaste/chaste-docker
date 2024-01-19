@@ -33,6 +33,8 @@ all: base release
 
 .PHONY: all build base release fresh latest login main develop clean setup stats pull push run test info verbose
 
+# NOTE: To build for multiple architectures, it may first be necessary to run:
+# make setup
 BUILDX_ENV?=multiarch
 setup:
 	docker run --privileged --rm tonistiigi/binfmt --install all
@@ -44,8 +46,6 @@ login:
 TARGET?=
 # Do not declare volume for base so that subsequent layers may modify the contents of /home/chaste
 # NOTE: When a container is started which creates a new volume, the contents of the mount point is copied to the volume
-# NOTE: To build for multiple architectures, it may first be necessary to run:
-# docker buildx create --use
 ifeq ("$(PUSH)","true")
 base stub: login
 endif
