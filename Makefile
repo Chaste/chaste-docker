@@ -1,4 +1,7 @@
 help:
+	@echo "Usage: make [TARGET] [VARIABLE=value]"
+	@echo "Perform a dry run with:"
+	@echo "  make [TARGET] -n"
 	@cat Makefile
 
 CHASTE_IMAGE?=chaste/release
