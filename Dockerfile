@@ -34,10 +34,15 @@ RUN apt-get update && \
     sudo \
     wget
 
+# Add signing key to install GitHub CLI
+# https://github.com/cli/cli/blob/trunk/docs/install_linux.md
+RUN curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg \
+    && chmod go+r /usr/share/keyrings/githubcli-archive-keyring.gpg \
+    && echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | tee /etc/apt/sources.list.d/github-cli.list > /dev/null
+
 # Declare BASE in this build stage (the value is inherited from the global stage)
 # https://github.com/moby/moby/issues/34482
 ARG BASE
-
 # Install the Chaste repo list and key
 # https://chaste.github.io/docs/installguides/ubuntu-package/
 RUN sudo wget -O /usr/share/keyrings/chaste.asc https://chaste.github.io/chaste.asc \
@@ -50,13 +55,7 @@ RUN sudo wget -O /usr/share/keyrings/chaste.asc https://chaste.github.io/chaste.
 # Depends: cmake | scons, g++, libopenmpi-dev, petsc-dev, libhdf5-openmpi-dev, xsdcxx, libboost-serialization-dev, libboost-filesystem-dev, libboost-program-options-dev, libparmetis-dev, libmetis-dev, libxerces-c-dev, libsundials-dev, libvtk7-dev | libvtk6-dev, python3, python3-venv
 # Recommends: git, valgrind, libpetsc-real3.15-dbg | libpetsc-real3.14-dbg | libpetsc-real3.12-dbg, libfltk1.1, hdf5-tools, cmake-curses-gui
 # Suggests: libgoogle-perftools-dev, doxygen, graphviz, subversion, git-svn, gnuplot, paraview
-# NOTE: scons is deprecated and will be removed in the next release
-
-# Add signing key to install GitHub CLI
-# https://github.com/cli/cli/blob/trunk/docs/install_linux.md
-RUN curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg \
-    && chmod go+r /usr/share/keyrings/githubcli-archive-keyring.gpg \
-    && echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | tee /etc/apt/sources.list.d/github-cli.list > /dev/null
+# DEPRECATED: scons will be removed in the next release
 
 # Install dependencies with recommended, applicable suggested and other useful packages
 RUN apt-get update && \
@@ -87,7 +86,6 @@ RUN apt-get update && \
 
 # Fix CMake warnings: https://github.com/autowarefoundation/autoware/issues/795
 RUN update-alternatives --install /usr/bin/vtk vtk /usr/bin/vtk7 7
-
 # Update system to use Python3 by default
 RUN update-alternatives --install /usr/bin/python python /usr/bin/python3 1
 RUN update-alternatives --install /usr/bin/pip pip /usr/bin/pip3 1
@@ -95,7 +93,6 @@ RUN pip install --upgrade pip
 # Install TextTest for regression testing (this requires pygtk)
 RUN pip install texttest
 ENV TEXTTEST_HOME /usr/local/bin/texttest
-
 # Installed by CMake
 RUN pip install chaste-codegen
 
@@ -107,8 +104,6 @@ RUN useradd -ms /bin/bash chaste && echo "chaste:chaste" | chpasswd && adduser c
 ARG CHASTE_DIR="/home/chaste"
 ENV CHASTE_DIR=${CHASTE_DIR}
 WORKDIR ${CHASTE_DIR}
-
-RUN apt-cache show chaste-dependencies > chaste-dependencies.txt
 
 # Add scripts
 COPY --chown=chaste:chaste scripts "${CHASTE_DIR}/scripts"
@@ -134,16 +129,19 @@ ENV PYTHONPATH="${CHASTE_BUILD_DIR}/python:$PYTHONPATH"
 # Create Chaste build, projects and output folders
 RUN mkdir -p "${CHASTE_SOURCE_DIR}" "${CHASTE_BUILD_DIR}" "${CHASTE_TEST_OUTPUT}"
 RUN ln -s "${CHASTE_PROJECTS_DIR}" projects
-# Transitionary symlink for build directory
+# DEPRECATED: Transitionary symlink for build directory
 RUN ln -s "${CHASTE_BUILD_DIR}" lib
 
 # Fix git permissions issue CVE-2022-24765
 RUN git config --global --add safe.directory "${CHASTE_SOURCE_DIR}"
 
+# Save Chaste version and dependencies information
+RUN apt-cache show chaste-dependencies > chaste-dependencies.txt
 RUN ctest --verbose -R TestChasteBuildInfo$
 
 CMD ["bash"]
 
+# ------------------------------------------------------------------------------
 
 FROM base
 
