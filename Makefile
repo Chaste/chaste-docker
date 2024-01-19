@@ -151,6 +151,9 @@ ifeq ("$(PUSH)","true")
 release: login
 endif
 release: CHASTE_IMAGE=chaste/release
+release: CMAKE_BUILD_TYPE="Release"
+release: Chaste_ERROR_ON_WARNING="OFF"
+release: Chaste_UPDATE_PROVENANCE="ON"
 release: TEST_SUITE?="Continuous"
 release: build
 # release: build test push
