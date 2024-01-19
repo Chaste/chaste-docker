@@ -11,18 +11,6 @@ fi
 #TODO: Set developer options for cmake
 CMAKE_FLAG=${2:-"n"}
 NCORES=${3:-$(nproc)}
-if [ -z "$CHASTE_DIR" ]; then
-    export CHASTE_DIR="/home/chaste"
-fi
-if [ -z "$CHASTE_SOURCE_DIR" ]; then
-    export CHASTE_SOURCE_DIR="${CHASTE_DIR}/src"
-fi
-if [ -z "$CHASTE_BUILD_DIR" ]; then
-    export CHASTE_BUILD_DIR="${CHASTE_DIR}/build"
-fi
-if [ -z "$CHASTE_TEST_OUTPUT" ]; then
-    export CHASTE_TEST_OUTPUT="${CHASTE_DIR}/testoutput"
-fi
 
 echo "Building and testing project: ${PROJECT}..."
 if [[ -n CHASTE_TEST_OUTPUT ]]; then
@@ -30,15 +18,6 @@ if [[ -n CHASTE_TEST_OUTPUT ]]; then
 fi
 
 if [ "$CMAKE_FLAG" = "c" ]; then
-    if [ -z "$CMAKE_BUILD_TYPE" ]; then
-        export CMAKE_BUILD_TYPE="Release"
-    fi
-    if [ -z "$Chaste_ERROR_ON_WARNING" ]; then
-        export Chaste_ERROR_ON_WARNING="OFF"
-    fi
-        if [ -z "$Chaste_UPDATE_PROVENANCE" ]; then
-        export Chaste_UPDATE_PROVENANCE="OFF"
-    fi
     # Only run if new files have been created
     cmake -DCMAKE_BUILD_TYPE:STRING=${CMAKE_BUILD_TYPE} \
           -DChaste_ERROR_ON_WARNING:BOOL=${Chaste_ERROR_ON_WARNING} \

@@ -10,16 +10,6 @@ if [ $VERSION = '-' ]; then
     exit 0
 fi
 
-if [ -z "$CHASTE_DIR" ]; then
-    export CHASTE_DIR="/home/chaste"
-fi
-if [ -z "$CHASTE_SOURCE_DIR" ]; then
-    export CHASTE_SOURCE_DIR="${CHASTE_DIR}/src"
-fi
-if [ -z "$CHASTE_BUILD_DIR" ]; then
-    export CHASTE_BUILD_DIR="${CHASTE_DIR}/build"
-fi
-
 if [ $VERSION != '.' ]; then
     echo "Cloning Chaste from ${GIT_REMOTE}#${VERSION} into ${CHASTE_SOURCE_DIR}..."
     mkdir -p $CHASTE_SOURCE_DIR
