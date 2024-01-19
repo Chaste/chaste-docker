@@ -33,21 +33,6 @@ all: base release
 
 .PHONY: all build base release fresh latest login main develop clean setup stats pull push run test info verbose
 
-# BUILD_ARGS := --build-arg BASE=$(BASE)
-# IMAGE_NAMES := -t $(CHASTE_IMAGE):$(GIT_TAG)
-# base release: TARGET = $@
-# release: BUILD_ARGS += --build-arg CHASTE_DIR=$(CHASTE_DIR) --build-arg GIT_TAG=$(GIT_TAG)
-# release: IMAGE_NAMES += -t $(CHASTE_IMAGE):$(BASE)-$(GIT_TAG)
-# base: BUILD_ARGS += --target $@
-# base: CHASTE_IMAGE = chaste/base
-# base: IMAGE_NAMES = $(CHASTE_IMAGE):$(BASE)
-# base release: build
-# 	for NAME in $(IMAGE_NAMES) ; do \
-# 		push $$(NAME) ; \
-# 	done
-# build:
-# 	docker build $(BUILD_ARGS) $(IMAGE_NAMES) -f $(DOCKER_FILE) .
-# 	# docker push $(IMAGE_NAMES)
 BUILDX_ENV?=multiarch
 setup:
 	docker run --privileged --rm tonistiigi/binfmt --install all
@@ -167,3 +152,19 @@ info:
 
 verbose: info
 	docker system info
+
+# BUILD_ARGS := --build-arg BASE=$(BASE)
+# IMAGE_NAMES := -t $(CHASTE_IMAGE):$(GIT_TAG)
+# base release: TARGET = $@
+# release: BUILD_ARGS += --build-arg CHASTE_DIR=$(CHASTE_DIR) --build-arg GIT_TAG=$(GIT_TAG)
+# release: IMAGE_NAMES += -t $(CHASTE_IMAGE):$(BASE)-$(GIT_TAG)
+# base: BUILD_ARGS += --target $@
+# base: CHASTE_IMAGE = chaste/base
+# base: IMAGE_NAMES = $(CHASTE_IMAGE):$(BASE)
+# base release: build
+# 	for NAME in $(IMAGE_NAMES) ; do \
+# 		push $$(NAME) ; \
+# 	done
+# build:
+# 	docker build $(BUILD_ARGS) $(IMAGE_NAMES) -f $(DOCKER_FILE) .
+# 	# docker push $(IMAGE_NAMES)
