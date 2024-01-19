@@ -118,6 +118,16 @@ main develop:
 		--build-arg Chaste_UPDATE_PROVENANCE=$(Chaste_UPDATE_PROVENANCE) \
 		--build-arg TEST_SUITE=$(TEST_SUITE) \
 		-f $(DOCKER_FILE) .
+ifeq ("$(PUSH)","true")
+release: login
+endif
+release: CHASTE_IMAGE=chaste/release
+release: CMAKE_BUILD_TYPE="Release"
+release: Chaste_ERROR_ON_WARNING="OFF"
+release: Chaste_UPDATE_PROVENANCE="ON"
+release: TEST_SUITE?="Continuous"
+release: build
+# release: build test push
 
 clean:
 	docker system prune
@@ -146,17 +156,6 @@ run: build
 test: build
 	docker run -it --init --rm --env CMAKE_BUILD_TYPE=Debug \
 				$(CHASTE_IMAGE):$(GIT_TAG) test.sh $(TEST_SUITE)
-
-ifeq ("$(PUSH)","true")
-release: login
-endif
-release: CHASTE_IMAGE=chaste/release
-release: CMAKE_BUILD_TYPE="Release"
-release: Chaste_ERROR_ON_WARNING="OFF"
-release: Chaste_UPDATE_PROVENANCE="ON"
-release: TEST_SUITE?="Continuous"
-release: build
-# release: build test push
 
 build-info: TEST_SUITE=TestChasteBuildInfo
 build-info: test
