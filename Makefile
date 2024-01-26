@@ -5,7 +5,7 @@ help:
 	@cat Makefile
 
 CHASTE_IMAGE?=chaste/release
-BASE?=jammy
+BASE?=noble
 GIT_TAG?=2021.1
 # GIT_TAG?=$(git describe --abbrev=0)
 CHASTE_DIR?="/home/chaste"
