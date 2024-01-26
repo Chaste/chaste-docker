@@ -46,7 +46,7 @@ Docker lets you build and run a computational environment from a plaintext `Dock
 
 More generally, Docker also has an image registry which stores prebuilt images: https://hub.docker.com/. Users may upload images from their own computer (with `docker push`) and download those from others (e.g. with `docker pull`) including official dockerised applications (e.g. [Python](https://hub.docker.com/_/python) and [WordPress](https://hub.docker.com/_/wordpress)) as well as base images (e.g. [Ubuntu](https://hub.docker.com/_/ubuntu) and [Alpine](https://hub.docker.com/_/alpine)) to build upon for creating your own images. The wider Docker ecosystem is illustrated below. 
 
-[![Docker schematic](https://docs.docker.com/engine/images/architecture.svg)](https://docs.docker.com/)
+[![Docker schematic](https://docs.docker.com/get-started/images/docker-architecture.webp)](https://docs.docker.com/)
 
 *Docker ecosystem schematic*
 
@@ -146,7 +146,7 @@ This image is set up to store the Chaste source code, compiled libraries and scr
 
 One drawback of this type of mount is that the contents are more difficult to access from the host. However, to gain direct access to e.g. the `testoutput` of the container from the host, or share datasets on the host with the container, a bind mount can be used (even overlaying a directory within the volume if needed).
 
-[![Docker mount options](https://docs.docker.com/storage/images/types-of-mounts-volume.png)](https://docs.docker.com/storage/)
+[![Docker mount options](https://docs.docker.com/storage/images/types-of-mounts.webp?w=450&h=300)](https://docs.docker.com/storage/)
 
 *Docker mount options schematic from the [Docker documentation](https://docs.docker.com/storage/)*
 

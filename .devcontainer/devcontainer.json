@@ -1,4 +1,5 @@
-// See https://aka.ms/vscode-remote/devcontainer.json for format details.
+// See https://aka.ms/vscode-remote/devcontainer.json for format details or
+// https://aka.ms/vscode-dev-containers/definitions for sample configurations.
 {
 	// See https://aka.ms/vscode-remote/devcontainer.json for format details.
 	"name": "Chaste",

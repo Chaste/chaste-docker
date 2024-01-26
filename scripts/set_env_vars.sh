@@ -37,12 +37,12 @@ fi
 echo "Chaste test outputs directory: $CHASTE_TEST_OUTPUT"
 
 if [ -z "$CMAKE_BUILD_TYPE" ]; then
-    export CMAKE_BUILD_TYPE="Release"
+    export CMAKE_BUILD_TYPE="Debug"
 fi
 echo "CMake build type: $CMAKE_BUILD_TYPE"
 
 if [ -z "$Chaste_ERROR_ON_WARNING" ]; then
-    export Chaste_ERROR_ON_WARNING="OFF"
+    export Chaste_ERROR_ON_WARNING="ON"
 fi
 echo "CMake error on warning: $Chaste_ERROR_ON_WARNING"
 

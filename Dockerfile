@@ -17,12 +17,11 @@ LABEL maintainer="Ben Evans <ben.d.evans@gmail.com>" \
     org.opencontainers.image.documentation="https://chaste.github.io/docs/installguides/docker/"
 
 USER root
-ARG DEBIAN_FRONTEND=noninteractive
-# Declare BASE in this build stage (the value is inherited from the global stage)
-# https://github.com/moby/moby/issues/34482
-ARG BASE
 
+# ARG DEBIAN_FRONTEND=noninteractive
 # Install system dependencies
+ENV TZ="Europe/London"
+RUN apt-get update && DEBIAN_FRONTEND="noninteractive" apt-get -y install tzdata
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
     apt-utils \
@@ -35,6 +34,15 @@ RUN apt-get update && \
     sudo \
     wget
 
+# Add signing key to install GitHub CLI
+# https://github.com/cli/cli/blob/trunk/docs/install_linux.md
+RUN curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg \
+    && chmod go+r /usr/share/keyrings/githubcli-archive-keyring.gpg \
+    && echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | tee /etc/apt/sources.list.d/github-cli.list > /dev/null
+
+# Declare BASE in this build stage (the value is inherited from the global stage)
+# https://github.com/moby/moby/issues/34482
+ARG BASE
 # Install the Chaste repo list and key
 # https://chaste.github.io/docs/installguides/ubuntu-package/
 RUN sudo wget -O /usr/share/keyrings/chaste.asc https://chaste.github.io/chaste.asc \
@@ -48,18 +56,12 @@ RUN sudo wget -O /usr/share/keyrings/chaste.asc https://chaste.github.io/chaste.
 # Recommends: git, valgrind, libpetsc-real3.18-dbg, hdf5-tools, cmake-curses-gui
 # Suggests: doxygen, graphviz, paraview
 
-# Add signing key to install GitHub CLI
-# https://github.com/cli/cli/blob/trunk/docs/install_linux.md
-RUN curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg \
-    && chmod go+r /usr/share/keyrings/githubcli-archive-keyring.gpg \
-    && echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | tee /etc/apt/sources.list.d/github-cli.list > /dev/null
-
 # Install dependencies with recommended, applicable suggested and other useful packages
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
     chaste-dependencies \
     cmake \
-    libvtk9-dev \
+    "libvtk*-dev" \
     python3-dev \
     python3-venv \
     python3-pip \
@@ -76,8 +78,7 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/*
 
 # Fix CMake warnings: https://github.com/autowarefoundation/autoware/issues/795
-RUN update-alternatives --install /usr/bin/vtk vtk /usr/bin/vtk9 9
-
+RUN update-alternatives --install /usr/bin/vtk vtk /usr/bin/vtk9 1
 # Update system to use Python3 by default
 RUN update-alternatives --install /usr/bin/python python /usr/bin/python3 1
 RUN update-alternatives --install /usr/bin/pip pip /usr/bin/pip3 1
@@ -85,7 +86,6 @@ RUN pip install --upgrade pip
 # Install TextTest for regression testing (this requires pygtk)
 RUN pip install texttest
 ENV TEXTTEST_HOME /usr/local/bin/texttest
-
 # Installed by CMake
 RUN pip install chaste-codegen
 
@@ -97,8 +97,6 @@ RUN useradd -ms /bin/bash chaste && echo "chaste:chaste" | chpasswd && adduser c
 ARG CHASTE_DIR="/home/chaste"
 ENV CHASTE_DIR=${CHASTE_DIR}
 WORKDIR ${CHASTE_DIR}
-
-RUN apt-cache show chaste-dependencies > chaste-dependencies.txt
 
 # Add scripts
 COPY --chown=chaste:chaste scripts "${CHASTE_DIR}/scripts"
@@ -112,8 +110,8 @@ ENV CHASTE_SOURCE_DIR="${CHASTE_DIR}/src" \
     CHASTE_PROJECTS_DIR="${CHASTE_DIR}/src/projects" \
     CHASTE_TEST_OUTPUT="${CHASTE_DIR}/testoutput"
 # CMake environment variables
-ARG CMAKE_BUILD_TYPE="Release"
-ARG Chaste_ERROR_ON_WARNING="OFF"
+ARG CMAKE_BUILD_TYPE="Debug"
+ARG Chaste_ERROR_ON_WARNING="ON"
 ARG Chaste_UPDATE_PROVENANCE="OFF"
 ENV CMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} \
     Chaste_ERROR_ON_WARNING=${Chaste_ERROR_ON_WARNING} \
@@ -124,16 +122,19 @@ ENV PYTHONPATH="${CHASTE_BUILD_DIR}/python:$PYTHONPATH"
 # Create Chaste build, projects and output folders
 RUN mkdir -p "${CHASTE_SOURCE_DIR}" "${CHASTE_BUILD_DIR}" "${CHASTE_TEST_OUTPUT}"
 RUN ln -s "${CHASTE_PROJECTS_DIR}" projects
-# Transitionary symlink for build directory
+# DEPRECATED: Transitionary symlink for build directory
 RUN ln -s "${CHASTE_BUILD_DIR}" lib
 
 # Fix git permissions issue CVE-2022-24765
 RUN git config --global --add safe.directory "${CHASTE_SOURCE_DIR}"
 
+# Save Chaste version and dependencies information
+RUN apt-cache show chaste-dependencies > chaste-dependencies.txt
 RUN ctest --verbose -R TestChasteBuildInfo$
 
 CMD ["bash"]
 
+# ------------------------------------------------------------------------------
 
 FROM base
 
