@@ -70,18 +70,11 @@ RUN apt-get update && \
     gh \
     git \
     valgrind \
-    ### libffi-dev \
     "libpetsc-real*-dbg" \
-    # FLTK is a lightweight GUI toolkit that works with X11
-    # libfltk1.1 \
     hdf5-tools \
     cmake-curses-gui \
-    libgoogle-perftools-dev \
     doxygen \
-    graphviz \
-    gnuplot && \
-    # mencoder \
-    # mplayer && \
+    graphviz && \
     rm -rf /var/lib/apt/lists/*
 
 # Fix CMake warnings: https://github.com/autowarefoundation/autoware/issues/795
