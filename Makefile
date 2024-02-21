@@ -117,9 +117,10 @@ endif
 run: build
 	docker run -it --init --rm $(MOUNTS) $(CHASTE_IMAGE):$(GIT_TAG)
 
+test: BUILD_ARGS += --build-arg TEST_SUITE=$(TEST_SUITE)
 test: build
 	docker run -it --init --rm --env CMAKE_BUILD_TYPE=Debug \
-				$(CHASTE_IMAGE):$(GIT_TAG) test.sh $(TEST_SUITE)
+				$(CHASTE_IMAGE):$(GIT_TAG) test.sh $(TEST_SUITE) c
 
 build-info: TEST_SUITE=TestChasteBuildInfo
 build-info: test
