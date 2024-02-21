@@ -82,6 +82,24 @@ RUN update-alternatives --install /usr/bin/vtk vtk /usr/bin/vtk7 7
 # Update system to use Python3 by default
 RUN update-alternatives --install /usr/bin/python python /usr/bin/python3 1
 RUN update-alternatives --install /usr/bin/pip pip /usr/bin/pip3 1
+
+# Create user and working directory for Chaste files
+ARG USER="chaste"
+ENV USER=${USER} \
+    GROUP=${USER} \
+    PASSWORD=${USER}
+RUN useradd -ms /bin/bash ${USER} && echo "${USER}:${PASSWORD}" | chpasswd && adduser ${USER} sudo
+
+# Allow CHASTE_DIR to be set at build time if desired
+ARG CHASTE_DIR="/home/${USER}"
+ENV CHASTE_DIR=${CHASTE_DIR}
+WORKDIR ${CHASTE_DIR}
+
+# Add scripts
+# COPY --chown=chaste:chaste scripts "${CHASTE_DIR}/scripts"
+COPY --chown=${USER}:${GROUP} scripts "${CHASTE_DIR}/scripts"
+USER ${USER}
+
 RUN pip install --upgrade pip
 # Install TextTest for regression testing (this requires pygtk)
 RUN pip install texttest
@@ -89,26 +107,14 @@ ENV TEXTTEST_HOME /usr/local/bin/texttest
 # Installed by CMake
 RUN pip install chaste-codegen
 
-# Create user and working directory for Chaste files
-ENV USER "chaste"
-RUN useradd -ms /bin/bash chaste && echo "chaste:chaste" | chpasswd && adduser chaste sudo
-
-# Allow CHASTE_DIR to be set at build time if desired
-ARG CHASTE_DIR="/home/chaste"
-ENV CHASTE_DIR=${CHASTE_DIR}
-WORKDIR ${CHASTE_DIR}
-
-# Add scripts
-COPY --chown=chaste:chaste scripts "${CHASTE_DIR}/scripts"
-USER chaste
-ENV PATH "${CHASTE_DIR}/scripts:${PATH}"
-
 # Set environment variables
 # RUN source /home/chaste/scripts/set_env_vars.sh
-ENV CHASTE_SOURCE_DIR="${CHASTE_DIR}/src" \
+ENV PATH="${CHASTE_DIR}/scripts:${PATH}" \
+    CHASTE_SOURCE_DIR="${CHASTE_DIR}/src" \
     CHASTE_BUILD_DIR="${CHASTE_DIR}/build" \
     CHASTE_PROJECTS_DIR="${CHASTE_DIR}/src/projects" \
-    CHASTE_TEST_OUTPUT="${CHASTE_DIR}/output"
+    CHASTE_TEST_OUTPUT="${CHASTE_DIR}/output" \
+    PYTHONPATH="${CHASTE_BUILD_DIR}/python:$PYTHONPATH"
 # CMake environment variables
 ARG CMAKE_BUILD_TYPE="Debug"
 ARG Chaste_ERROR_ON_WARNING="ON"
@@ -116,8 +122,6 @@ ARG Chaste_UPDATE_PROVENANCE="OFF"
 ENV CMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} \
     Chaste_ERROR_ON_WARNING=${Chaste_ERROR_ON_WARNING} \
     Chaste_UPDATE_PROVENANCE=${Chaste_UPDATE_PROVENANCE}
-
-ENV PYTHONPATH="${CHASTE_BUILD_DIR}/python:$PYTHONPATH"
 
 # Create Chaste build, projects and output folders
 RUN mkdir -p "${CHASTE_SOURCE_DIR}" "${CHASTE_BUILD_DIR}" "${CHASTE_TEST_OUTPUT}"
