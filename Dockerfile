@@ -124,6 +124,8 @@ RUN mkdir -p "${CHASTE_SOURCE_DIR}" "${CHASTE_BUILD_DIR}" "${CHASTE_TEST_OUTPUT}
 RUN ln -s "${CHASTE_PROJECTS_DIR}" projects
 # DEPRECATED: Transitionary symlink for build directory
 RUN ln -s "${CHASTE_BUILD_DIR}" lib
+# DEPRECATED: Transitionary symlink for testoutput directory
+RUN ln -s "${CHASTE_TEST_OUTPUT}}" testoutput
 
 # Fix git permissions issue CVE-2022-24765
 RUN git config --global --add safe.directory "${CHASTE_SOURCE_DIR}"
