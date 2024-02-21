@@ -32,7 +32,7 @@ fi
 echo "Chaste projects directory: $CHASTE_PROJECTS_DIR"
 
 if [ -z "$CHASTE_TEST_OUTPUT" ]; then
-    export CHASTE_TEST_OUTPUT="${CHASTE_DIR}/testoutput"
+    export CHASTE_TEST_OUTPUT="${CHASTE_DIR}/output"
 fi
 echo "Chaste test outputs directory: $CHASTE_TEST_OUTPUT"
 

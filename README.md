@@ -89,9 +89,9 @@ This is a bash prompt within an isolated Docker container (based on [ubuntu](htt
 
 If you don't already have a project, just use the provided script `new_project.sh` to create a project template in `~/projects` as a starting point. Many tutorials for projects can be found here: https://chaste.cs.ox.ac.uk/trac/wiki/UserTutorials.
 
-Once you have a project ready to build, use the script `build_project.sh <TestMyProject> c` (replacing `<TestMyProject>` with the name of your project) and you will find the output in `~/testoutput` (the `c` argument is only necessary when new files are created). 
+Once you have a project ready to build, use the script `build_project.sh <TestMyProject> c` (replacing `<TestMyProject>` with the name of your project) and you will find the output in `~/output` (the `c` argument is only necessary when new files are created). 
 
-> :information_source:  To easily share data between the Docker container and the host e.g. the `testoutput` directory, a bind-mount argument can be added to the command: `-v /host/path/to/testoutput:/home/chaste/testoutput`. See the instructions on [bind mounts](#bind-mounts) for further details.
+> :information_source:  To easily share data between the Docker container and the host e.g. the `output` directory, a bind-mount argument can be added to the command: `-v /host/path/to/output:/home/chaste/output`. See the instructions on [bind mounts](#bind-mounts) for further details.
 
 When you are finished with the container, simply type `exit` or press `Ctrl+D` to close it (if necessary, pressing `Ctrl+C` first to stop any running processes). Any changes made in `/home/chaste` will persist when you relaunch a container, however if the container is deleted, everything else (e.g. installed packages, changes to system files) will be reset to how it was when the image was first used. 
 
@@ -115,7 +115,7 @@ Once launched, the container will start in the `chaste` user's home directory at
 |-- projects -> /home/chaste/src/projects
 |-- scripts
 |-- src
-`-- testoutput
+`-- output
 ```
 
 These folders contain the following types of data:
@@ -124,14 +124,14 @@ These folders contain the following types of data:
 - `projects`: a symlink to `/home/chaste/src/projects` for user projects
 - `scripts`: convenience scripts for creating, building and testing projects
 - `src`: the Chaste source code
-- `testoutput`: the output folder for the project testing framework (set with `$CHASTE_TEST_OUTPUT`)
+- `output`: the output folder for the project testing framework (set with `$CHASTE_TEST_OUTPUT`)
 
 Corresponding environment variables are also set as follows:
 - `CHASTE_DIR="/home/chaste"`
 - `CHASTE_BUILD_DIR="${CHASTE_DIR}/build"`
 - `CHASTE_PROJECTS_DIR="${CHASTE_DIR}/src/projects"`
 - `CHASTE_SOURCE_DIR="${CHASTE_DIR}/src"`
-- `CHASTE_TEST_OUTPUT="${CHASTE_DIR}/testoutput"`
+- `CHASTE_TEST_OUTPUT="${CHASTE_DIR}/output"`
 
 > :information_source:  If [building your own image](#building-your-own-image), the `CHASTE_DIR` path can be changed at buildtime with a build argument e.g. `--build-arg CHASTE_DIR=/path/to/alternative` which will then set the other directories relative to that path. 
 
@@ -144,7 +144,7 @@ Sharing data between the host and container
 
 This image is set up to store the Chaste source code, compiled libraries and scripts in a [Docker volume](https://docs.docker.com/storage/volumes/) as this is the [recommended mechanism](https://docs.docker.com/storage/) for data persistence and yields the best File I/O performance across multiple platforms.
 
-One drawback of this type of mount is that the contents are more difficult to access from the host. However, to gain direct access to e.g. the `testoutput` of the container from the host, or share datasets on the host with the container, a bind mount can be used (even overlaying a directory within the volume if needed).
+One drawback of this type of mount is that the contents are more difficult to access from the host. However, to gain direct access to e.g. the `output` of the container from the host, or share datasets on the host with the container, a bind mount can be used (even overlaying a directory within the volume if needed).
 
 [![Docker mount options](https://docs.docker.com/storage/images/types-of-mounts.webp?w=450&h=300)](https://docs.docker.com/storage/)
 
@@ -152,14 +152,14 @@ One drawback of this type of mount is that the contents are more difficult to ac
 
 ### Bind mounts
 
-Any host directory (specified with an absolute path e.g. `/path/to/testoutput`) may be mounted in the container e.g. the `testoutput` directory. Alternatively, navigate to the folder on the host which contains these directories e.g. `C:\Users\$USERNAME\chaste` (Windows) or `~/chaste` (Linux/macOS) and use `$(pwd)/testoutput` instead as shown below. In the following examples, the image name (final argument) is assumed to be `chaste/release` rather than e.g. `chaste/develop` or `chaste/release:2021.1` for simplicity. 
+Any host directory (specified with an absolute path e.g. `/path/to/output`) may be mounted in the container e.g. the `output` directory. Alternatively, navigate to the folder on the host which contains these directories e.g. `C:\Users\$USERNAME\chaste` (Windows) or `~/chaste` (Linux/macOS) and use `$(pwd)/output` instead as shown below. In the following examples, the image name (final argument) is assumed to be `chaste/release` rather than e.g. `chaste/develop` or `chaste/release:2021.1` for simplicity. 
 ```
-docker run -it --init --rm -v chaste_data:/home/chaste -v "${PWD}"/testoutput:/home/chaste/testoutput chaste/release
+docker run -it --init --rm -v chaste_data:/home/chaste -v "${PWD}"/output:/home/chaste/output chaste/release
 ```
 
 ### Copying data in and out
 
-On macOS and Windows (but *not* Linux), reading and writing files in bind mounts from the host have a greater overhead than for files in Docker volumes. This may slow down simulations where there is a lot of File I/O in those folders (e.g. `testoutput`), so bind mounts should be used sparingly in such scenarios. A faster alternative would be to leave the files in a volume and use [`docker cp`](https://docs.docker.com/engine/reference/commandline/cp/) to copy them out at the end of the simulation (or copy modified files back in). 
+On macOS and Windows (but *not* Linux), reading and writing files in bind mounts from the host have a greater overhead than for files in Docker volumes. This may slow down simulations where there is a lot of File I/O in those folders (e.g. `output`), so bind mounts should be used sparingly in such scenarios. A faster alternative would be to leave the files in a volume and use [`docker cp`](https://docs.docker.com/engine/reference/commandline/cp/) to copy them out at the end of the simulation (or copy modified files back in). 
 
 For example, use the following commands to copy the whole `src` folder, where the container has been labelled `chaste` e.g. with a command beginning: `docker run --name chaste ...`:
 ```bash

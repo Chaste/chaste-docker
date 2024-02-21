@@ -115,7 +115,7 @@ ENV PATH "${CHASTE_DIR}/scripts:${PATH}"
 ENV CHASTE_SOURCE_DIR="${CHASTE_DIR}/src" \
     CHASTE_BUILD_DIR="${CHASTE_DIR}/build" \
     CHASTE_PROJECTS_DIR="${CHASTE_DIR}/src/projects" \
-    CHASTE_TEST_OUTPUT="${CHASTE_DIR}/testoutput"
+    CHASTE_TEST_OUTPUT="${CHASTE_DIR}/output"
 # CMake environment variables
 ARG CMAKE_BUILD_TYPE="Debug"
 ARG Chaste_ERROR_ON_WARNING="ON"

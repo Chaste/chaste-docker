@@ -13,7 +13,7 @@ CHASTE_DATA_VOLUME?=chaste_data
 
 # Optional mounts
 # PROJECTS?="${HOME}/projects"
-# TEST_OUTPUT?="${HOME}/testoutput"
+# TEST_OUTPUT?="${HOME}/output"
 
 # SRC?=$(shell dirname `pwd`)
 TARGET?=
@@ -111,7 +111,7 @@ ifdef PROJECTS
 MOUNTS += -v $(PROJECTS):$(CHASTE_DIR)/projects
 endif
 ifdef TEST_OUTPUT
-MOUNTS += -v $(TEST_OUTPUT):$(CHASTE_DIR)/testoutput
+MOUNTS += -v $(TEST_OUTPUT):$(CHASTE_DIR)/output
 endif
 
 run: build
