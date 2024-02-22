@@ -45,11 +45,7 @@ Docker lets you build and run a computational environment from a plaintext `Dock
 
 *Docker container analogy*
 
-More generally, Docker also has an image registry which stores prebuilt images: https://hub.docker.com/. Users may upload images from their own computer (with `docker push`) and download those from others (e.g. with `docker pull`) including official dockerised applications (e.g. [Python](https://hub.docker.com/_/python) and [WordPress](https://hub.docker.com/_/wordpress)) as well as base images (e.g. [Ubuntu](https://hub.docker.com/_/ubuntu) and [Alpine](https://hub.docker.com/_/alpine)) to build upon for creating your own images. The wider Docker ecosystem is illustrated below. 
-
-[![Docker schematic](https://docs.docker.com/get-started/images/docker-architecture.webp)](https://docs.docker.com/)
-
-*Docker ecosystem schematic*
+More generally, Docker also has an image registry which stores prebuilt images: https://hub.docker.com/. Users may upload images from their own computer (with `docker push`) and download those from others (e.g. with `docker pull`) including official dockerised applications (e.g. [Python](https://hub.docker.com/_/python) and [WordPress](https://hub.docker.com/_/wordpress)) as well as base images (e.g. [Ubuntu](https://hub.docker.com/_/ubuntu) and [Alpine](https://hub.docker.com/_/alpine)) to build upon for creating your own images. The Docker architecture and wider ecosystem are illustrated [here](https://docs.docker.com/get-started/overview/#docker-architecture). 
 
 Some slides from a workshop introducing Docker and how to use this Chaste image can be found [here](https://docs.google.com/presentation/d/1UqpN_9Jwfl-c1I9UpDGaIgm2GVSWffwk9rGkFhaq5_U/edit?usp=sharing).
 
@@ -145,11 +141,9 @@ Sharing data between the host and container
 
 This image is set up to store the Chaste source code, compiled libraries and scripts in a [Docker volume](https://docs.docker.com/storage/volumes/) as this is the [recommended mechanism](https://docs.docker.com/storage/) for data persistence and yields the best File I/O performance across multiple platforms.
 
-One drawback of this type of mount is that the contents are more difficult to access from the host. However, to gain direct access to e.g. the `output` of the container from the host, or share datasets on the host with the container, a bind mount can be used (even overlaying a directory within the volume if needed).
+One drawback of this type of mount is that the contents are more difficult to access from the host. However, to gain direct access to e.g. the `output` of the container from the host, or share datasets on the host with the container, a bind mount can be used (even overlaying a directory within the volume if needed). 
 
-[![Docker mount options](https://docs.docker.com/storage/images/types-of-mounts.webp?w=450&h=300)](https://docs.docker.com/storage/)
-
-*Docker mount options schematic from the [Docker documentation](https://docs.docker.com/storage/)*
+For further details and illustrations of the Docker mount options see the [storage documentation](https://docs.docker.com/storage/).
 
 ### Bind mounts
 
