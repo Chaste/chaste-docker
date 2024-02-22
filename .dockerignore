@@ -5,17 +5,16 @@ Dockerfile
 .dockerignore
 Makefile
 .DS_Store
-README.md
-LICENSE.txt
-notes.md
-benchmark.md
+*.txt
+*.md
 env.*
 .travis.yml
 run.sh
-install_docker_ubuntu.sh
-LICENSE.txt
+install_docker.sh
 .devcontainer
 .devcontainer.json
+.vscode
+.github
 
 # To prevent storing dev/temporary container data
 *.csv
