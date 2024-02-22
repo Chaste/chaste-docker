@@ -6,7 +6,7 @@ help:
 
 CHASTE_IMAGE?=chaste/release
 BASE?=jammy
-GIT_TAG?=2021.1
+GIT_TAG?=2024.1
 # GIT_TAG?=$(git describe --abbrev=0)
 CHASTE_DIR?="/home/chaste"
 CHASTE_DATA_VOLUME?=chaste_data
