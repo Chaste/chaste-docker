@@ -1,4 +1,4 @@
-[![Chaste logo](https://chaste.cs.ox.ac.uk/logos/chaste-266x60.jpg "Chaste")](http://www.cs.ox.ac.uk/chaste/)
+[![Chaste logo](https://chaste.cs.ox.ac.uk/logos/chaste-266x60.jpg "Chaste")](https://chaste.github.io/)
 <a href="https://docs.docker.com/"><img alt="Docker logo" src="https://www.docker.com/wp-content/uploads/2022/03/horizontal-logo-monochromatic-white.png" width="25%"></a>
 
 [*Docker images for Chaste*](https://github.com/Chaste/chaste-docker)
