@@ -1,4 +1,4 @@
-name: Docker Multi-Arch Base Image CI
+name: Docker `chaste/base` image
 
 on:
   push:
