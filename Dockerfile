@@ -83,14 +83,29 @@ RUN update-alternatives --install /usr/bin/vtk vtk /usr/bin/vtk7 7
 RUN update-alternatives --install /usr/bin/python python /usr/bin/python3 1
 RUN update-alternatives --install /usr/bin/pip pip /usr/bin/pip3 1
 
-# Create user and working directory for Chaste files
-# Allow CHASTE_DIR to be set at build time if desired
+# Set environment variables with args to allow for changes at build time
 ARG USER="chaste"
 ARG CHASTE_DIR="/home/${USER}"
+ARG CMAKE_BUILD_TYPE="Debug"
+ARG Chaste_ERROR_ON_WARNING="ON"
+ARG Chaste_UPDATE_PROVENANCE="OFF"
+# RUN source /home/chaste/scripts/set_env_vars.sh
 ENV USER=${USER} \
     GROUP=${USER} \
     PASSWORD=${USER} \
-    CHASTE_DIR=${CHASTE_DIR}
+    CHASTE_DIR=${CHASTE_DIR} \
+    CMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} \
+    Chaste_ERROR_ON_WARNING=${Chaste_ERROR_ON_WARNING} \
+    Chaste_UPDATE_PROVENANCE=${Chaste_UPDATE_PROVENANCE} \
+    CHASTE_SOURCE_DIR="${CHASTE_DIR}/src" \
+    CHASTE_PROJECTS_DIR="${CHASTE_SOURCE_DIR}/projects" \
+    CHASTE_BUILD_DIR="${CHASTE_DIR}/build" \
+    CHASTE_TEST_OUTPUT="${CHASTE_DIR}/output" \
+    PATH="${CHASTE_DIR}/scripts:${PATH}" \
+    PYTHONPATH="${CHASTE_BUILD_DIR}/python:$PYTHONPATH" \
+    TEXTTEST_HOME=/usr/local/bin/texttest
+
+# Create user and working directory for Chaste files
 # RUN useradd -ms /bin/bash ${USER} && echo "${USER}:${PASSWORD}" | chpasswd && adduser ${USER} sudo
 RUN useradd -ms /bin/bash -d ${CHASTE_DIR} ${USER} -G users,sudo && \
     echo "${USER}:${PASSWORD}" | chpasswd
@@ -105,22 +120,6 @@ WORKDIR ${CHASTE_DIR}
 # NOTE: chaste-codegen is installed by CMake
 RUN python -m pip install --upgrade pip && \
     python -m pip install texttest
-
-# Set environment variables
-ARG CMAKE_BUILD_TYPE="Debug"
-ARG Chaste_ERROR_ON_WARNING="ON"
-ARG Chaste_UPDATE_PROVENANCE="OFF"
-# RUN source /home/chaste/scripts/set_env_vars.sh
-ENV CMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} \
-    Chaste_ERROR_ON_WARNING=${Chaste_ERROR_ON_WARNING} \
-    Chaste_UPDATE_PROVENANCE=${Chaste_UPDATE_PROVENANCE} \
-    CHASTE_SOURCE_DIR="${CHASTE_DIR}/src" \
-    CHASTE_PROJECTS_DIR="${CHASTE_SOURCE_DIR}/projects" \
-    CHASTE_BUILD_DIR="${CHASTE_DIR}/build" \
-    CHASTE_TEST_OUTPUT="${CHASTE_DIR}/output" \
-    PATH="${CHASTE_DIR}/scripts:${PATH}" \
-    PYTHONPATH="${CHASTE_BUILD_DIR}/python:$PYTHONPATH" \
-    TEXTTEST_HOME=/usr/local/bin/texttest
 
 # Create Chaste build, projects and output folders
 RUN mkdir -p "${CHASTE_SOURCE_DIR}" "${CHASTE_BUILD_DIR}" "${CHASTE_TEST_OUTPUT}"
