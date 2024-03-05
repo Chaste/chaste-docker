@@ -103,8 +103,8 @@ WORKDIR ${CHASTE_DIR}
 
 # Install TextTest for regression testing (requires pygtk)
 # NOTE: chaste-codegen is installed by CMake
-RUN pip install --upgrade pip && \
-    pip install texttest
+RUN python -m pip install --upgrade pip && \
+    python -m pip install texttest
 
 # Set environment variables
 ARG CMAKE_BUILD_TYPE="Debug"
