@@ -62,11 +62,11 @@ RUN apt-get update && \
     apt-get install -y --no-install-recommends \
     chaste-dependencies \
     cmake \
-    libvtk7-dev \
+    # libvtk7-dev \  # Dependency of chaste-dependencies (check 7 not 6 is installed)
     python3-dev \
-    python3-venv \
+    # python3-venv \  # Dependency of chaste-dependencies
     python3-pip \
-    python3-setuptools \
+    # python3-setuptools \  # Dependency of python3-pip
     gh \
     git \
     valgrind \
