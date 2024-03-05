@@ -48,7 +48,7 @@ login:
 # Do not declare volume for base so that subsequent layers may modify the contents of /home/chaste
 # NOTE: When a container is started which creates a new volume, the contents of the mount point is copied to the volume
 base: TARGET = --target base
-base: DOCKER_TAGS = -t chaste/$@:$(BASE)
+base: DOCKER_TAGS = -t chaste/base:$(BASE)
 
 fresh: EXTRA_BUILD_FLAGS += --no-cache
 fresh: develop
