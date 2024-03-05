@@ -101,11 +101,10 @@ COPY --chown=${USER}:${GROUP} scripts "${CHASTE_DIR}/scripts"
 USER ${USER}
 WORKDIR ${CHASTE_DIR}
 
-# Install TextTest for regression testing (requires pygtk) and chaste-codegen
-# NOTE: chaste-codegen is usually installed by CMake
+# Install TextTest for regression testing (requires pygtk)
+# NOTE: chaste-codegen is installed by CMake
 RUN pip install --upgrade pip && \
-    pip install texttest \
-                chaste-codegen
+    pip install texttest
 
 # Set environment variables
 ARG CMAKE_BUILD_TYPE="Debug"
