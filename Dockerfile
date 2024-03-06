@@ -126,7 +126,7 @@ RUN mkdir -p "${CHASTE_SOURCE_DIR}" "${CHASTE_BUILD_DIR}" "${CHASTE_TEST_OUTPUT}
 RUN ln -s "${CHASTE_PROJECTS_DIR}" projects
 # DEPRECATED: Transitionary symlink for build directory
 RUN ln -s "${CHASTE_BUILD_DIR}" lib
-# DEPRECATED: Transitionary symlink for testoutput directory
+# DEPRECATED: Transitionary symlink for output directory
 RUN ln -s "${CHASTE_TEST_OUTPUT}" testoutput
 
 # Fix git permissions issue CVE-2022-24765
