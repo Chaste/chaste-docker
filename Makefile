@@ -19,6 +19,9 @@ CHASTE_DATA_VOLUME?=chaste_data
 TARGET?=
 EXTRA_BUILD_FLAGS?=
 TEST_SUITE?=-
+ifdef FRESH
+EXTRA_BUILD_FLAGS += --no-cache
+endif
 
 # https://github.com/pytorch/pytorch/blob/main/docker.Makefile
 PUSH?=false
@@ -31,7 +34,7 @@ else
 BUILD = build
 endif
 
-.PHONY: all build base release fresh login main develop clean setup stats pull push run test info verbose
+.PHONY: all build base release login main develop clean setup stats pull push run test info verbose
 
 all: base release
 
@@ -49,9 +52,6 @@ login:
 # NOTE: When a container is started which creates a new volume, the contents of the mount point is copied to the volume
 base: TARGET = --target base
 base: DOCKER_TAGS = -t chaste/base:$(BASE)
-
-fresh: EXTRA_BUILD_FLAGS += --no-cache
-fresh: develop
 
 develop main: CMAKE_BUILD_TYPE="Debug"
 develop main: Chaste_ERROR_ON_WARNING="ON"
@@ -73,7 +73,7 @@ develop main release: BUILD_ARGS += --build-arg GIT_TAG=$(GIT_TAG) \
 		--build-arg Chaste_UPDATE_PROVENANCE=$(Chaste_UPDATE_PROVENANCE) \
 		--build-arg TEST_SUITE=$(TEST_SUITE)
 
-base fresh develop main release: build
+base develop main release: build
 
 BUILD_ARGS = --build-arg BASE=$(BASE) \
 		--build-arg CHASTE_DIR=$(CHASTE_DIR)
