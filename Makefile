@@ -4,12 +4,13 @@ help:
 	@echo "  make [TARGET] -n"
 	@cat Makefile
 
-CHASTE_IMAGE?=chaste/release
-BASE?=jammy
-GIT_TAG?=2024.1
+BASE ?= jammy
+GIT_TAG ?= 2024.1
 # GIT_TAG?=$(git describe --abbrev=0)
-CHASTE_DIR?="/home/chaste"
-CHASTE_DATA_VOLUME?=chaste_data
+TEST_SUITE ?= -
+CHASTE_IMAGE ?= chaste/release
+CHASTE_DIR ?= "/home/chaste"
+CHASTE_DATA_VOLUME ?= chaste_data
 
 # Optional mounts
 # PROJECTS?="${HOME}/projects"
@@ -18,15 +19,14 @@ CHASTE_DATA_VOLUME?=chaste_data
 # SRC?=$(shell dirname `pwd`)
 TARGET?=
 EXTRA_BUILD_FLAGS?=
-TEST_SUITE?=-
 ifdef FRESH
 EXTRA_BUILD_FLAGS += --no-cache
 endif
 
 # https://github.com/pytorch/pytorch/blob/main/docker.Makefile
-PUSH?=false
-MULTI_ARCH_BUILD?=true
-PLATFORM?="linux/amd64,linux/arm64/v8"
+PUSH ?= false
+MULTI_ARCH_BUILD ?= true
+PLATFORM ?= "linux/amd64,linux/arm64/v8"
 ifeq ("$(MULTI_ARCH_BUILD)","true")
 PUSH = true
 BUILD = buildx build --push --platform $(PLATFORM) -o type=image
