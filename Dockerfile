@@ -29,7 +29,6 @@ RUN apt-get update && \
     ca-certificates \
     gnupg \
     nano \
-    rsync \
     sudo \
     wget
 
