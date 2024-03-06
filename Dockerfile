@@ -76,8 +76,8 @@ RUN apt-get update && \
 # Fix CMake warnings: https://github.com/autowarefoundation/autoware/issues/795 TODO: Check if this is still necessary with VTK9
 RUN update-alternatives --install /usr/bin/vtk vtk /usr/bin/vtk7 7
 # Update system to use Python3 by default
-RUN update-alternatives --install /usr/bin/python python /usr/bin/python3 1
-RUN update-alternatives --install /usr/bin/pip pip /usr/bin/pip3 1
+RUN update-alternatives --install /usr/bin/python python /usr/bin/python3 1 && \
+    update-alternatives --install /usr/bin/pip pip /usr/bin/pip3 1
 
 # Set environment variables with args to allow for changes at build time
 ARG USER="chaste"
@@ -117,20 +117,19 @@ WORKDIR ${CHASTE_DIR}
 RUN python -m pip install --upgrade pip && \
     python -m pip install texttest
 
-# Create Chaste build, projects and output folders
-RUN mkdir -p "${CHASTE_SOURCE_DIR}" "${CHASTE_BUILD_DIR}" "${CHASTE_TEST_OUTPUT}"
-RUN ln -s "${CHASTE_PROJECTS_DIR}" projects
-# DEPRECATED: Transitionary symlink for build directory
-RUN ln -s "${CHASTE_BUILD_DIR}" lib
-# DEPRECATED: Transitionary symlink for output directory
-RUN ln -s "${CHASTE_TEST_OUTPUT}" testoutput
+# Create Chaste src, build, output and projects folders
+RUN mkdir -p "${CHASTE_SOURCE_DIR}" "${CHASTE_BUILD_DIR}" "${CHASTE_TEST_OUTPUT}" && \
+    ln -s "${CHASTE_PROJECTS_DIR}" projects
+# DEPRECATED: Transitionary symlinks for build and output directories
+RUN ln -s "${CHASTE_BUILD_DIR}" lib && \
+    ln -s "${CHASTE_TEST_OUTPUT}" testoutput
 
 # Fix git permissions issue CVE-2022-24765
 RUN git config --global --add safe.directory "${CHASTE_SOURCE_DIR}"
 
 # Save Chaste version and dependencies information
-RUN apt-cache show chaste-dependencies > chaste-dependencies.txt
-RUN ctest --verbose -R TestChasteBuildInfo$
+RUN apt-cache show chaste-dependencies > chaste-dependencies.txt && \
+    ctest --verbose -R TestChasteBuildInfo$
 
 CMD ["bash"]
 
