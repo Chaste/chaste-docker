@@ -77,7 +77,7 @@ RUN apt-get update && \
     graphviz && \
     rm -rf /var/lib/apt/lists/*
 
-# Fix CMake warnings: https://github.com/autowarefoundation/autoware/issues/795
+# Fix CMake warnings: https://github.com/autowarefoundation/autoware/issues/795 TODO: Check if this is still necessary with VTK9
 RUN update-alternatives --install /usr/bin/vtk vtk /usr/bin/vtk7 7
 # Update system to use Python3 by default
 RUN update-alternatives --install /usr/bin/python python /usr/bin/python3 1
