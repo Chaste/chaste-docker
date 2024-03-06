@@ -27,7 +27,6 @@ RUN apt-get update && \
     apt-utils \
     apt-transport-https \
     ca-certificates \
-    curl \
     gnupg \
     nano \
     rsync \
@@ -36,9 +35,8 @@ RUN apt-get update && \
 
 # Add signing key to install GitHub CLI
 # https://github.com/cli/cli/blob/trunk/docs/install_linux.md
-RUN curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg \
-    && chmod go+r /usr/share/keyrings/githubcli-archive-keyring.gpg \
-    && echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | tee /etc/apt/sources.list.d/github-cli.list > /dev/null
+RUN wget -O /etc/apt/keyrings/github-cli.gpg https://cli.github.com/packages/githubcli-archive-keyring.gpg \
+    && echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/github-cli.gpg] https://cli.github.com/packages stable main" >> /etc/apt/sources.list.d/github-cli.list
 
 # Declare BASE in this build stage (the value is inherited from the global stage)
 # https://github.com/moby/moby/issues/34482
