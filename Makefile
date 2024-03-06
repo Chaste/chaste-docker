@@ -34,6 +34,13 @@ else
 BUILD = build
 endif
 
+BUILD_ARGS = --build-arg BASE=$(BASE) \
+		--build-arg CHASTE_DIR=$(CHASTE_DIR)
+DOCKER_TAGS ?= -t $(CHASTE_IMAGE) \
+		-t $(CHASTE_IMAGE):$(GIT_TAG) \
+		-t $(CHASTE_IMAGE):$(BASE)-$(GIT_TAG)
+DOCKER_FILE ?= Dockerfile
+
 .PHONY: all build base release login main develop clean setup stats pull push run test info verbose
 
 all: base release
@@ -74,13 +81,6 @@ develop main release: BUILD_ARGS += --build-arg GIT_TAG=$(GIT_TAG) \
 		--build-arg TEST_SUITE=$(TEST_SUITE)
 
 base develop main release: build
-
-BUILD_ARGS = --build-arg BASE=$(BASE) \
-		--build-arg CHASTE_DIR=$(CHASTE_DIR)
-DOCKER_TAGS ?= -t $(CHASTE_IMAGE) \
-		-t $(CHASTE_IMAGE):$(GIT_TAG) \
-		-t $(CHASTE_IMAGE):$(BASE)-$(GIT_TAG)
-DOCKER_FILE ?= Dockerfile
 
 ifeq ("$(PUSH)","true")
 build: login
