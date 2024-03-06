@@ -64,7 +64,7 @@ release: CHASTE_IMAGE=chaste/release
 release: CMAKE_BUILD_TYPE="Release"
 release: Chaste_ERROR_ON_WARNING="OFF"
 release: Chaste_UPDATE_PROVENANCE="ON"
-release: TEST_SUITE?="Continuous"
+release: TEST_SUITE="Continuous"
 # release: build test push
 
 develop main release: BUILD_ARGS += --build-arg GIT_TAG=$(GIT_TAG) \
