@@ -145,6 +145,9 @@ RUN build_chaste.sh ${GIT_TAG}
 # NOTE: After declaring the volume, changes to the contents during build will not persist.
 VOLUME "${CHASTE_DIR}"
 
+# ------------------------------------------------------------------------------
+FROM build AS test
+
 # Optionally run a test suite before finalising the image.
 # NOTE: These test outputs will not appear in the volume. 
 ARG TEST_SUITE=-
