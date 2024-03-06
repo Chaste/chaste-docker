@@ -134,8 +134,7 @@ RUN apt-cache show chaste-dependencies > chaste-dependencies.txt && \
 CMD ["bash"]
 
 # ------------------------------------------------------------------------------
-
-FROM base
+FROM base AS build
 
 # Build Chaste: GIT_TAG can be a branch or release ('-' skips by default)
 ARG GIT_TAG=-
