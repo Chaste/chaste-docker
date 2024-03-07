@@ -27,25 +27,22 @@ RUN apt-get update && \
     apt-utils \
     apt-transport-https \
     ca-certificates \
-    curl \
     gnupg \
     nano \
-    rsync \
     sudo \
     wget
 
 # Add signing key to install GitHub CLI
 # https://github.com/cli/cli/blob/trunk/docs/install_linux.md
-RUN curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg \
-    && chmod go+r /usr/share/keyrings/githubcli-archive-keyring.gpg \
-    && echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | tee /etc/apt/sources.list.d/github-cli.list > /dev/null
+RUN wget -O /etc/apt/keyrings/github-cli.gpg https://cli.github.com/packages/githubcli-archive-keyring.gpg \
+    && echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/github-cli.gpg] https://cli.github.com/packages stable main" >> /etc/apt/sources.list.d/github-cli.list
 
 # Declare BASE in this build stage (the value is inherited from the global stage)
 # https://github.com/moby/moby/issues/34482
 ARG BASE
 # Install the Chaste repo list and key
 # https://chaste.github.io/docs/installguides/ubuntu-package/
-RUN sudo wget -O /usr/share/keyrings/chaste.asc https://chaste.github.io/chaste.asc \
+RUN wget -O /usr/share/keyrings/chaste.asc https://chaste.github.io/chaste.asc \
     && echo "deb [signed-by=/usr/share/keyrings/chaste.asc] https://chaste.github.io/ubuntu ${BASE}/" >> /etc/apt/sources.list.d/chaste.list
 
 # https://github.com/Chaste/dependency-modules/wiki
@@ -61,15 +58,12 @@ RUN apt-get update && \
     apt-get install -y --no-install-recommends \
     chaste-dependencies \
     cmake \
-    "libvtk*-dev" \
+    "libvtk*-dev" \ # Dependency of chaste-dependencies (check 7 not 6 is installed)
     python3-dev \
-    python3-venv \
     python3-pip \
-    python3-setuptools \
     gh \
     git \
     valgrind \
-    ### libffi-dev \
     "libpetsc-real*-dbg" \
     hdf5-tools \
     cmake-curses-gui \
@@ -77,66 +71,68 @@ RUN apt-get update && \
     graphviz && \
     rm -rf /var/lib/apt/lists/*
 
-# Fix CMake warnings: https://github.com/autowarefoundation/autoware/issues/795
-RUN update-alternatives --install /usr/bin/vtk vtk /usr/bin/vtk9 1
 # Update system to use Python3 by default
-RUN update-alternatives --install /usr/bin/python python /usr/bin/python3 1
-RUN update-alternatives --install /usr/bin/pip pip /usr/bin/pip3 1
-RUN pip install --upgrade pip
-# Install TextTest for regression testing (this requires pygtk)
-RUN pip install texttest
-ENV TEXTTEST_HOME /usr/local/bin/texttest
-# Installed by CMake
-RUN pip install chaste-codegen
+RUN update-alternatives --install /usr/bin/python python /usr/bin/python3 1 && \
+    update-alternatives --install /usr/bin/pip pip /usr/bin/pip3 1
+# Fix CMake warnings: https://github.com/autowarefoundation/autoware/issues/795 TODO: Check if this is still necessary with VTK9
+# RUN update-alternatives --install /usr/bin/vtk vtk /usr/bin/vtk9 1
 
-# Create user and working directory for Chaste files
-ENV USER "chaste"
-RUN useradd -ms /bin/bash chaste && echo "chaste:chaste" | chpasswd && adduser chaste sudo
-
-# Allow CHASTE_DIR to be set at build time if desired
-ARG CHASTE_DIR="/home/chaste"
-ENV CHASTE_DIR=${CHASTE_DIR}
-WORKDIR ${CHASTE_DIR}
-
-# Add scripts
-COPY --chown=chaste:chaste scripts "${CHASTE_DIR}/scripts"
-USER chaste
-ENV PATH "${CHASTE_DIR}/scripts:${PATH}"
-
-# Set environment variables
-# RUN source /home/chaste/scripts/set_env_vars.sh
-ENV CHASTE_SOURCE_DIR="${CHASTE_DIR}/src" \
-    CHASTE_BUILD_DIR="${CHASTE_DIR}/build" \
-    CHASTE_PROJECTS_DIR="${CHASTE_DIR}/src/projects" \
-    CHASTE_TEST_OUTPUT="${CHASTE_DIR}/testoutput"
-# CMake environment variables
+# Set environment variables with args to allow for changes at build time
+ARG USER="chaste"
+ARG CHASTE_DIR="/home/${USER}"
 ARG CMAKE_BUILD_TYPE="Debug"
 ARG Chaste_ERROR_ON_WARNING="ON"
 ARG Chaste_UPDATE_PROVENANCE="OFF"
-ENV CMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} \
+# RUN source /home/chaste/scripts/set_env_vars.sh
+ENV USER=${USER} \
+    GROUP=${USER} \
+    PASSWORD=${USER} \
+    CHASTE_DIR=${CHASTE_DIR} \
+    CMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} \
     Chaste_ERROR_ON_WARNING=${Chaste_ERROR_ON_WARNING} \
-    Chaste_UPDATE_PROVENANCE=${Chaste_UPDATE_PROVENANCE}
+    Chaste_UPDATE_PROVENANCE=${Chaste_UPDATE_PROVENANCE} \
+    CHASTE_SOURCE_DIR="${CHASTE_DIR}/src" \
+    CHASTE_PROJECTS_DIR="${CHASTE_SOURCE_DIR}/projects" \
+    CHASTE_BUILD_DIR="${CHASTE_DIR}/build" \
+    CHASTE_TEST_OUTPUT="${CHASTE_DIR}/output" \
+    PATH="${CHASTE_DIR}/scripts:${PATH}" \
+    PYTHONPATH="${CHASTE_BUILD_DIR}/python:$PYTHONPATH" \
+    TEXTTEST_HOME=/usr/local/bin/texttest
 
-ENV PYTHONPATH="${CHASTE_BUILD_DIR}/python:$PYTHONPATH"
+# Create user and working directory for Chaste files
+# RUN useradd -ms /bin/bash ${USER} && echo "${USER}:${PASSWORD}" | chpasswd && adduser ${USER} sudo
+RUN useradd -ms /bin/bash -d ${CHASTE_DIR} ${USER} -G users,sudo && \
+    echo "${USER}:${PASSWORD}" | chpasswd
 
-# Create Chaste build, projects and output folders
-RUN mkdir -p "${CHASTE_SOURCE_DIR}" "${CHASTE_BUILD_DIR}" "${CHASTE_TEST_OUTPUT}"
-RUN ln -s "${CHASTE_PROJECTS_DIR}" projects
-# DEPRECATED: Transitionary symlink for build directory
-RUN ln -s "${CHASTE_BUILD_DIR}" lib
+# Add scripts
+COPY --chown=${USER}:${GROUP} scripts "${CHASTE_DIR}/scripts"
+
+USER ${USER}
+WORKDIR ${CHASTE_DIR}
+
+# Install TextTest for regression testing (requires pygtk)
+# NOTE: chaste-codegen is installed by CMake
+RUN python -m pip install --upgrade pip && \
+    python -m pip install texttest
+
+# Create Chaste src, build, output and projects folders
+RUN mkdir -p "${CHASTE_SOURCE_DIR}" "${CHASTE_BUILD_DIR}" "${CHASTE_TEST_OUTPUT}" && \
+    ln -s "${CHASTE_PROJECTS_DIR}" projects
+# DEPRECATED: Transitionary symlinks for build and output directories
+RUN ln -s "${CHASTE_BUILD_DIR}" lib && \
+    ln -s "${CHASTE_TEST_OUTPUT}" testoutput
 
 # Fix git permissions issue CVE-2022-24765
 RUN git config --global --add safe.directory "${CHASTE_SOURCE_DIR}"
 
 # Save Chaste version and dependencies information
-RUN apt-cache show chaste-dependencies > chaste-dependencies.txt
-RUN ctest --verbose -R TestChasteBuildInfo$
+RUN apt-cache show chaste-dependencies > chaste-dependencies.txt && \
+    ctest --verbose -R TestChasteBuildInfo$
 
 CMD ["bash"]
 
 # ------------------------------------------------------------------------------
-
-FROM base
+FROM base AS build
 
 # Build Chaste: GIT_TAG can be a branch or release ('-' skips by default)
 ARG GIT_TAG=-
@@ -146,6 +142,9 @@ RUN build_chaste.sh ${GIT_TAG}
 # Automatically mount the home directory in a volume to persist changes made there.
 # NOTE: After declaring the volume, changes to the contents during build will not persist.
 VOLUME "${CHASTE_DIR}"
+
+# ------------------------------------------------------------------------------
+FROM build AS test
 
 # Optionally run a test suite before finalising the image.
 # NOTE: These test outputs will not appear in the volume. 
