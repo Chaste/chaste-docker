@@ -4,7 +4,7 @@
 # docker build --target base -t chaste/base .  # Alternative: build base image
 # docker run -it --rm -v chaste_data:/home/chaste chaste
 
-ARG BASE=jammy
+ARG BASE=noble
 FROM ubuntu:${BASE} AS base
 LABEL maintainer="Ben Evans <ben.d.evans@gmail.com>" \
     author.orcid="https://orcid.org/0000-0002-1734-6070" \
@@ -47,19 +47,18 @@ RUN wget -O /usr/share/keyrings/chaste.asc https://chaste.github.io/chaste.asc \
 
 # https://github.com/Chaste/dependency-modules/wiki
 # Package: chaste-dependencies
-# Version: 2022.04.11
+# Version: xxxx.xx.xx https://github.com/Chaste/Chaste/issues/198
 # Architecture: all
-# Depends: cmake | scons, g++, libopenmpi-dev, petsc-dev, libhdf5-openmpi-dev, xsdcxx, libboost-serialization-dev, libboost-filesystem-dev, libboost-program-options-dev, libparmetis-dev, libmetis-dev, libxerces-c-dev, libsundials-dev, libvtk7-dev | libvtk6-dev, python3, python3-venv
-# Recommends: git, valgrind, libpetsc-real3.15-dbg | libpetsc-real3.14-dbg | libpetsc-real3.12-dbg, libfltk1.1, hdf5-tools, cmake-curses-gui
-# Suggests: libgoogle-perftools-dev, doxygen, graphviz, subversion, git-svn, gnuplot, paraview
-# DEPRECATED: scons will be removed in the next release
+# Depends: cmake, g++, libopenmpi-dev, petsc-dev, libhdf5-openmpi-dev, xsdcxx, libboost-serialization-dev, libboost-filesystem-dev, libboost-program-options-dev, libparmetis-dev, libmetis-dev, libxerces-c-dev, libsundials-dev, libvtk9-dev, python3, python3-venv
+# Recommends: git, valgrind, libpetsc-real3.18-dbg, hdf5-tools, cmake-curses-gui
+# Suggests: doxygen, graphviz, paraview
 
 # Install dependencies with recommended, applicable suggested and other useful packages
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
     chaste-dependencies \
     cmake \
-    # libvtk7-dev \  # Dependency of chaste-dependencies (check 7 not 6 is installed)
+    "libvtk*-dev" \ # Dependency of chaste-dependencies (check 7 not 6 is installed)
     python3-dev \
     python3-pip \
     gh \
@@ -76,7 +75,7 @@ RUN apt-get update && \
 RUN update-alternatives --install /usr/bin/python python /usr/bin/python3 1 && \
     update-alternatives --install /usr/bin/pip pip /usr/bin/pip3 1
 # Fix CMake warnings: https://github.com/autowarefoundation/autoware/issues/795 TODO: Check if this is still necessary with VTK9
-RUN update-alternatives --install /usr/bin/vtk vtk /usr/bin/vtk7 7
+# RUN update-alternatives --install /usr/bin/vtk vtk /usr/bin/vtk9 1
 
 # Set environment variables with args to allow for changes at build time
 ARG USER="chaste"

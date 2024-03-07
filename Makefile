@@ -4,7 +4,7 @@ help:
 	@echo "  make [TARGET] -n"
 	@cat Makefile
 
-BASE ?= jammy
+BASE ?= noble
 GIT_TAG ?= 2024.1
 # GIT_TAG?=$(git describe --abbrev=0)
 TEST_SUITE ?= -
