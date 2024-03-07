@@ -13,7 +13,7 @@
 	// The optional 'runArgs' property can be used to specify additional runtime arguments.
 	"runArgs": [
 		"-v","chaste_data:/home/chaste",
-		"-v","./testoutput:/home/testoutput"
+		"-v","./output:/home/output"
 		//  Uncomment the next line if you want to use Docker from the container. See the docker-in-docker definition for details.
 		// "-v","/var/run/docker.sock:/var/run/docker.sock",
 

@@ -1,4 +1,4 @@
-[![Chaste logo](https://chaste.cs.ox.ac.uk/logos/chaste-266x60.jpg "Chaste")](http://www.cs.ox.ac.uk/chaste/)
+[![Chaste logo](https://chaste.cs.ox.ac.uk/logos/chaste-266x60.jpg "Chaste")](https://chaste.github.io/)
 <a href="https://docs.docker.com/"><img alt="Docker logo" src="https://www.docker.com/wp-content/uploads/2022/03/horizontal-logo-monochromatic-white.png" width="25%"></a>
 
 [*Docker images for Chaste*](https://github.com/Chaste/chaste-docker)
@@ -6,6 +6,7 @@
 [![Docker Pulls](https://img.shields.io/docker/pulls/chaste/release)](https://hub.docker.com/r/chaste/release/)
 [![MIT License](https://img.shields.io/badge/license-MIT-green)](https://raw.githubusercontent.com/Chaste/chaste-docker/master/LICENSE.txt)
 [![DOI](https://joss.theoj.org/papers/10.21105/joss.01848/status.svg)](https://doi.org/10.21105/joss.01848)
+[![Build chaste/base](https://github.com/Chaste/chaste-docker/actions/workflows/docker-image.yml/badge.svg)](https://github.com/Chaste/chaste-docker/actions/workflows/docker-image.yml)
 
 
 - [TL;DR](#tldr)
@@ -44,11 +45,7 @@ Docker lets you build and run a computational environment from a plaintext `Dock
 
 *Docker container analogy*
 
-More generally, Docker also has an image registry which stores prebuilt images: https://hub.docker.com/. Users may upload images from their own computer (with `docker push`) and download those from others (e.g. with `docker pull`) including official dockerised applications (e.g. [Python](https://hub.docker.com/_/python) and [WordPress](https://hub.docker.com/_/wordpress)) as well as base images (e.g. [Ubuntu](https://hub.docker.com/_/ubuntu) and [Alpine](https://hub.docker.com/_/alpine)) to build upon for creating your own images. The wider Docker ecosystem is illustrated below. 
-
-[![Docker schematic](https://docs.docker.com/get-started/images/docker-architecture.webp)](https://docs.docker.com/)
-
-*Docker ecosystem schematic*
+More generally, Docker also has an image registry which stores prebuilt images: https://hub.docker.com/. Users may upload images from their own computer (with `docker push`) and download those from others (e.g. with `docker pull`) including official dockerised applications (e.g. [Python](https://hub.docker.com/_/python) and [WordPress](https://hub.docker.com/_/wordpress)) as well as base images (e.g. [Ubuntu](https://hub.docker.com/_/ubuntu) and [Alpine](https://hub.docker.com/_/alpine)) to build upon for creating your own images. The Docker architecture and wider ecosystem are illustrated [here](https://docs.docker.com/get-started/overview/#docker-architecture). 
 
 Some slides from a workshop introducing Docker and how to use this Chaste image can be found [here](https://docs.google.com/presentation/d/1UqpN_9Jwfl-c1I9UpDGaIgm2GVSWffwk9rGkFhaq5_U/edit?usp=sharing).
 
@@ -71,7 +68,7 @@ Install [Docker](https://www.docker.com/products/docker-desktop/) and configure 
     ```
     docker run --init -it --rm -v chaste_data:/home/chaste chaste/release
     ```
-    If needed, you can also specify an [available tag](https://hub.docker.com/repository/docker/chaste/release/tags) in the image name in the form `chaste/release:<tag>` to pull a particular release (e.g. `chaste/release:2021.1`) rather than defaulting to the latest version. 
+    If needed, you can also specify an [available tag](https://hub.docker.com/repository/docker/chaste/release/tags) in the image name in the form `chaste/release:<tag>` to pull a particular release (e.g. `chaste/release:2024.1`) rather than defaulting to the latest version. 
 2. Alternatively, if you want to use the latest development code from the `develop` branch, use this command to pull and run the latest `chaste/develop` image instead:
     ```
     docker run --init -it --rm -v chaste_data:/home/chaste chaste/develop
@@ -89,9 +86,9 @@ This is a bash prompt within an isolated Docker container (based on [ubuntu](htt
 
 If you don't already have a project, just use the provided script `new_project.sh` to create a project template in `~/projects` as a starting point. Many tutorials for projects can be found here: https://chaste.cs.ox.ac.uk/trac/wiki/UserTutorials.
 
-Once you have a project ready to build, use the script `build_project.sh <TestMyProject> c` (replacing `<TestMyProject>` with the name of your project) and you will find the output in `~/testoutput` (the `c` argument is only necessary when new files are created). 
+Once you have a project ready to build, use the script `build_project.sh <TestMyProject> c` (replacing `<TestMyProject>` with the name of your project) and you will find the output in `~/output` (the `c` argument is only necessary when new files are created). 
 
-> :information_source:  To easily share data between the Docker container and the host e.g. the `testoutput` directory, a bind-mount argument can be added to the command: `-v /host/path/to/testoutput:/home/chaste/testoutput`. See the instructions on [bind mounts](#bind-mounts) for further details.
+> :information_source:  To easily share data between the Docker container and the host e.g. the `output` directory, a bind-mount argument can be added to the command: `-v /host/path/to/output:/home/chaste/output`. See the instructions on [bind mounts](#bind-mounts) for further details.
 
 When you are finished with the container, simply type `exit` or press `Ctrl+D` to close it (if necessary, pressing `Ctrl+C` first to stop any running processes). Any changes made in `/home/chaste` will persist when you relaunch a container, however if the container is deleted, everything else (e.g. installed packages, changes to system files) will be reset to how it was when the image was first used. 
 
@@ -115,7 +112,7 @@ Once launched, the container will start in the `chaste` user's home directory at
 |-- projects -> /home/chaste/src/projects
 |-- scripts
 |-- src
-`-- testoutput
+`-- output
 ```
 
 These folders contain the following types of data:
@@ -124,14 +121,14 @@ These folders contain the following types of data:
 - `projects`: a symlink to `/home/chaste/src/projects` for user projects
 - `scripts`: convenience scripts for creating, building and testing projects
 - `src`: the Chaste source code
-- `testoutput`: the output folder for the project testing framework (set with `$CHASTE_TEST_OUTPUT`)
+- `output`: the output folder for the project testing framework (set with `$CHASTE_TEST_OUTPUT`)
 
 Corresponding environment variables are also set as follows:
 - `CHASTE_DIR="/home/chaste"`
 - `CHASTE_BUILD_DIR="${CHASTE_DIR}/build"`
 - `CHASTE_PROJECTS_DIR="${CHASTE_DIR}/src/projects"`
 - `CHASTE_SOURCE_DIR="${CHASTE_DIR}/src"`
-- `CHASTE_TEST_OUTPUT="${CHASTE_DIR}/testoutput"`
+- `CHASTE_TEST_OUTPUT="${CHASTE_DIR}/output"`
 
 > :information_source:  If [building your own image](#building-your-own-image), the `CHASTE_DIR` path can be changed at buildtime with a build argument e.g. `--build-arg CHASTE_DIR=/path/to/alternative` which will then set the other directories relative to that path. 
 
@@ -144,22 +141,20 @@ Sharing data between the host and container
 
 This image is set up to store the Chaste source code, compiled libraries and scripts in a [Docker volume](https://docs.docker.com/storage/volumes/) as this is the [recommended mechanism](https://docs.docker.com/storage/) for data persistence and yields the best File I/O performance across multiple platforms.
 
-One drawback of this type of mount is that the contents are more difficult to access from the host. However, to gain direct access to e.g. the `testoutput` of the container from the host, or share datasets on the host with the container, a bind mount can be used (even overlaying a directory within the volume if needed).
+One drawback of this type of mount is that the contents are more difficult to access from the host. However, to gain direct access to e.g. the `output` of the container from the host, or share datasets on the host with the container, a bind mount can be used (even overlaying a directory within the volume if needed). 
 
-[![Docker mount options](https://docs.docker.com/storage/images/types-of-mounts.webp?w=450&h=300)](https://docs.docker.com/storage/)
-
-*Docker mount options schematic from the [Docker documentation](https://docs.docker.com/storage/)*
+For further details and illustrations of the Docker mount options see the [storage documentation](https://docs.docker.com/storage/).
 
 ### Bind mounts
 
-Any host directory (specified with an absolute path e.g. `/path/to/testoutput`) may be mounted in the container e.g. the `testoutput` directory. Alternatively, navigate to the folder on the host which contains these directories e.g. `C:\Users\$USERNAME\chaste` (Windows) or `~/chaste` (Linux/macOS) and use `$(pwd)/testoutput` instead as shown below. In the following examples, the image name (final argument) is assumed to be `chaste/release` rather than e.g. `chaste/develop` or `chaste/release:2021.1` for simplicity. 
+Any host directory (specified with an absolute path e.g. `/path/to/output`) may be mounted in the container e.g. the `output` directory. Alternatively, navigate to the folder on the host which contains these directories e.g. `C:\Users\$USERNAME\chaste` (Windows) or `~/chaste` (Linux/macOS) and use `$(pwd)/output` instead as shown below. In the following examples, the image name (final argument) is assumed to be `chaste/release` rather than e.g. `chaste/develop` or `chaste/release:2024.1` for simplicity. 
 ```
-docker run -it --init --rm -v chaste_data:/home/chaste -v "${PWD}"/testoutput:/home/chaste/testoutput chaste/release
+docker run -it --init --rm -v chaste_data:/home/chaste -v "${PWD}"/output:/home/chaste/output chaste/release
 ```
 
 ### Copying data in and out
 
-On macOS and Windows (but *not* Linux), reading and writing files in bind mounts from the host have a greater overhead than for files in Docker volumes. This may slow down simulations where there is a lot of File I/O in those folders (e.g. `testoutput`), so bind mounts should be used sparingly in such scenarios. A faster alternative would be to leave the files in a volume and use [`docker cp`](https://docs.docker.com/engine/reference/commandline/cp/) to copy them out at the end of the simulation (or copy modified files back in). 
+On macOS and Windows (but *not* Linux), reading and writing files in bind mounts from the host have a greater overhead than for files in Docker volumes. This may slow down simulations where there is a lot of File I/O in those folders (e.g. `output`), so bind mounts should be used sparingly in such scenarios. A faster alternative would be to leave the files in a volume and use [`docker cp`](https://docs.docker.com/engine/reference/commandline/cp/) to copy them out at the end of the simulation (or copy modified files back in). 
 
 For example, use the following commands to copy the whole `src` folder, where the container has been labelled `chaste` e.g. with a command beginning: `docker run --name chaste ...`:
 ```bash
@@ -227,7 +222,7 @@ If you're a more advanced developer and want to build your own image with a part
         ```
     2. Alternatively a specific branch or tag may be specified through the argument `--build-arg GIT_TAG=<branch|tag>` (with the same tag appended onto the docker image name for clarity) e.g.:
         ```
-        docker build -t chaste:custom --build-arg GIT_TAG=2021.1 https://github.com/chaste/chaste-docker.git
+        docker build -t chaste:custom --build-arg GIT_TAG=2024.1 https://github.com/chaste/chaste-docker.git
         ```
     3. Finally, if you want a bare container ready for you to clone and compile your own Chaste code, pull a `base` image with `docker pull chaste/base` (specifying an [available Ubuntu distribution](https://hub.docker.com/repository/docker/chaste/base/tags) if desired e.g. `chaste/base:focal`) Alternatively, build a fresh image by running the following command (omitting the `--build-arg GIT_TAG=<branch|tag>` argument above, or explicitly passing `--build-arg GIT_TAG=-`, which will skip compiling Chaste within the image):
         ```
