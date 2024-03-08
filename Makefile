@@ -63,8 +63,14 @@ base: DOCKER_TAGS = -t chaste/base:$(BASE)
 develop main: CMAKE_BUILD_TYPE="Debug"
 develop main: Chaste_ERROR_ON_WARNING="ON"
 develop main: Chaste_UPDATE_PROVENANCE="OFF"
-develop main: GIT_TAG=$@
-develop main: DOCKER_TAGS = -t chaste/$@
+# develop main: GIT_TAG=$@
+# develop main: DOCKER_TAGS = -t chaste/$@
+develop:
+	GIT_TAG=develop
+	DOCKER_TAGS = -t chaste/develop
+main:
+	GIT_TAG=main
+	DOCKER_TAGS = -t chaste/main
 
 # Do not push so that a release build can be tested first
 release: CHASTE_IMAGE=chaste/release
