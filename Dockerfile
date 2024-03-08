@@ -93,12 +93,12 @@ ENV USER=${USER} \
     Chaste_ERROR_ON_WARNING=${Chaste_ERROR_ON_WARNING} \
     Chaste_UPDATE_PROVENANCE=${Chaste_UPDATE_PROVENANCE} \
     CHASTE_SOURCE_DIR="${CHASTE_DIR}/src" \
-    CHASTE_PROJECTS_DIR="${CHASTE_SOURCE_DIR}/projects" \
     CHASTE_BUILD_DIR="${CHASTE_DIR}/build" \
     CHASTE_TEST_OUTPUT="${CHASTE_DIR}/output" \
     PATH="${CHASTE_DIR}/scripts:${PATH}" \
-    PYTHONPATH="${CHASTE_BUILD_DIR}/python:$PYTHONPATH" \
     TEXTTEST_HOME=/usr/local/bin/texttest
+ENV CHASTE_PROJECTS_DIR="${CHASTE_SOURCE_DIR}/projects" \
+    PYTHONPATH="${CHASTE_BUILD_DIR}/python:$PYTHONPATH"
 
 # Create user and working directory for Chaste files
 # RUN useradd -ms /bin/bash ${USER} && echo "${USER}:${PASSWORD}" | chpasswd && adduser ${USER} sudo
