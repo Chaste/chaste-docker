@@ -128,16 +128,12 @@ run:
 .PHONY: test
 test: BUILD_ARGS += --build-arg TEST_SUITE=$(TEST_SUITE)
 test:
-	docker run -it --init --rm --env CMAKE_BUILD_TYPE=Debug \
+	docker run -t --init --rm --env CMAKE_BUILD_TYPE=Debug \
 				$(CHASTE_IMAGE) test.sh $(TEST_SUITE) c
 
-
 .PHONY: build-info
-# build-info: TEST_SUITE=TestChasteBuildInfo
-# build-info: test
 build-info:
-	docker run -it --init --rm --env CMAKE_BUILD_TYPE=Debug \
-				$(CHASTE_IMAGE) get_chaste_info.sh
+	docker run -t --init --rm $(CHASTE_IMAGE) get_chaste_info.sh
 
 .PHONY: info
 info:
