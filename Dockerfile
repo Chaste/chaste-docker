@@ -127,8 +127,7 @@ RUN ln -s "${CHASTE_BUILD_DIR}" lib && \
 RUN git config --global --add safe.directory "${CHASTE_SOURCE_DIR}"
 
 # Save Chaste version and dependencies information
-RUN apt-cache show chaste-dependencies > chaste-dependencies.txt && \
-    ctest --verbose -R TestChasteBuildInfo$
+RUN apt-cache show chaste-dependencies > "${CHASTE_TEST_OUTPUT}/chaste-dependencies.txt"
 
 CMD ["bash"]
 

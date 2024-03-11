@@ -49,5 +49,9 @@ cmake -DCMAKE_BUILD_TYPE:STRING=${CMAKE_BUILD_TYPE} \
         -B$CHASTE_BUILD_DIR
 
 make --no-print-directory -j$NCORES -C $CHASTE_BUILD_DIR # -f $CHASTE_BUILD_DIR/Makefile
+
+# Save the build info
+get_chaste_info.sh > "${CHASTE_TEST_OUTPUT}/chaste-info.txt"
+
 echo "Done!"
 echo "New projects may be initialised with the provided script new_project.sh"
