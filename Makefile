@@ -27,7 +27,7 @@ endif
 PUSH ?= false
 MULTI_ARCH_BUILD ?= true
 PLATFORM ?= "linux/amd64,linux/arm64/v8"
-ifeq ("$(MULTI_ARCH_BUILD)","true")
+ifeq ("$(MULTI_ARCH_BUILD)", "true")
 PUSH = true
 BUILD = buildx build --push --platform $(PLATFORM) -o type=image
 else
