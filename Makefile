@@ -139,6 +139,7 @@ test:
 # cmake ..
 # cmake --build . --target TestChasteBuildInfo
 # ctest -V -R TestChasteBuildInfo
+.PHONY: build-info
 build-info: TEST_SUITE=TestChasteBuildInfo
 build-info: test
 
@@ -148,21 +149,6 @@ info:
 	docker -v
 # lsb_release -a
 
+.PHONY: verbose
 verbose: info
 	docker system info
-
-# BUILD_ARGS := --build-arg BASE=$(BASE)
-# IMAGE_NAMES := -t $(CHASTE_IMAGE):$(GIT_TAG)
-# base release: TARGET = $@
-# release: BUILD_ARGS += --build-arg CHASTE_DIR=$(CHASTE_DIR) --build-arg GIT_TAG=$(GIT_TAG)
-# release: IMAGE_NAMES += -t $(CHASTE_IMAGE):$(BASE)-$(GIT_TAG)
-# base: BUILD_ARGS += --target $@
-# base: CHASTE_IMAGE = chaste/base
-# base: IMAGE_NAMES = $(CHASTE_IMAGE):$(BASE)
-# base release: build
-# 	for NAME in $(IMAGE_NAMES) ; do \
-# 		push $$(NAME) ; \
-# 	done
-# build:
-# 	docker build $(BUILD_ARGS) $(IMAGE_NAMES) -f $(DOCKER_FILE) .
-# 	# docker push $(IMAGE_NAMES)
