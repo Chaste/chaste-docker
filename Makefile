@@ -132,16 +132,12 @@ test:
 				$(CHASTE_IMAGE) test.sh $(TEST_SUITE) c
 
 
-# git clone --recursive https://github.com/Chaste/Chaste.git chaste
-# cd chaste
-# mkdir build
-# cd build
-# cmake ..
-# cmake --build . --target TestChasteBuildInfo
-# ctest -V -R TestChasteBuildInfo
 .PHONY: build-info
-build-info: TEST_SUITE=TestChasteBuildInfo
-build-info: test
+# build-info: TEST_SUITE=TestChasteBuildInfo
+# build-info: test
+build-info:
+	docker run -it --init --rm --env CMAKE_BUILD_TYPE=Debug \
+				$(CHASTE_IMAGE) get_chaste_info.sh
 
 .PHONY: info
 info:
