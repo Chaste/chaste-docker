@@ -89,13 +89,13 @@ ENV USER=${USER} \
     Chaste_ERROR_ON_WARNING=${Chaste_ERROR_ON_WARNING} \
     Chaste_UPDATE_PROVENANCE=${Chaste_UPDATE_PROVENANCE} \
     CHASTE_SOURCE_DIR="${CHASTE_DIR}/src" \
-    CHASTE_PROJECTS_DIR="${CHASTE_SOURCE_DIR}/projects" \
     CHASTE_BUILD_DIR="${CHASTE_DIR}/build" \
     CHASTE_TEST_OUTPUT="${CHASTE_DIR}/output" \
-    PATH="${CHASTE_DIR}/scripts:${PATH}" \
-    PYTHONPATH="${CHASTE_BUILD_DIR}/python:$PYTHONPATH" \
+    PATH="${CHASTE_DIR}/scripts:${PATH}"
     # TEXTTEST_HOME=/usr/local/bin/texttest
-    TEXTTEST_HOME="${CHASTE_BUILD_DIR}/testtext_venv"
+ENV CHASTE_PROJECTS_DIR="${CHASTE_SOURCE_DIR}/projects" \
+    TEXTTEST_HOME="${CHASTE_BUILD_DIR}/testtext_venv" \
+    PYTHONPATH="${CHASTE_BUILD_DIR}/python:$PYTHONPATH"
 
 # Create user and working directory for Chaste files
 # RUN useradd -ms /bin/bash ${USER} && echo "${USER}:${PASSWORD}" | chpasswd && adduser ${USER} sudo
@@ -115,7 +115,6 @@ RUN python -m venv --upgrade-deps "${CHASTE_BUILD_DIR}/testtext_venv" && \
     # source "${CHASTE_BUILD_DIR}/testtext_venv/bin/activate" && \
     . "${CHASTE_BUILD_DIR}/testtext_venv/bin/activate" && \
     # PATH=".local:${PATH}" && \
-    # python -m pip install --upgrade pip && \
     python -m pip install texttest
 
 # Create Chaste src, build, output and projects folders
@@ -129,8 +128,7 @@ RUN ln -s "${CHASTE_BUILD_DIR}" lib && \
 RUN git config --global --add safe.directory "${CHASTE_SOURCE_DIR}"
 
 # Save Chaste version and dependencies information
-RUN apt-cache show chaste-dependencies > chaste-dependencies.txt && \
-    ctest --verbose -R TestChasteBuildInfo$
+RUN apt-cache show chaste-dependencies > "${CHASTE_TEST_OUTPUT}/chaste-dependencies.txt"
 
 CMD ["bash"]
 
