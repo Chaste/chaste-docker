@@ -98,7 +98,7 @@ ENV USER=${USER} \
     PATH="${CHASTE_DIR}/scripts:${PATH}" \
     TEXTTEST_HOME=/usr/local/bin/texttest
 ENV CHASTE_PROJECTS_DIR="${CHASTE_SOURCE_DIR}/projects" \
-    PYTHONPATH="${CHASTE_BUILD_DIR}/python:$PYTHONPATH"
+    PYTHONPATH="${CHASTE_BUILD_DIR}/python"
 
 # Create user and working directory for Chaste files
 # RUN useradd -ms /bin/bash ${USER} && echo "${USER}:${PASSWORD}" | chpasswd && adduser ${USER} sudo
