@@ -13,6 +13,7 @@ CHASTE_IMAGE ?= chaste/release
 CHASTE_DIR ?= "/home/chaste"
 CHASTE_DATA_VOLUME ?= chaste_data
 FRESH ?=
+OUT ?= auto
 EXTRA_BUILD_FLAGS ?=
 
 # Optional mounts
@@ -34,6 +35,8 @@ ifeq ("$(PUSH)", "true")
 base develop main release: login
 endif
 
+PROGRESS = --progress=$(OUT)
+
 all: base release
 
 .PHONY: base develop main release
@@ -41,6 +44,7 @@ all: base release
 base develop main release:
 	docker $(BUILD) \
 		$(TARGET) \
+		$(PROGRESS) \
 		$(EXTRA_BUILD_FLAGS) \
 		$(BUILD_ARGS) \
 		$(DOCKER_TAGS) \
