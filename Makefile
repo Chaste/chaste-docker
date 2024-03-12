@@ -130,7 +130,6 @@ run:
 	docker run -it --init --rm $(MOUNTS) $(CHASTE_IMAGE)
 
 .PHONY: test
-test: BUILD_ARGS += --build-arg TEST_SUITE=$(TEST_SUITE)
 test:
 	docker run -t --init --rm --env CMAKE_BUILD_TYPE=Debug \
 				$(CHASTE_IMAGE) test.sh $(TEST_SUITE) c
