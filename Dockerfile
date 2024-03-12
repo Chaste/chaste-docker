@@ -56,9 +56,7 @@ RUN wget -O /usr/share/keyrings/chaste.asc https://chaste.github.io/chaste.asc \
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
     chaste-dependencies \
-    cmake \
-    # "libvtk*-dev" \  # Dependency of chaste-dependencies (check 7 not 6 is installed)
-    python3-dev \
+    # python3-dev \
     gh \
     valgrind \
     "libpetsc-real*-dbg" \
