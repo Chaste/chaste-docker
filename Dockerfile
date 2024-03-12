@@ -89,7 +89,7 @@ ENV USER=${USER} \
     PATH="${CHASTE_DIR}/scripts:${PATH}"
     # TEXTTEST_HOME=/usr/local/bin/texttest
 ENV CHASTE_PROJECTS_DIR="${CHASTE_SOURCE_DIR}/projects" \
-    TEXTTEST_HOME="${CHASTE_BUILD_DIR}/testtext_venv" \
+    TEXTTEST_HOME="${CHASTE_BUILD_DIR}/texttest_venv" \
     PYTHONPATH="${CHASTE_BUILD_DIR}/python"
 
 # Create user and working directory for Chaste files
@@ -106,9 +106,9 @@ WORKDIR ${CHASTE_DIR}
 
 # Install TextTest for regression testing (requires pygtk)
 # NOTE: chaste-codegen is installed by CMake
-RUN python -m venv --upgrade-deps "${CHASTE_BUILD_DIR}/testtext_venv" && \
-    # source "${CHASTE_BUILD_DIR}/testtext_venv/bin/activate" && \
-    . "${CHASTE_BUILD_DIR}/testtext_venv/bin/activate" && \
+RUN python -m venv --upgrade-deps "${CHASTE_BUILD_DIR}/texttest_venv" && \
+    # source "${CHASTE_BUILD_DIR}/texttest_venv/bin/activate" && \
+    . "${CHASTE_BUILD_DIR}/texttest_venv/bin/activate" && \
     # PATH=".local:${PATH}" && \
     python -m pip install texttest
 
