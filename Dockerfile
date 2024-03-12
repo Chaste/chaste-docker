@@ -32,16 +32,13 @@ RUN apt-get update && \
     sudo \
     wget
 
-# Add signing key to install GitHub CLI
-# https://github.com/cli/cli/blob/trunk/docs/install_linux.md
+# Add signing key to install GitHub CLI: https://github.com/cli/cli/blob/trunk/docs/install_linux.md
 RUN wget -O /etc/apt/keyrings/github-cli.gpg https://cli.github.com/packages/githubcli-archive-keyring.gpg \
     && echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/github-cli.gpg] https://cli.github.com/packages stable main" >> /etc/apt/sources.list.d/github-cli.list
 
-# Declare BASE in this build stage (the value is inherited from the global stage)
-# https://github.com/moby/moby/issues/34482
+# Declare BASE in this build stage (the value is inherited from the global stage): https://github.com/moby/moby/issues/34482
 ARG BASE
-# Install the Chaste repo list and key
-# https://chaste.github.io/docs/installguides/ubuntu-package/
+# Install the Chaste repo list and key: https://chaste.github.io/docs/installguides/ubuntu-package/
 RUN wget -O /usr/share/keyrings/chaste.asc https://chaste.github.io/chaste.asc \
     && echo "deb [signed-by=/usr/share/keyrings/chaste.asc] https://chaste.github.io/ubuntu ${BASE}/" >> /etc/apt/sources.list.d/chaste.list
 
