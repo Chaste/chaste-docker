@@ -116,8 +116,8 @@ RUN python -m venv --upgrade-deps "${CHASTE_BUILD_DIR}/testtext_venv" && \
 RUN mkdir -p "${CHASTE_SOURCE_DIR}" "${CHASTE_BUILD_DIR}" "${CHASTE_TEST_OUTPUT}" && \
     ln -s "${CHASTE_PROJECTS_DIR}" projects
 # DEPRECATED: Transitionary symlinks for build and output directories
-RUN ln -s "${CHASTE_BUILD_DIR}" lib && \
-    ln -s "${CHASTE_TEST_OUTPUT}" testoutput
+# RUN ln -s "${CHASTE_BUILD_DIR}" lib && \
+#     ln -s "${CHASTE_TEST_OUTPUT}" testoutput
 
 # Fix git permissions issue CVE-2022-24765
 RUN git config --global --add safe.directory "${CHASTE_SOURCE_DIR}"
