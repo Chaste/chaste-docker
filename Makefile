@@ -82,10 +82,9 @@ base develop main release: DOCKER_TAGS = -t $(CHASTE_IMAGE)
 base develop main: DOCKER_TAGS += -t $(CHASTE_IMAGE):$(BASE)
 release: DOCKER_TAGS += -t $(CHASTE_IMAGE):$(GIT_TAG) \
 		-t $(CHASTE_IMAGE):$(BASE)-$(GIT_TAG)
-# Do not push so that a release build can be tested first
-# release: build test push
 
 DOCKER_FILE ?= Dockerfile
+# release: build test push
 
 
 # NOTE: To build for multiple architectures, it may first be necessary to run this:
