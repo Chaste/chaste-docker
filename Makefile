@@ -138,7 +138,20 @@ build-info:
 
 .PHONY: info
 info:
+	@echo "BASE: $(BASE)"
+	@echo "GIT_TAG: $(GIT_TAG)"
+	@echo "TEST_SUITE: $(TEST_SUITE)"
+	@echo "CHASTE_IMAGE: $(CHASTE_IMAGE)"
+	@echo "CHASTE_DIR: $(CHASTE_DIR)"
+	@echo "CHASTE_DATA_VOLUME: $(CHASTE_DATA_VOLUME)"
 	@echo "Mounts: $(MOUNTS)"
+	@echo "FRESH: $(FRESH)"
+	@echo "OUT: $(OUT)"
+	@echo "EXTRA_BUILD_FLAGS: $(EXTRA_BUILD_FLAGS)"
+	@echo "MULTI_ARCH_BUILD: $(MULTI_ARCH_BUILD)"
+	@echo "PUSH: $(PUSH)"
+	@echo "PLATFORM: $(PLATFORM)"
+
 	docker -v
 # lsb_release -a
 
