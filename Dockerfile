@@ -72,6 +72,11 @@ RUN apt-get update && \
     graphviz && \
     rm -rf /var/lib/apt/lists/*
 
+# Fix libexpat1 version for jammy: https://github.com/Chaste/Chaste/issues/249
+RUN apt-get install -y --allow-downgrades libexpat1=2.4.7-1 libexpat1-dev=2.4.7-1 && \
+    apt-mark hold libexpat1 libexpat1-dev && \
+    rm -rf /var/lib/apt/lists/*
+
 # Update system to use Python3 by default
 RUN update-alternatives --install /usr/bin/python python /usr/bin/python3 1 && \
     update-alternatives --install /usr/bin/pip pip /usr/bin/pip3 1
