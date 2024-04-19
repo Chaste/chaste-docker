@@ -73,7 +73,8 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/*
 
 # Fix libexpat1 version for jammy: https://github.com/Chaste/Chaste/issues/249
-RUN apt-get install -y --allow-downgrades libexpat1=2.4.7-1 libexpat1-dev=2.4.7-1 && \
+RUN apt-get update && \
+    apt-get install -y --allow-downgrades libexpat1=2.4.7-1 libexpat1-dev=2.4.7-1 && \
     apt-mark hold libexpat1 libexpat1-dev && \
     rm -rf /var/lib/apt/lists/*
 
