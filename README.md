@@ -66,7 +66,7 @@ Install [Docker](https://www.docker.com/products/docker-desktop/) and configure 
 ### [Recommended] Using a pre-built image
 1. If you want to get up and running with the latest release fully compiled and ready to go, after installing and configuring Docker simply run:
     ```
-    docker run --init -it --rm -v chaste_data:/home/chaste chaste/release
+    docker run --init -it --rm -v chaste_data:/home/chaste chaste/develop
     ```
     If needed, you can also specify an [available tag](https://hub.docker.com/r/chaste/release/tags) in the image name in the form `chaste/release:<tag>` to pull a particular release (e.g. `chaste/release:2024.1`) rather than defaulting to the latest version. 
 2. Alternatively, if you want to use the latest development code from the `develop` branch, use this command to pull and run the latest `chaste/develop` image instead:
