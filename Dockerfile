@@ -59,6 +59,9 @@ RUN apt-get update && \
     apt-get install -y --no-install-recommends \
     chaste-dependencies \
     cmake \
+    clang \
+    lldb \
+    gdb \
     # libvtk7-dev \  # Dependency of chaste-dependencies (check 7 not 6 is installed)
     python3-dev \
     python3-pip \
