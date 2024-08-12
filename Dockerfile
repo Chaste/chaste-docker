@@ -54,6 +54,9 @@ RUN apt-get update && \
     apt-get install -y --no-install-recommends \
     chaste-dependencies \
     # python3-dev \
+    clang \
+    lldb \
+    gdb \
     gh \
     valgrind \
     "libpetsc-real*-dbg" \
