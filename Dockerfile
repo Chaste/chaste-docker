@@ -122,8 +122,8 @@ WORKDIR ${CHASTE_DIR}
 
 # Install TextTest for regression testing (requires pygtk)
 # NOTE: chaste-codegen is installed by CMake
-RUN python -m pip install --upgrade pip && \
-    python -m pip install texttest
+RUN python -m pip install --no-cache-dir --upgrade pip && \
+    python -m pip install --no-cache-dir texttest
 
 # Create Chaste src, build, output and projects folders
 RUN mkdir -p "${CHASTE_SOURCE_DIR}" "${CHASTE_BUILD_DIR}" "${CHASTE_TEST_OUTPUT}" && \
