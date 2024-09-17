@@ -70,7 +70,7 @@ develop main release: BUILD_ARGS += --build-arg GIT_TAG=$(GIT_TAG) \
 develop main: CMAKE_BUILD_TYPE="Debug"
 develop main: Chaste_ERROR_ON_WARNING="ON"
 develop main: Chaste_UPDATE_PROVENANCE="OFF"
-develop main: GIT_TAG=$@
+develop main: GIT_TAG?=$@
 
 release: CMAKE_BUILD_TYPE="Release"
 release: Chaste_ERROR_ON_WARNING="OFF"
