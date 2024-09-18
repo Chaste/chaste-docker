@@ -43,40 +43,24 @@ else # if [ $VERSION = 'develop' ]; then
 fi
 
 # # Only run if new files have been created
-# cmake -DCMAKE_BUILD_TYPE:STRING=${CMAKE_BUILD_TYPE} \
-#         -DChaste_ERROR_ON_WARNING:BOOL=${Chaste_ERROR_ON_WARNING} \
-#         -DChaste_UPDATE_PROVENANCE:BOOL=${Chaste_UPDATE_PROVENANCE} \
-#         -DChaste_ENABLE_PYCHASTE:BOOL=${Chaste_ENABLE_PYCHASTE} \
-#         -H$CHASTE_SOURCE_DIR \
-#         -B$CHASTE_BUILD_DIR
-
-# make --no-print-directory -j$NCORES -C $CHASTE_BUILD_DIR # -f $CHASTE_BUILD_DIR/Makefile
-
-if [ "$Chaste_ENABLE_PYCHASTE" = "ON" ]; then
-    # Build and install PyChaste
-    git clone --recursive https://github.com/Chaste/PyChaste.git "${CHASTE_PROJECTS_DIR}/PyChaste"
-    
-    # Only run if new files have been created
-    cmake -DCMAKE_BUILD_TYPE:STRING=${CMAKE_BUILD_TYPE} \
+cmake -DCMAKE_BUILD_TYPE:STRING=${CMAKE_BUILD_TYPE} \
         -DChaste_ERROR_ON_WARNING:BOOL=${Chaste_ERROR_ON_WARNING} \
         -DChaste_UPDATE_PROVENANCE:BOOL=${Chaste_UPDATE_PROVENANCE} \
         -DChaste_ENABLE_PYCHASTE:BOOL=${Chaste_ENABLE_PYCHASTE} \
         -H$CHASTE_SOURCE_DIR \
         -B$CHASTE_BUILD_DIR
 
+# make --no-print-directory -j$NCORES -C $CHASTE_BUILD_DIR # -f $CHASTE_BUILD_DIR/Makefile
+
+if [ "$Chaste_ENABLE_PYCHASTE" = "ON" ]; then
+    # Build and install PyChaste
+    
     echo "Building PyChaste..."
     # make --no-print-directory -j$NCORES -C $CHASTE_BUILD_DIR
     make --no-print-directory -j$NCORES -C $CHASTE_BUILD_DIR pychaste
     python -m pip install --no-cache-dir --user $CHASTE_BUILD_DIR/pychaste/package
 else
     echo "PyChaste is not enabled."
-    # Only run if new files have been created
-    cmake -DCMAKE_BUILD_TYPE:STRING=${CMAKE_BUILD_TYPE} \
-        -DChaste_ERROR_ON_WARNING:BOOL=${Chaste_ERROR_ON_WARNING} \
-        -DChaste_UPDATE_PROVENANCE:BOOL=${Chaste_UPDATE_PROVENANCE} \
-        -DChaste_ENABLE_PYCHASTE:BOOL=${Chaste_ENABLE_PYCHASTE} \
-        -H$CHASTE_SOURCE_DIR \
-        -B$CHASTE_BUILD_DIR
     make --no-print-directory -j$NCORES -C $CHASTE_BUILD_DIR # -f $CHASTE_BUILD_DIR/Makefile
 fi
 
