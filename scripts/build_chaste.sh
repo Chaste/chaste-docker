@@ -58,7 +58,10 @@ if [ "$Chaste_ENABLE_PYCHASTE" = "ON" ]; then
     echo "Building PyChaste..."
     # make --no-print-directory -j$NCORES -C $CHASTE_BUILD_DIR
     make --no-print-directory -j$NCORES -C $CHASTE_BUILD_DIR pychaste
-    python -m pip install --no-cache-dir --user $CHASTE_BUILD_DIR/pychaste/package
+    python -m pip install --no-cache-dir --user numpy matplotlib petsc4py jupyterlab xvfbwrapper 
+    # python -m pip install --no-cache-dir --user --no-deps pychaste/package
+    python -m pip install --no-cache-dir --user --no-deps $CHASTE_BUILD_DIR/pychaste/package
+
 else
     echo "PyChaste is not enabled."
     make --no-print-directory -j$NCORES -C $CHASTE_BUILD_DIR # -f $CHASTE_BUILD_DIR/Makefile

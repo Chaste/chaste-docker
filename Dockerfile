@@ -59,12 +59,12 @@ RUN apt-get update && \
     apt-get install -y --no-install-recommends \
     chaste-dependencies \
     xvfb \
-    python3-matplotlib \
-    python3-notebook \
-    python3-numpy \
-    python3-petsc4py \
+    # python3-matplotlib \
+    # python3-notebook \
+    # python3-numpy \
+    # python3-petsc4py \
     python3-vtk7 \
-    python3-xvfbwrapper \
+    # python3-xvfbwrapper \
     cmake \
     clang \
     lldb \
