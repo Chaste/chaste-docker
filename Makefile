@@ -64,18 +64,20 @@ develop main release: BUILD_ARGS += --build-arg GIT_TAG=$(GIT_TAG) \
 		--build-arg CMAKE_BUILD_TYPE=$(CMAKE_BUILD_TYPE) \
 		--build-arg Chaste_ERROR_ON_WARNING=$(Chaste_ERROR_ON_WARNING) \
 		--build-arg Chaste_UPDATE_PROVENANCE=$(Chaste_UPDATE_PROVENANCE) \
+		--build-arg Chaste_ENABLE_PYCHASTE=${Chaste_ENABLE_PYCHASTE} \
 		--build-arg TEST_SUITE=$(TEST_SUITE)
 
 develop main: CMAKE_BUILD_TYPE="Debug"
 develop main: Chaste_ERROR_ON_WARNING="ON"
 develop main: Chaste_UPDATE_PROVENANCE="OFF"
-develop main: GIT_TAG=$@
+develop main: GIT_TAG?=$@
 
 release: CMAKE_BUILD_TYPE="Release"
 release: Chaste_ERROR_ON_WARNING="OFF"
 release: Chaste_UPDATE_PROVENANCE="ON"
 release: TEST_SUITE="Continuous"
 
+develop main release: Chaste_ENABLE_PYCHASTE="ON"
 base develop main release: CHASTE_IMAGE = chaste/$@
 base develop main release: DOCKER_TAGS = -t $(CHASTE_IMAGE)
 base develop main: DOCKER_TAGS += -t $(CHASTE_IMAGE):$(BASE)

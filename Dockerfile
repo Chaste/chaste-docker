@@ -58,6 +58,13 @@ RUN wget -O /usr/share/keyrings/chaste.asc https://chaste.github.io/chaste.asc \
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
     chaste-dependencies \
+    xvfb \
+    # python3-matplotlib \
+    # python3-notebook \
+    # python3-numpy \
+    # python3-petsc4py \
+    python3-vtk7 \
+    # python3-xvfbwrapper \
     cmake \
     clang \
     lldb \
@@ -93,6 +100,7 @@ ARG CHASTE_DIR="/home/${USER}"
 ARG CMAKE_BUILD_TYPE="Debug"
 ARG Chaste_ERROR_ON_WARNING="ON"
 ARG Chaste_UPDATE_PROVENANCE="OFF"
+ARG Chaste_ENABLE_PYCHASTE="ON"
 # RUN source /home/chaste/scripts/set_env_vars.sh
 ENV USER=${USER} \
     GROUP=${USER} \
@@ -101,6 +109,7 @@ ENV USER=${USER} \
     CMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} \
     Chaste_ERROR_ON_WARNING=${Chaste_ERROR_ON_WARNING} \
     Chaste_UPDATE_PROVENANCE=${Chaste_UPDATE_PROVENANCE} \
+    Chaste_ENABLE_PYCHASTE=${Chaste_ENABLE_PYCHASTE} \
     CHASTE_SOURCE_DIR="${CHASTE_DIR}/src" \
     CHASTE_BUILD_DIR="${CHASTE_DIR}/build" \
     CHASTE_TEST_OUTPUT="${CHASTE_DIR}/output" \

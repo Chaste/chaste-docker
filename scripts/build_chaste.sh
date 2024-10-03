@@ -42,14 +42,31 @@ else # if [ $VERSION = 'develop' ]; then
         echo "Chaste_ERROR_ON_WARNING=${Chaste_ERROR_ON_WARNING}"
 fi
 
-# Only run if new files have been created
+# # Only run if new files have been created
 cmake -DCMAKE_BUILD_TYPE:STRING=${CMAKE_BUILD_TYPE} \
         -DChaste_ERROR_ON_WARNING:BOOL=${Chaste_ERROR_ON_WARNING} \
         -DChaste_UPDATE_PROVENANCE:BOOL=${Chaste_UPDATE_PROVENANCE} \
+        -DChaste_ENABLE_PYCHASTE:BOOL=${Chaste_ENABLE_PYCHASTE} \
         -H$CHASTE_SOURCE_DIR \
         -B$CHASTE_BUILD_DIR
 
-make --no-print-directory -j$NCORES -C $CHASTE_BUILD_DIR # -f $CHASTE_BUILD_DIR/Makefile
+# make --no-print-directory -j$NCORES -C $CHASTE_BUILD_DIR # -f $CHASTE_BUILD_DIR/Makefile
+
+if [ "$Chaste_ENABLE_PYCHASTE" = "ON" ]; then
+    # Build and install PyChaste
+    echo "Building PyChaste..."
+    # make --no-print-directory -j$NCORES -C $CHASTE_BUILD_DIR
+    make --no-print-directory -j$NCORES -C $CHASTE_BUILD_DIR pychaste
+    python -m pip install --no-cache-dir --user numpy matplotlib petsc4py jupyterlab xvfbwrapper 
+    # python -m pip install --no-cache-dir --user --no-deps pychaste/package
+    python -m pip install --no-cache-dir --user --no-deps $CHASTE_BUILD_DIR/pychaste/package
+
+    # Test PyChaste
+    # xvfb-run --server-args="-screen 0 1024x768x24" ctest -L pychaste
+else
+    echo "PyChaste is not enabled."
+    make --no-print-directory -j$NCORES -C $CHASTE_BUILD_DIR # -f $CHASTE_BUILD_DIR/Makefile
+fi
 
 # Save the build info
 get_chaste_info.sh > "${CHASTE_TEST_OUTPUT}/chaste-info.txt"
