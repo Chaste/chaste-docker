@@ -53,10 +53,10 @@ RUN wget -O /usr/share/keyrings/chaste.asc https://chaste.github.io/chaste.asc \
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
     chaste-dependencies \
-    # python3-dev \
     clang \
     lldb \
     gdb \
+    # python3-dev \
     gh \
     valgrind \
     "libpetsc-real*-dbg" \
@@ -64,6 +64,12 @@ RUN apt-get update && \
     cmake-curses-gui \
     doxygen \
     graphviz && \
+    rm -rf /var/lib/apt/lists/*
+
+# Fix libexpat1 version for jammy: https://github.com/Chaste/Chaste/issues/249
+RUN apt-get update && \
+    apt-get install -y --allow-downgrades libexpat1=2.4.7-1 libexpat1-dev=2.4.7-1 && \
+    apt-mark hold libexpat1 libexpat1-dev && \
     rm -rf /var/lib/apt/lists/*
 
 # Update system to use Python3 by default
@@ -109,11 +115,11 @@ WORKDIR ${CHASTE_DIR}
 
 # Install TextTest for regression testing (requires pygtk)
 # NOTE: chaste-codegen is installed by CMake
-RUN python -m venv --upgrade-deps "${CHASTE_BUILD_DIR}/texttest_venv" && \
+RUN python -m venv --no-cache-dir --upgrade-deps "${CHASTE_BUILD_DIR}/texttest_venv" && \
     # source "${CHASTE_BUILD_DIR}/texttest_venv/bin/activate" && \
     . "${CHASTE_BUILD_DIR}/texttest_venv/bin/activate" && \
     # PATH=".local:${PATH}" && \
-    python -m pip install texttest
+    python -m pip install --no-cache-dir texttest
 
 # Create Chaste src, build, output and projects folders
 RUN mkdir -p "${CHASTE_SOURCE_DIR}" "${CHASTE_BUILD_DIR}" "${CHASTE_TEST_OUTPUT}" && \

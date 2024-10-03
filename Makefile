@@ -7,7 +7,6 @@ help:
 
 BASE ?= noble
 GIT_TAG ?= 2024.1
-# GIT_TAG?=$(git describe --abbrev=0)
 TEST_SUITE ?= -
 CHASTE_IMAGE ?= chaste/release
 CHASTE_DIR ?= "/home/chaste"
@@ -82,10 +81,9 @@ base develop main release: DOCKER_TAGS = -t $(CHASTE_IMAGE)
 base develop main: DOCKER_TAGS += -t $(CHASTE_IMAGE):$(BASE)
 release: DOCKER_TAGS += -t $(CHASTE_IMAGE):$(GIT_TAG) \
 		-t $(CHASTE_IMAGE):$(BASE)-$(GIT_TAG)
-# Do not push so that a release build can be tested first
-# release: build test push
 
 DOCKER_FILE ?= Dockerfile
+# release: build test push
 
 
 # NOTE: To build for multiple architectures, it may first be necessary to run this:
@@ -130,7 +128,6 @@ run:
 	docker run -it --init --rm $(MOUNTS) $(CHASTE_IMAGE)
 
 .PHONY: test
-test: BUILD_ARGS += --build-arg TEST_SUITE=$(TEST_SUITE)
 test:
 	docker run -t --init --rm --env CMAKE_BUILD_TYPE=Debug \
 				$(CHASTE_IMAGE) test.sh $(TEST_SUITE) c
@@ -141,7 +138,20 @@ build-info:
 
 .PHONY: info
 info:
+	@echo "BASE: $(BASE)"
+	@echo "GIT_TAG: $(GIT_TAG)"
+	@echo "TEST_SUITE: $(TEST_SUITE)"
+	@echo "CHASTE_IMAGE: $(CHASTE_IMAGE)"
+	@echo "CHASTE_DIR: $(CHASTE_DIR)"
+	@echo "CHASTE_DATA_VOLUME: $(CHASTE_DATA_VOLUME)"
 	@echo "Mounts: $(MOUNTS)"
+	@echo "FRESH: $(FRESH)"
+	@echo "OUT: $(OUT)"
+	@echo "EXTRA_BUILD_FLAGS: $(EXTRA_BUILD_FLAGS)"
+	@echo "MULTI_ARCH_BUILD: $(MULTI_ARCH_BUILD)"
+	@echo "PUSH: $(PUSH)"
+	@echo "PLATFORM: $(PLATFORM)"
+
 	docker -v
 # lsb_release -a
 

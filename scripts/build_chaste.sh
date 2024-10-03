@@ -1,13 +1,24 @@
 #!/bin/sh
 set -e
 
-VERSION=${1:-main}
+VERSION=${1:-develop}
 GIT_REMOTE=${2:-https://github.com/Chaste/Chaste.git}
 NCORES=${3:-$(nproc)}
+
+BUILD_RELEASE=false
 
 if [ $VERSION = '-' ]; then
     echo "Skipping build!"
     exit 0
+fi
+
+if [ $VERSION = 'release' ] || [ $VERSION = 'latest' ]; then
+    # Replace the reference to the release branch with the latest release tag
+    # VERSION=$(git describe --abbrev=0)
+    REPO="Chaste/Chaste"
+    # VERSION=$(wget -q -O- https://api.github.com/repos/${REPO}/releases/latest | jq -r '.tag_name')
+    VERSION=$(gh release list -R ${REPO} --json 'tagName' -q '.[0].tagName' -L 1)
+    BUILD_RELEASE=true
 fi
 
 if [ $VERSION != '.' ]; then
@@ -17,7 +28,7 @@ if [ $VERSION != '.' ]; then
 fi
 
 echo "Building Chaste $VERSION in $CHASTE_BUILD_DIR with $NCORES cores..."
-if [ $VERSION = 'main' ] || [ $VERSION = 'release' ]; then
+if [ $VERSION = 'main' ] || [ $VERSION = 'release' ] || [ $BUILD_RELEASE = true ]; then
     if [ "$CMAKE_BUILD_TYPE" != "Release" ] || [ "$Chaste_ERROR_ON_WARNING" != "OFF" ]; then
         echo "WARNING: Chaste ${VERSION} branch should be built with Release and ERROR_ON_WARNING=OFF."
         echo "The environment variables are currently set as: "
