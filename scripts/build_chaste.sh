@@ -54,7 +54,6 @@ cmake -DCMAKE_BUILD_TYPE:STRING=${CMAKE_BUILD_TYPE} \
 
 if [ "$Chaste_ENABLE_PYCHASTE" = "ON" ]; then
     # Build and install PyChaste
-    
     echo "Building PyChaste..."
     # make --no-print-directory -j$NCORES -C $CHASTE_BUILD_DIR
     make --no-print-directory -j$NCORES -C $CHASTE_BUILD_DIR pychaste
@@ -62,6 +61,8 @@ if [ "$Chaste_ENABLE_PYCHASTE" = "ON" ]; then
     # python -m pip install --no-cache-dir --user --no-deps pychaste/package
     python -m pip install --no-cache-dir --user --no-deps $CHASTE_BUILD_DIR/pychaste/package
 
+    # Test PyChaste
+    # xvfb-run --server-args="-screen 0 1024x768x24" ctest -L pychaste
 else
     echo "PyChaste is not enabled."
     make --no-print-directory -j$NCORES -C $CHASTE_BUILD_DIR # -f $CHASTE_BUILD_DIR/Makefile
