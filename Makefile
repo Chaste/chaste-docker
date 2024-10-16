@@ -6,7 +6,7 @@ help:
 	@echo "  make [TARGET] -n"
 
 BASE ?= noble
-GIT_TAG ?= 2024.1
+GIT_TAG ?= 2024.2
 TEST_SUITE ?= -
 CHASTE_IMAGE ?= chaste/release
 CHASTE_DIR ?= "/home/chaste"

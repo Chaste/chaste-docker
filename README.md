@@ -68,7 +68,7 @@ Install [Docker](https://www.docker.com/products/docker-desktop/) and configure 
     ```
     docker run --init -it --rm -v chaste_data:/home/chaste chaste/release
     ```
-    If needed, you can also specify an [available tag](https://hub.docker.com/r/chaste/release/tags) in the image name in the form `chaste/release:<tag>` to pull a particular release (e.g. `chaste/release:2024.1`) rather than defaulting to the latest version. 
+    If needed, you can also specify an [available tag](https://hub.docker.com/r/chaste/release/tags) in the image name in the form `chaste/release:<tag>` to pull a particular release (e.g. `chaste/release:2024.2`) rather than defaulting to the latest version. 
 2. Alternatively, if you want to use the latest development code from the `develop` branch, use this command to pull and run the latest `chaste/develop` image instead:
     ```
     docker run --init -it --rm -v chaste_data:/home/chaste chaste/develop
@@ -147,7 +147,7 @@ For further details and illustrations of the Docker mount options see the [stora
 
 ### Bind mounts
 
-Any host directory (specified with an absolute path e.g. `/path/to/output`) may be mounted in the container e.g. the `output` directory. Alternatively, navigate to the folder on the host which contains these directories e.g. `C:\Users\$USERNAME\chaste` (Windows) or `~/chaste` (Linux/macOS) and use `$(pwd)/output` instead as shown below. In the following examples, the image name (final argument) is assumed to be `chaste/release` rather than e.g. `chaste/develop` or `chaste/release:2024.1` for simplicity. 
+Any host directory (specified with an absolute path e.g. `/path/to/output`) may be mounted in the container e.g. the `output` directory. Alternatively, navigate to the folder on the host which contains these directories e.g. `C:\Users\$USERNAME\chaste` (Windows) or `~/chaste` (Linux/macOS) and use `$(pwd)/output` instead as shown below. In the following examples, the image name (final argument) is assumed to be `chaste/release` rather than e.g. `chaste/develop` or `chaste/release:2024.2` for simplicity. 
 ```
 docker run -it --init --rm -v chaste_data:/home/chaste -v "${PWD}"/output:/home/chaste/output chaste/release
 ```
@@ -222,7 +222,7 @@ If you're a more advanced developer and want to build your own image with a part
         ```
     2. Alternatively a specific branch or tag may be specified through the argument `--build-arg GIT_TAG=<branch|tag>` (with the same tag appended onto the docker image name for clarity) e.g.:
         ```
-        docker build -t chaste:custom --build-arg GIT_TAG=2024.1 https://github.com/chaste/chaste-docker.git
+        docker build -t chaste:custom --build-arg GIT_TAG=2024.2 https://github.com/chaste/chaste-docker.git
         ```
     3. Finally, if you want a bare container ready for you to clone and compile your own Chaste code, pull a `base` image with `docker pull chaste/base` (specifying an [available Ubuntu distribution](https://hub.docker.com/repository/docker/chaste/base/tags) if desired e.g. `chaste/base:focal`) Alternatively, build a fresh image by running the following command (omitting the `--build-arg GIT_TAG=<branch|tag>` argument above, or explicitly passing `--build-arg GIT_TAG=-`, which will skip compiling Chaste within the image):
         ```
