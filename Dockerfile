@@ -110,7 +110,7 @@ WORKDIR ${CHASTE_DIR}
 
 # Install TextTest for regression testing (requires pygtk)
 # NOTE: chaste-codegen is installed by CMake
-RUN python -m venv --no-cache-dir --upgrade-deps "${CHASTE_BUILD_DIR}/texttest_venv" && \
+RUN python -m venv --upgrade-deps "${CHASTE_BUILD_DIR}/texttest_venv" && \
     # source "${CHASTE_BUILD_DIR}/texttest_venv/bin/activate" && \
     . "${CHASTE_BUILD_DIR}/texttest_venv/bin/activate" && \
     # PATH=".local:${PATH}" && \
