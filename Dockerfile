@@ -43,11 +43,13 @@ RUN wget -O /usr/share/keyrings/chaste.asc https://chaste.github.io/chaste.asc \
     && echo "deb [signed-by=/usr/share/keyrings/chaste.asc] https://chaste.github.io/ubuntu ${BASE}/" >> /etc/apt/sources.list.d/chaste.list
 
 # https://github.com/Chaste/dependency-modules/wiki
+# https://github.com/Chaste/infrastructure-scripts/blob/main/debian-package/debian/control
+# https://github.com/Chaste/ubuntu/tree/main/debs
 # Package: chaste-dependencies
-# Version: 2024.02.26
+# Version: 2024.10.28
 # Architecture: all
-# Depends: cmake, g++, git, libopenmpi-dev, petsc-dev, libhdf5-openmpi-dev, xsdcxx, libboost-serialization-dev, libboost-filesystem-dev, libboost-program-options-dev, libparmetis-dev, libmetis-dev, libxerces-c-dev, libsundials-dev, libvtk9-dev, python3, python3-venv
-# Recommends: valgrind, libpetsc-real3.19-dbg | libpetsc-real3.18-dbg | libpetsc-real3.15-dbg, hdf5-tools, cmake-curses-gui, doxygen, graphviz, gnuplot, paraview
+# Depends: cmake, g++, git, libopenmpi-dev, petsc-dev, libhdf5-openmpi-dev, xsdcxx, libboost-serialization-dev, libboost-filesystem-dev, libboost-program-options-dev, libparmetis-dev, libmetis-dev, libxerces-c-dev, libsundials-dev, libvtk9-dev (>= 9.3.0), python3, python3-venv
+# Recommends: valgrind, libpetsc-real3.20-dbg|libpetsc-real3.19t64-dbg|libpetsc-real3.18-dbg|libpetsc-real3.15-dbg, hdf5-tools, cmake-curses-gui, doxygen, graphviz, gnuplot, paraview
 
 # Install dependencies with applicable recommended and other useful packages
 RUN apt-get update && \
@@ -65,7 +67,6 @@ RUN apt-get update && \
     doxygen \
     graphviz && \
     rm -rf /var/lib/apt/lists/*
-
 
 # Update system to use Python3 by default
 RUN update-alternatives --install /usr/bin/python python /usr/bin/python3 1
