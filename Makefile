@@ -5,19 +5,21 @@ help:
 	@echo "Perform a dry run with:"
 	@echo "  make [TARGET] -n"
 
-BASE ?= jammy
-GIT_TAG ?= 2024.1
+
+BASE ?= oracular
+GIT_TAG ?= 2024.2
 TEST_SUITE ?= -
 CHASTE_IMAGE ?= chaste/release
 CHASTE_DIR ?= "/home/chaste"
 CHASTE_DATA_VOLUME ?= chaste_data
-FRESH ?=
 OUT ?= auto
+FRESH ?=
 EXTRA_BUILD_FLAGS ?=
 
 # Optional mounts
 # PROJECTS ?= "${HOME}/projects"
 # TEST_OUTPUT ?= "${HOME}/output"
+
 
 # https://github.com/pytorch/pytorch/blob/main/docker.Makefile
 MULTI_ARCH_BUILD ?= true
@@ -67,14 +69,14 @@ develop main release: BUILD_ARGS += --build-arg GIT_TAG=$(GIT_TAG) \
 		--build-arg TEST_SUITE=$(TEST_SUITE)
 
 develop main: CMAKE_BUILD_TYPE="Debug"
-develop main: Chaste_ERROR_ON_WARNING="ON"
+develop main: Chaste_ERROR_ON_WARNING ?= "ON"
 develop main: Chaste_UPDATE_PROVENANCE="OFF"
 develop main: GIT_TAG=$@
 
 release: CMAKE_BUILD_TYPE="Release"
-release: Chaste_ERROR_ON_WARNING="OFF"
+release: Chaste_ERROR_ON_WARNING ?= "OFF"
 release: Chaste_UPDATE_PROVENANCE="ON"
-release: TEST_SUITE="Continuous"
+# release: TEST_SUITE = "Continuous"
 
 base develop main release: CHASTE_IMAGE = chaste/$@
 base develop main release: DOCKER_TAGS = -t $(CHASTE_IMAGE)
