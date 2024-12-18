@@ -4,7 +4,7 @@
 # docker build --target base -t chaste/base .  # Alternative: build base image
 # docker run -it --rm -v chaste_data:/home/chaste chaste
 
-ARG BASE=noble
+ARG BASE=oracular
 FROM ubuntu:${BASE} AS base
 LABEL maintainer="Ben Evans <ben.d.evans@gmail.com>" \
     author.orcid="https://orcid.org/0000-0002-1734-6070" \

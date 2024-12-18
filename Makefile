@@ -6,7 +6,7 @@ help:
 	@echo "  make [TARGET] -n"
 
 
-BASE ?= noble
+BASE ?= oracular
 GIT_TAG ?= 2024.2
 TEST_SUITE ?= -
 CHASTE_IMAGE ?= chaste/release
