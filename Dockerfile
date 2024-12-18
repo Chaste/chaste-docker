@@ -58,7 +58,6 @@ RUN apt-get update && \
     clang \
     lldb \
     gdb \
-    # python3-dev \
     gh \
     valgrind \
     "libpetsc-real*-dbg" \
