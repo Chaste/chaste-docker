@@ -75,6 +75,7 @@ RUN update-alternatives --install /usr/bin/python python /usr/bin/python3 1
 
 # Set environment variables with args to allow for changes at build time
 ARG USER="chaste"
+ARG UID=1000
 ARG CHASTE_DIR="/home/${USER}"
 ARG CMAKE_BUILD_TYPE="Debug"
 ARG Chaste_ERROR_ON_WARNING="ON"
@@ -82,6 +83,8 @@ ARG Chaste_UPDATE_PROVENANCE="OFF"
 # RUN source /home/chaste/scripts/set_env_vars.sh
 ENV USER=${USER} \
     GROUP=${USER} \
+    UID=${UID} \
+    GID=${UID} \
     PASSWORD=${USER} \
     CHASTE_DIR=${CHASTE_DIR} \
     CMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} \
@@ -96,9 +99,15 @@ ENV CHASTE_PROJECTS_DIR="${CHASTE_SOURCE_DIR}/projects" \
     TEXTTEST_HOME="${CHASTE_BUILD_DIR}/texttest_venv" \
     PYTHONPATH="${CHASTE_BUILD_DIR}/python"
 
+
+# Delete default ubuntu user (UID 1000) introduced after jammy
+# RUN deluser --remove-home ubuntu || true
+RUN userdel -r ubuntu || true
+
 # Create user and working directory for Chaste files
 # RUN useradd -ms /bin/bash ${USER} && echo "${USER}:${PASSWORD}" | chpasswd && adduser ${USER} sudo
-RUN useradd -ms /bin/bash -d ${CHASTE_DIR} ${USER} -G users,sudo && \
+RUN groupadd -g ${GID} ${GROUP} && \
+    useradd -ms /bin/bash -u ${UID} -g ${GID} -d ${CHASTE_DIR} ${USER} -G users,sudo && \
     echo "${USER}:${PASSWORD}" | chpasswd
 
 # Add scripts
