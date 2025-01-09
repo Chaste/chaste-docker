@@ -85,7 +85,7 @@ ENV USER=${USER} \
     GROUP=${USER} \
     UID=${UID} \
     GID=${UID} \
-    PASSWORD=${USER} \
+    # PASSWORD=${USER} \
     CHASTE_DIR=${CHASTE_DIR} \
     CMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} \
     Chaste_ERROR_ON_WARNING=${Chaste_ERROR_ON_WARNING} \
@@ -108,7 +108,9 @@ RUN userdel -r ubuntu || true
 # RUN useradd -ms /bin/bash ${USER} && echo "${USER}:${PASSWORD}" | chpasswd && adduser ${USER} sudo
 RUN groupadd -g ${GID} ${GROUP} && \
     useradd -ms /bin/bash -u ${UID} -g ${GID} -d ${CHASTE_DIR} ${USER} -G users,sudo && \
-    echo "${USER}:${PASSWORD}" | chpasswd
+    # echo "${USER}:${PASSWORD}" | chpasswd
+    echo ${USER} ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/${USER} && \
+    chmod 0440 /etc/sudoers.d/${USER}
 
 # Add scripts
 COPY --chown=${USER}:${GROUP} scripts "${CHASTE_DIR}/scripts"

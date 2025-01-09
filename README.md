@@ -192,7 +192,7 @@ If you want to use a package which is not installed within the image, you can in
 ```
 sudo apt-get update && sudo apt-get install <PackageName>
 ```
-Replacing `<PackageName>` as appropriate. Enter the password: `chaste` when prompted to do so.
+Replacing `<PackageName>` as appropriate. The default user `chaste` has `sudo` privileges and is set to need no password.
 
 Note that packages installed this way will not persist after the container is deleted (because the relevant files are not stored in `/home/chaste`). This can be avoided by omitting the `--rm` flag from the `docker run` command and using `docker start <container_name>` to relaunch a previously used container. If there is a package you think would be a particularly useful permanent addition to the Docker image, then email your suggestion to me or submit a pull request.
 
