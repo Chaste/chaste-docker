@@ -145,6 +145,7 @@ CMD ["bash"]
 # ------------------------------------------------------------------------------
 FROM base AS build
 
+USER ${USER}
 # Build Chaste: GIT_TAG can be a branch or release ('-' skips by default)
 ARG GIT_TAG=-
 ENV GIT_TAG=${GIT_TAG}
@@ -157,6 +158,7 @@ VOLUME "${CHASTE_DIR}"
 # ------------------------------------------------------------------------------
 FROM build AS test
 
+USER ${USER}
 # Optionally run a test suite before finalising the image.
 # NOTE: These test outputs will not appear in the volume. 
 ARG TEST_SUITE=-
