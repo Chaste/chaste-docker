@@ -7,7 +7,7 @@
 # Run the image (with a named volume and process management enabled)
 # docker run -it --init --rm -v chaste_data:/home/chaste chaste
 
-ARG BASE=oracular
+ARG BASE=questing
 FROM ubuntu:${BASE} AS base
 LABEL maintainer="Ben Evans <ben.d.evans@gmail.com>" \
     author.orcid="https://orcid.org/0000-0002-1734-6070" \
