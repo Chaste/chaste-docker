@@ -1,7 +1,7 @@
 # syntax=docker/dockerfile:1
 
 # Build the all stages of the image
-# docker build -t chaste .
+# docker build -t chaste .
 # Alternative: build base image only
 # docker build --target base -t chaste/base .
 # Run the image (with a named volume and process management enabled)
