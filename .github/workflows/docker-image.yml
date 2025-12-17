@@ -32,7 +32,7 @@ jobs:
           type=semver,pattern={{major}}.{{minor}}
           type=semver,pattern={{major}}
           # Update the following line to match the base ubuntu image
-          type=raw,value=oracular
+          type=raw,value=questing
           type=sha
         labels: |
           org.opencontainers.image.title=Chaste Base Image
