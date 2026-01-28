@@ -63,7 +63,7 @@ RUN apt-get update && \
     # python3-notebook \
     # python3-numpy \
     # python3-petsc4py \
-    python3-vtk7 \
+    python3-vtk9 \
     # python3-xvfbwrapper \
     clang \
     lldb \
