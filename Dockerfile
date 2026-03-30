@@ -62,7 +62,9 @@ RUN apt-get update && \
     python3-jupyterlab \
     python3-matplotlib \
     python3-numpy \
-    python3-petsc4py-real \
+    python3-petsc4py \
+    python3-pip \
+    python3-venv \
     python3-vtk9 \
     python3-xvfbwrapper \
     castxml \
