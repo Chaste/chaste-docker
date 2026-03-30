@@ -55,7 +55,6 @@ make --no-print-directory -j$NCORES -C $CHASTE_BUILD_DIR # -f $CHASTE_BUILD_DIR/
 if [ "$Chaste_ENABLE_PYCHASTE" = "ON" ]; then
     # Install PyChaste
     echo "Installing PyChaste..."
-    python3 -m pip install --no-cache-dir --upgrade pip
     PIP_BREAK_SYSTEM_PACKAGES=1 python3 -m pip install -v --no-cache-dir --user pychaste/package
 
     # Test PyChaste
