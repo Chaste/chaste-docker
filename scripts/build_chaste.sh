@@ -56,7 +56,7 @@ if [ "$Chaste_ENABLE_PYCHASTE" = "ON" ]; then
     # Install PyChaste
     echo "Installing PyChaste..."
     python3 -m pip install --no-cache-dir --upgrade pip
-    PIP_BREAK_SYSTEM_PACKAGES=1 python3 -m pip install -v --user pychaste/package
+    PIP_BREAK_SYSTEM_PACKAGES=1 python3 -m pip install -v --no-cache-dir --user pychaste/package
 
     # Test PyChaste
     # . ${CHASTE_DIR}/.venv/bin/activate && xvfb-run --server-args="-screen 0 1024x768x24" ctest -L pychaste
