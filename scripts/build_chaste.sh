@@ -55,7 +55,7 @@ make --no-print-directory -j$NCORES -C $CHASTE_BUILD_DIR # -f $CHASTE_BUILD_DIR/
 if [ "$Chaste_ENABLE_PYCHASTE" = "ON" ]; then
     # Install PyChaste
     echo "Installing PyChaste..."
-    PIP_BREAK_SYSTEM_PACKAGES=1 python3 -m pip install -v --no-cache-dir --user pychaste/package
+    PIP_BREAK_SYSTEM_PACKAGES=1 python3 -m pip install -v --no-cache-dir --user $CHASTE_BUILD_DIR/pychaste/package
 
     # Test PyChaste
     # xvfb-run --server-args="-screen 0 1024x768x24" ctest -L pychaste
