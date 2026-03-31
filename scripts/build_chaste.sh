@@ -50,22 +50,17 @@ cmake -DCMAKE_BUILD_TYPE:STRING=${CMAKE_BUILD_TYPE} \
         -H$CHASTE_SOURCE_DIR \
         -B$CHASTE_BUILD_DIR
 
-# make --no-print-directory -j$NCORES -C $CHASTE_BUILD_DIR # -f $CHASTE_BUILD_DIR/Makefile
+make --no-print-directory -j$NCORES -C $CHASTE_BUILD_DIR # -f $CHASTE_BUILD_DIR/Makefile
 
 if [ "$Chaste_ENABLE_PYCHASTE" = "ON" ]; then
-    # Build and install PyChaste
-    echo "Building PyChaste..."
-    # make --no-print-directory -j$NCORES -C $CHASTE_BUILD_DIR
-    make --no-print-directory -j$NCORES -C $CHASTE_BUILD_DIR pychaste
-    python -m pip install --no-cache-dir --user numpy matplotlib petsc4py jupyterlab xvfbwrapper 
-    # python -m pip install --no-cache-dir --user --no-deps pychaste/package
-    python -m pip install --no-cache-dir --user --no-deps $CHASTE_BUILD_DIR/pychaste/package
+    # Install PyChaste
+    echo "Installing PyChaste..."
+    PIP_BREAK_SYSTEM_PACKAGES=1 python3 -m pip install -v --no-cache-dir --user $CHASTE_BUILD_DIR/pychaste/package
 
     # Test PyChaste
     # xvfb-run --server-args="-screen 0 1024x768x24" ctest -L pychaste
 else
     echo "PyChaste is not enabled."
-    make --no-print-directory -j$NCORES -C $CHASTE_BUILD_DIR # -f $CHASTE_BUILD_DIR/Makefile
 fi
 
 # Save the build info
