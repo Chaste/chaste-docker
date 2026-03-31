@@ -7,7 +7,7 @@ help:
 
 
 BASE ?= questing
-GIT_TAG ?= 2024.2
+# GIT_TAG ?= 2024.2
 TEST_SUITE ?= -
 CHASTE_IMAGE ?= chaste/release
 CHASTE_DIR ?= "/home/chaste"
@@ -78,6 +78,7 @@ release: CMAKE_BUILD_TYPE="Release"
 release: Chaste_ERROR_ON_WARNING ?= "OFF"
 release: Chaste_UPDATE_PROVENANCE="ON"
 # release: TEST_SUITE = "Continuous"
+release: GIT_TAG ?= 2024.2
 
 develop main release: Chaste_ENABLE_PYCHASTE="ON"
 base develop main release: CHASTE_IMAGE = chaste/$@
