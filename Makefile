@@ -6,7 +6,7 @@ help:
 	@echo "  make [TARGET] -n"
 
 
-BASE ?= questing
+BASE ?= resolute
 GIT_TAG ?= 2024.2
 TEST_SUITE ?= -
 CHASTE_IMAGE ?= chaste/release
