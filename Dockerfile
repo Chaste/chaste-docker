@@ -57,6 +57,7 @@ RUN wget -O /usr/share/keyrings/chaste.asc https://chaste.github.io/chaste.asc \
 # Install dependencies with applicable recommended and other useful packages
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
+    build-essential \
     chaste-dependencies \
     clang \
     lldb \
