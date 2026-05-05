@@ -6,8 +6,8 @@ help:
 	@echo "  make [TARGET] -n"
 
 
-BASE ?= questing
-GIT_TAG ?= 2024.2
+BASE ?= resolute
+GIT_TAG ?= 2026.1
 TEST_SUITE ?= -
 CHASTE_IMAGE ?= chaste/release
 CHASTE_DIR ?= "/home/chaste"
