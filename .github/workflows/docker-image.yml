@@ -3,7 +3,7 @@ name: Build chaste/base
 on:
   push:
     branches: [ "master" ]
-    tags: "v*"
+    tags: [ "v*" ]
   pull_request:
     branches: [ "master" ]
   schedule:
