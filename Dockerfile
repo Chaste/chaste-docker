@@ -27,8 +27,6 @@ ENV TZ="Europe/London"
 RUN apt-get update && DEBIAN_FRONTEND="noninteractive" apt-get -y install tzdata
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
-    apt-utils \
-    apt-transport-https \
     ca-certificates \
     gnupg \
     nano \
