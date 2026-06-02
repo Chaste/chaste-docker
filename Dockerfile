@@ -49,10 +49,10 @@ RUN wget -O /usr/share/keyrings/chaste.asc https://chaste.github.io/chaste.asc \
 # https://github.com/Chaste/infrastructure-scripts/blob/main/debian-package/debian/control
 # https://github.com/Chaste/ubuntu/tree/main/debs
 # Package: chaste-dependencies
-# Version: 2024.10.28
+# Version: 2026.06.02
 # Architecture: all
-# Depends: cmake, g++, git, libopenmpi-dev, petsc-dev, libhdf5-openmpi-dev, xsdcxx, libboost-serialization-dev, libboost-filesystem-dev, libboost-program-options-dev, libparmetis-dev, libmetis-dev, libxerces-c-dev, libsundials-dev, libvtk9-dev (>= 9.3.0), python3, python3-venv
-# Recommends: valgrind, libpetsc-real3.20-dbg|libpetsc-real3.19t64-dbg|libpetsc-real3.18-dbg|libpetsc-real3.15-dbg, hdf5-tools, cmake-curses-gui, doxygen, graphviz, gnuplot, paraview
+# Depends: build-essential, cmake, git, libopenmpi-dev, petsc-dev, libhdf5-openmpi-dev, xsdcxx, libboost-serialization-dev, libboost-filesystem-dev, libboost-program-options-dev, libscotchparmetis-dev|libparmetis-dev, libxerces-c-dev, libsundials-dev, libvtk9-dev, python3, python3-venv, python3-dev
+# Recommends: clang, clang-tidy, clang-format, lldb, gdb, valgrind, libpetsc-real3.24-dbg, hdf5-tools, cmake-curses-gui, doxygen, graphviz, gnuplot, paraview
 
 # Install dependencies with applicable recommended and other useful packages
 RUN apt-get update && \
