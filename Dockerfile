@@ -58,6 +58,8 @@ RUN apt-get update && \
     build-essential \
     chaste-dependencies \
     clang \
+    clang-tidy \
+    clang-format \
     lldb \
     gdb \
     gh \
