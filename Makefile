@@ -8,6 +8,8 @@ help:
 
 BASE ?= resolute
 GIT_TAG ?= 2026.1
+MULTI_ARCH_BUILD ?= true
+DOCKER_FILE ?= Dockerfile
 TEST_SUITE ?= -
 CHASTE_IMAGE ?= chaste/release
 CHASTE_DIR ?= "/home/chaste"
@@ -22,7 +24,6 @@ EXTRA_BUILD_FLAGS ?=
 
 
 # https://github.com/pytorch/pytorch/blob/main/docker.Makefile
-MULTI_ARCH_BUILD ?= true
 ifeq ("$(MULTI_ARCH_BUILD)", "true")
 PUSH = true
 PLATFORM ?= "linux/amd64,linux/arm64/v8"
@@ -78,7 +79,7 @@ release: CMAKE_BUILD_TYPE="Release"
 release: Chaste_ERROR_ON_WARNING ?= "OFF"
 release: Chaste_UPDATE_PROVENANCE="ON"
 # release: TEST_SUITE = "Continuous"
-release: GIT_TAG ?= 2024.2
+release: GIT_TAG ?= 2026.1
 
 develop main release: Chaste_ENABLE_PYCHASTE="ON"
 base develop main release: CHASTE_IMAGE = chaste/$@
@@ -87,7 +88,6 @@ base develop main: DOCKER_TAGS += -t $(CHASTE_IMAGE):$(BASE)
 release: DOCKER_TAGS += -t $(CHASTE_IMAGE):$(GIT_TAG) \
 		-t $(CHASTE_IMAGE):$(BASE)-$(GIT_TAG)
 
-DOCKER_FILE ?= Dockerfile
 # release: build test push
 
 
@@ -152,10 +152,11 @@ info:
 	@echo "Mounts: $(MOUNTS)"
 	@echo "FRESH: $(FRESH)"
 	@echo "OUT: $(OUT)"
-	@echo "EXTRA_BUILD_FLAGS: $(EXTRA_BUILD_FLAGS)"
 	@echo "MULTI_ARCH_BUILD: $(MULTI_ARCH_BUILD)"
 	@echo "PUSH: $(PUSH)"
 	@echo "PLATFORM: $(PLATFORM)"
+	@echo "EXTRA_BUILD_FLAGS: $(EXTRA_BUILD_FLAGS)"
+	@echo "DOCKER_FILE: $(DOCKER_FILE)"
 
 	docker -v
 # lsb_release -a
