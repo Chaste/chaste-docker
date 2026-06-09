@@ -7,7 +7,6 @@ help:
 
 
 BASE ?= resolute
-GIT_TAG ?= 2026.1
 MULTI_ARCH_BUILD ?= true
 DOCKER_FILE ?= Dockerfile
 TEST_SUITE ?= -
@@ -79,7 +78,7 @@ release: CMAKE_BUILD_TYPE="Release"
 release: Chaste_ERROR_ON_WARNING ?= "OFF"
 release: Chaste_UPDATE_PROVENANCE="ON"
 # release: TEST_SUITE = "Continuous"
-release: GIT_TAG ?= 2026.1
+release pull: GIT_TAG ?= 2026.1
 
 develop main release: Chaste_ENABLE_PYCHASTE="ON"
 base develop main release: CHASTE_IMAGE = chaste/$@
