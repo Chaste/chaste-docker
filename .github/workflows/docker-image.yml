@@ -9,58 +9,42 @@ on:
   schedule:
     - cron: "0 0 * * 0"
 
+permissions:
+  contents: read
+
 jobs:
   build:
-    runs-on: ubuntu-latest
-    steps:
-    - name: Checkout repository
-      uses: actions/checkout@v6
-      # https://github.com/actions/checkout/
-    - name: Docker meta
-      id: meta
-      uses: docker/metadata-action@v6
-      # https://github.com/docker/metadata-action
-      with:
-        images: |
-          chaste/base
-        flavor: latest=true
-        tags: |
-          type=schedule,pattern={{date 'YYYYMMDD'}}
-          # type=ref,event=branch
-          # type=ref,event=pr
-          type=semver,pattern={{version}}
-          type=semver,pattern={{major}}.{{minor}}
-          type=semver,pattern={{major}}
-          # Update the following line to match the base ubuntu image
-          type=raw,value=resolute
-          type=sha
-        labels: |
-          org.opencontainers.image.title=Chaste Base Image
-          org.opencontainers.image.description=Docker Base Image for Chaste: Cancer, Heart and Soft Tissue Environment
-          org.opencontainers.image.url=https://hub.docker.com/repository/docker/chaste/base/general
-          org.opencontainers.image.source=https://github.com/Chaste/chaste-docker
-
-    - name: Set up QEMU
-      uses: docker/setup-qemu-action@v4
-      # https://github.com/docker/setup-qemu-action
-      with:
-        platforms: 'amd64,arm64'
-    - name: Set up Docker Buildx
-      uses: docker/setup-buildx-action@v4
-      # https://github.com/docker/setup-buildx-action
-    - name: Login to DockerHub
-      uses: docker/login-action@v4
-      # https://github.com/docker/login-action
-      with:
-        username: ${{ secrets.DOCKERHUB_USERNAME }}
-        password: ${{ secrets.DOCKERHUB_TOKEN }}
-    - name: Build and push the Docker image
-      uses: docker/build-push-action@v7
-      # https://github.com/docker/build-push-action
-      with:
-        context: .
-        platforms: 'amd64,arm64'
-        push: true
-        tags: ${{ steps.meta.outputs.tags }}
-        labels: ${{ steps.meta.outputs.labels }}
-        target: base
+    uses: docker/github-builder/.github/workflows/build.yml@v1
+    permissions:
+      contents: read
+      id-token: write
+    with:
+      meta-images: chaste/base
+      meta-flavor: latest=true
+      meta-tags: |
+        type=schedule,pattern={{date 'YYYYMMDD'}}
+        # type=ref,event=branch
+        # type=ref,event=pr
+        type=semver,pattern={{version}}
+        type=semver,pattern={{major}}.{{minor}}
+        type=semver,pattern={{major}}
+        # Update the following line to match the base ubuntu image
+        type=raw,value=resolute
+        type=sha
+      labels: |
+        org.opencontainers.image.title=Chaste Base Image
+        org.opencontainers.image.description=Docker Base Image for Chaste: Cancer, Heart and Soft Tissue Environment
+        org.opencontainers.image.url=https://hub.docker.com/repository/docker/chaste/base/general
+        org.opencontainers.image.source=https://github.com/Chaste/chaste-docker
+      context: .
+      platforms: linux/amd64,linux/arm64
+      output: image
+      target: base
+      push: true
+      distribute: true
+      sign: auto
+    secrets:
+      registry-auths: |
+        - registry: docker.io
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
