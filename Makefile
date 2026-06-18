@@ -80,7 +80,7 @@ release: Chaste_UPDATE_PROVENANCE="ON"
 # release: TEST_SUITE = "Continuous"
 release pull: GIT_TAG ?= 2026.1
 
-develop main release: Chaste_ENABLE_PYCHASTE="ON"
+develop main release: Chaste_ENABLE_PYCHASTE ?= "ON"
 base develop main release: CHASTE_IMAGE = chaste/$@
 base develop main release: DOCKER_TAGS = -t $(CHASTE_IMAGE)
 base develop main: DOCKER_TAGS += -t $(CHASTE_IMAGE):$(BASE)
