@@ -57,9 +57,6 @@ RUN apt-get update && \
     apt-get install -y --no-install-recommends \
     chaste-dependencies \
     xvfb \
-    python3-jupyterlab \
-    python3-matplotlib \
-    python3-numpy \
     python3-petsc4py \
     python3-pip \
     python3-venv \
@@ -135,13 +132,14 @@ USER ${USER}
 WORKDIR ${CHASTE_DIR}
 # SHELL [ "/bin/bash", "-exo", "pipefail", "-c" ]
 
-# Install TextTest for regression testing (requires pygtk)
+# Install TextTest for regression testing (requires pygtk) along with
+# jupyterlab, matplotlib and numpy for analysis and visualisation.
 # The --system-site-packages flag allows access to system python3-petsc4py and
 # python3-vtk so pychaste can be installed into the chaste_venv later.
 # NOTE: chaste-codegen is installed by CMake
 RUN python -m venv --system-site-packages --upgrade-deps "${CHASTE_VENV}" && \
     . "${CHASTE_VENV}/bin/activate" && \
-    python -m pip install --no-cache-dir texttest
+    python -m pip install --no-cache-dir texttest jupyterlab matplotlib numpy
 
 # Create Chaste src, build, output and projects folders
 RUN mkdir -p "${CHASTE_SOURCE_DIR}" "${CHASTE_BUILD_DIR}" "${CHASTE_TEST_OUTPUT}" && \
