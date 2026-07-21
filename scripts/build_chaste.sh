@@ -56,8 +56,8 @@ if [ "$Chaste_ENABLE_PYCHASTE" = "ON" ]; then
     # Install PyChaste into the chaste_venv, which has access to the
     # system python3-petsc4py and python3-vtk via --system-site-packages
     echo "Installing PyChaste..."
-    . "${CHASTE_VENV}/bin/activate"
-    python -m pip install -v --no-cache-dir $CHASTE_BUILD_DIR/pychaste/package
+    . "${CHASTE_VENV}/bin/activate" && \
+    python -m pip install -v --no-cache-dir ${CHASTE_BUILD_DIR}/pychaste/package
 
     # Test PyChaste
     # xvfb-run --server-args="-screen 0 1024x768x24" ctest -L pychaste
