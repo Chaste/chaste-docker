@@ -53,9 +53,11 @@ cmake -DCMAKE_BUILD_TYPE:STRING=${CMAKE_BUILD_TYPE} \
 make --no-print-directory -j$NCORES -C $CHASTE_BUILD_DIR # -f $CHASTE_BUILD_DIR/Makefile
 
 if [ "$Chaste_ENABLE_PYCHASTE" = "ON" ]; then
-    # Install PyChaste
+    # Install PyChaste into the chaste_venv, which has access to the
+    # system python3-petsc4py and python3-vtk via --system-site-packages
     echo "Installing PyChaste..."
-    PIP_BREAK_SYSTEM_PACKAGES=1 python3 -m pip install -v --no-cache-dir --user $CHASTE_BUILD_DIR/pychaste/package
+    . "${CHASTE_VENV}/bin/activate"
+    python -m pip install -v --no-cache-dir $CHASTE_BUILD_DIR/pychaste/package
 
     # Test PyChaste
     # xvfb-run --server-args="-screen 0 1024x768x24" ctest -L pychaste
