@@ -107,11 +107,12 @@ ENV USER=${USER} \
     Chaste_ENABLE_PYCHASTE=${Chaste_ENABLE_PYCHASTE} \
     CHASTE_SOURCE_DIR="${CHASTE_DIR}/src" \
     CHASTE_BUILD_DIR="${CHASTE_DIR}/build" \
+    CHASTE_VENV="${CHASTE_DIR}/build/chaste_venv" \
     CHASTE_TEST_OUTPUT="${CHASTE_DIR}/output" \
     PATH="${CHASTE_DIR}/scripts:${PATH}"
     # TEXTTEST_HOME=/usr/local/bin/texttest
 ENV CHASTE_PROJECTS_DIR="${CHASTE_SOURCE_DIR}/projects" \
-    TEXTTEST_HOME="${CHASTE_BUILD_DIR}/texttest_venv" \
+    TEXTTEST_HOME="${CHASTE_VENV}" \
     PYTHONPATH="${CHASTE_BUILD_DIR}/python"
 
 
@@ -135,11 +136,11 @@ WORKDIR ${CHASTE_DIR}
 # SHELL [ "/bin/bash", "-exo", "pipefail", "-c" ]
 
 # Install TextTest for regression testing (requires pygtk)
+# The --system-site-packages flag allows access to system python3-petsc4py and
+# python3-vtk so pychaste can be installed into the chaste_venv later.
 # NOTE: chaste-codegen is installed by CMake
-RUN python -m venv --upgrade-deps "${CHASTE_BUILD_DIR}/texttest_venv" && \
-    # source "${CHASTE_BUILD_DIR}/texttest_venv/bin/activate" && \
-    . "${CHASTE_BUILD_DIR}/texttest_venv/bin/activate" && \
-    # PATH=".local:${PATH}" && \
+RUN python -m venv --system-site-packages --upgrade-deps "${CHASTE_VENV}" && \
+    . "${CHASTE_VENV}/bin/activate" && \
     python -m pip install --no-cache-dir texttest
 
 # Create Chaste src, build, output and projects folders
