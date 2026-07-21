@@ -77,8 +77,12 @@ RUN apt-get update && \
     hdf5-tools \
     cmake-curses-gui \
     doxygen \
+    libgoogle-perftools-dev \
+    golang-go \
     graphviz && \
     rm -rf /var/lib/apt/lists/*
+
+RUN go install github.com/google/pprof@latest
 
 # Update system to use Python3 by default
 RUN update-alternatives --install /usr/bin/python python /usr/bin/python3 1
@@ -94,6 +98,7 @@ ARG CMAKE_BUILD_TYPE="Debug"
 ARG Chaste_ERROR_ON_WARNING="ON"
 ARG Chaste_UPDATE_PROVENANCE="OFF"
 ARG Chaste_ENABLE_PYCHASTE="ON"
+ARG Chaste_PROFILE_GPERFTOOLS="OFF"
 # RUN source /home/chaste/scripts/set_env_vars.sh
 ENV USER=${USER} \
     GROUP=${USER} \
@@ -105,6 +110,7 @@ ENV USER=${USER} \
     Chaste_ERROR_ON_WARNING=${Chaste_ERROR_ON_WARNING} \
     Chaste_UPDATE_PROVENANCE=${Chaste_UPDATE_PROVENANCE} \
     Chaste_ENABLE_PYCHASTE=${Chaste_ENABLE_PYCHASTE} \
+    Chaste_PROFILE_GPERFTOOLS=${Chaste_PROFILE_GPERFTOOLS} \
     CHASTE_SOURCE_DIR="${CHASTE_DIR}/src" \
     CHASTE_BUILD_DIR="${CHASTE_DIR}/build" \
     CHASTE_VENV="${CHASTE_DIR}/build/chaste_venv" \
@@ -114,7 +120,6 @@ ENV USER=${USER} \
 ENV CHASTE_PROJECTS_DIR="${CHASTE_SOURCE_DIR}/projects" \
     TEXTTEST_HOME="${CHASTE_VENV}" \
     PYTHONPATH="${CHASTE_BUILD_DIR}/python"
-
 
 # Delete default ubuntu user (UID 1000) introduced after jammy
 # RUN deluser --remove-home ubuntu || true

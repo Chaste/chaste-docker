@@ -50,3 +50,13 @@ if [ -z "$Chaste_UPDATE_PROVENANCE" ]; then
     export Chaste_UPDATE_PROVENANCE="OFF"
 fi
 echo "CMake update provenance: $Chaste_UPDATE_PROVENANCE"
+
+if [ -z "$Chaste_ENABLE_PYCHASTE" ]; then
+    export Chaste_ENABLE_PYCHASTE="ON"
+fi
+echo "CMake enable PyChaste: $Chaste_ENABLE_PYCHASTE"
+
+if [ -z "$Chaste_PROFILE_GPERFTOOLS" ]; then
+    export Chaste_PROFILE_GPERFTOOLS="OFF"
+fi
+echo "CMake profile gperftools: $Chaste_PROFILE_GPERFTOOLS"

@@ -22,8 +22,10 @@ if [ "$CMAKE_FLAG" = "c" ]; then
     cmake -DCMAKE_BUILD_TYPE:STRING=${CMAKE_BUILD_TYPE} \
           -DChaste_ERROR_ON_WARNING:BOOL=${Chaste_ERROR_ON_WARNING} \
           -DChaste_UPDATE_PROVENANCE:BOOL=${Chaste_UPDATE_PROVENANCE} \
-          -H$CHASTE_SOURCE_DIR \
-          -B$CHASTE_BUILD_DIR
+          -DChaste_ENABLE_PYCHASTE:BOOL=${Chaste_ENABLE_PYCHASTE} \
+          -DChaste_PROFILE_GPERFTOOLS:BOOL=${Chaste_PROFILE_GPERFTOOLS} \
+          -S $CHASTE_SOURCE_DIR \
+          -B $CHASTE_BUILD_DIR
 else
     echo "Skipping cmake. If the project fails to build, try rerunning with:"
     echo "`basename "$0"` $PROJECT c"
