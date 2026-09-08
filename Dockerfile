@@ -47,36 +47,43 @@ RUN wget -O /usr/share/keyrings/chaste.asc https://chaste.github.io/chaste.asc \
 # https://github.com/Chaste/infrastructure-scripts/blob/main/debian-package/debian/control
 # https://github.com/Chaste/ubuntu/tree/main/debs
 # Package: chaste-dependencies
-# Version: 2026.06.02
+# Version: 2026.09.04
 # Architecture: all
-# Depends: build-essential, cmake, git, libopenmpi-dev, petsc-dev, libhdf5-openmpi-dev, xsdcxx, libboost-serialization-dev, libboost-filesystem-dev, libboost-program-options-dev, libscotchparmetis-dev|libparmetis-dev, libxerces-c-dev, libsundials-dev, libvtk9-dev, python3, python3-venv, python3-dev
-# Recommends: clang, clang-tidy, clang-format, lldb, gdb, valgrind, libpetsc-real3.24-dbg, hdf5-tools, cmake-curses-gui, doxygen, graphviz, gnuplot, paraview
+# Depends: build-essential, cmake, git, libopenmpi-dev, libscotchparmetis-dev|libparmetis-dev, petsc-dev, libsundials-dev, libhdf5-openmpi-dev, xsdcxx, libxerces-c-dev, libboost-serialization-dev, libboost-filesystem-dev, libboost-program-options-dev, libvtk9-dev, python3, python3-venv, python3-dev
+# Recommends: clang, clang-tidy, clang-format, lldb, gdb, valgrind, libpetsc-real3.24-dbg, cmake-curses-gui, doxygen, graphviz, hdf5-tools, gnuplot, paraview, mold, lld, ninja-build, ccache, libgoogle-perftools-dev, golang-go, libcpanel-json-xs-perl, castxml, python3-petsc4py-real, python3-vtk9, python3-mpi4py, python3-pip, xvfb, python3-xvfbwrapper, gh
 
 # Install dependencies with applicable recommended and other useful packages
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
     chaste-dependencies \
-    xvfb \
-    python3-petsc4py \
-    python3-pip \
-    python3-venv \
-    python3-vtk9 \
-    python3-xvfbwrapper \
-    castxml \
     clang \
     clang-tidy \
     clang-format \
     lldb \
     gdb \
-    gh \
     valgrind \
     "libpetsc-real*-dbg" \
-    hdf5-tools \
     cmake-curses-gui \
     doxygen \
+    graphviz \
+    hdf5-tools \
+    gnuplot \
+    mold \
+    lld \
+    ninja-build \
+    ccache \
     libgoogle-perftools-dev \
     golang-go \
-    graphviz && \
+    libcpanel-json-xs-perl \
+    castxml \
+    python3-petsc4py-real \
+    python3-venv \
+    python3-vtk9 \
+    python3-mpi4py \
+    python3-pip \
+    xvfb \
+    python3-xvfbwrapper \
+    gh && \
     rm -rf /var/lib/apt/lists/*
 
 RUN go install github.com/google/pprof@latest
