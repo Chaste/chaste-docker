@@ -159,7 +159,7 @@ docker run -it --init --rm -v chaste_data:/home/chaste -v "${PWD}"/output:/home/
 ```
 
 > [!WARNING]
-> Bind mounts can cause some [tests to fail](#548) due to the way Docker on macOS implements file permissions.
+> Bind mounts can cause some [tests to fail](https://github.com/Chaste/Chaste/issues/548) due to the way Docker on macOS implements file permissions.
 
 ### Copying data in and out
 
