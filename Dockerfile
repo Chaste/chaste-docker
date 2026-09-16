@@ -76,7 +76,7 @@ RUN apt-get update && \
     golang-go \
     libcpanel-json-xs-perl \
     castxml \
-    python3-petsc4py-real \
+    python3-petsc4py \
     python3-venv \
     python3-vtk9 \
     python3-mpi4py \
