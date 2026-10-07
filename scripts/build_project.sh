@@ -21,7 +21,6 @@ if [ "$CMAKE_FLAG" = "c" ]; then
     # Only run if new files have been created
     cmake -DCMAKE_BUILD_TYPE:STRING=${CMAKE_BUILD_TYPE} \
           -DChaste_ERROR_ON_WARNING:BOOL=${Chaste_ERROR_ON_WARNING} \
-          -DChaste_UPDATE_PROVENANCE:BOOL=${Chaste_UPDATE_PROVENANCE} \
           -DChaste_ENABLE_PYCHASTE:BOOL=${Chaste_ENABLE_PYCHASTE} \
           -DChaste_PROFILE_GPERFTOOLS:BOOL=${Chaste_PROFILE_GPERFTOOLS} \
           -S $CHASTE_SOURCE_DIR \
