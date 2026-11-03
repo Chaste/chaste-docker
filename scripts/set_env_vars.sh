@@ -46,11 +46,6 @@ if [ -z "$Chaste_ERROR_ON_WARNING" ]; then
 fi
 echo "CMake error on warning: $Chaste_ERROR_ON_WARNING"
 
-if [ -z "$Chaste_UPDATE_PROVENANCE" ]; then
-    export Chaste_UPDATE_PROVENANCE="OFF"
-fi
-echo "CMake update provenance: $Chaste_UPDATE_PROVENANCE"
-
 if [ -z "$Chaste_ENABLE_PYCHASTE" ]; then
     export Chaste_ENABLE_PYCHASTE="ON"
 fi
